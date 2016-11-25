@@ -1,0 +1,59 @@
+---
+title: "a MCEM approach to phylogenetic trees reconstruction"
+author: "F.R.M."
+date: "November 25, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction 
+
+MCEM.. 
+
+
+## The reconstruction of trees
+
+First, to warm up, we plot a simple tree
+```{r echo=FALSE, include=FALSE}
+library(dmea)
+```
+
+```{r echo=FALSE}
+obs = '((B:1,A:1):1,C:2);'
+#library(ape)
+obs = read.tree(text=obs)
+plot(obs,show.tip.label = T, root.edge = TRUE)
+
+```
+
+Then a longer one
+
+```{r echo=FALSE}
+# complete/incomplete trees
+comp = '((B:1,(A:0.6,D:0.3):0.4):1,((E:0.6,F:0.8):0.2,C:1.5):0.5);'
+comp= read.tree(text = comp)
+plot(comp,show.tip.label = T, root.edge = TRUE)
+```
+
+
+Then we drop extinxt species
+
+```{r}
+incomp = drop.fossil(comp)
+plot(incomp,show.tip.label = T)
+```
+
+Now we would like to be able to add an extinct species
+
+```{r}
+in_dmea = phylo2p(incomp)
+in_dmea$t
+in_dmea$E
+in_dmea$n
+update_tree(wt=in_dmea$t,t_spe=0.5,t_ext = 1.5 ,E=in_dmea$E,n=in_dmea$n)
+```
+
+this is a little strange (?)
