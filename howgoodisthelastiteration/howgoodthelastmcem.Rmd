@@ -1,0 +1,140 @@
+---
+title: "Last MCEM step"
+author: "F.R.M."
+date: "November 28, 2016"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+```
+```{r echo=FALSE, include=FALSE}
+library(dmea)
+
+```
+
+## A first exercise
+
+1. The normal one...
+
+```{r eval=FALSE}
+
+p = proc.time()
+n_sim = 1000
+n_trees = 100
+MP = matrix(nrow=n_sim, ncol=3)
+RP = matrix(nrow=n_sim, ncol=3)
+for(j in 1:n_sim){
+  st = sim_phyl(seed=j)
+  p <- subplex(par = c(8,0.175,0.9),fn = llik,n = st$n, E = st$E, t = st$t)$par
+  RP[j,] = p
+  sit = dmea::drop.fossil(st$newick)
+  sit = phylo2p(sit)
+  trees = sim_srt(tree=sit, pars=p, parallel = F, n_trees = 100)
+  pars = subplex(par = c(8,0.175,0.9), fn = llik_st , setoftrees = trees, impsam = FALSE)$par
+  MP[j,] = pars
+}
+par_est_vis(P=MP,par=1,PR=RP)
+par_est_vis(P=MP,par=2,PR=RP)
+par_est_vis(P=MP,par=3,PR=RP)
+print(proc.time()-p)
+```
+This one took toooo much time..
+
+2. Now the same, but trying to run it in parallel
+
+```{r sim2}
+no_cores <- detectCores()- 1 
+cl <- makeCluster(no_cores)
+registerDoParallel(cl)
+
+
+n_sim = 100
+n_trees = 10
+MP = matrix(nrow=n_sim,ncol=3)
+RP = matrix(nrow=n_sim,ncol=3)
+p = proc.time()
+ests <- foreach(i = 1:n_sim, .combine=data.frame,.packages='dmea') %dopar% sim_est(n_trees=n_trees)
+print(proc.time()-p)
+for (i in 1:n_sim){
+  RP[i,] = ests[,(2*i-1)]
+  MP[i,] = ests[,2*i]
+}
+par_est_vis(P=MP,par=1,PR=RP)
+par_est_vis(P=MP,par=2,PR=RP)
+par_est_vis(P=MP,par=3,PR=RP)
+
+
+
+stopCluster(cl)
+```
+
+
+3. Now the same, but more simulations in parallel
+
+
+```{r sim3}
+p = proc.time()
+no_cores <- detectCores()- 1 
+cl <- makeCluster(no_cores)
+registerDoParallel(cl)
+
+n_sim = 1000
+n_trees = 10
+MP = matrix(nrow=n_sim,ncol=3)
+RP = matrix(nrow=n_sim,ncol=3)
+
+ests <- foreach(i = 1:n_sim, .combine=data.frame,.packages='dmea') %dopar% {  
+  set.seed(i)
+  sim_est(n_trees=n_trees)
+}
+for (i in 1:n_sim){
+  RP[i,] = ests[,(2*i-1)]
+  MP[i,] = ests[,2*i]
+}
+par_est_vis(P=MP,par=1,PR=RP)
+par_est_vis(P=MP,par=2,PR=RP)
+par_est_vis(P=MP,par=3,PR=RP)
+stopCluster(cl)
+print(proc.time()-p)
+```
+
+```{r}
+summary(MP)
+summary(RP)
+```
+
+4. Now more trees for each iteration 
+
+```{r sim4}
+p = proc.time()
+no_cores <- detectCores()- 1 
+cl <- makeCluster(no_cores)
+registerDoParallel(cl)
+
+n_sim = 1000
+n_trees = 100
+MP2 = matrix(nrow=n_sim,ncol=3)
+RP2 = matrix(nrow=n_sim,ncol=3)
+
+ests <- foreach(i = 1:n_sim, .combine=data.frame,.packages='dmea') %dopar% {  
+  set.seed(i)
+  sim_est(n_trees=n_trees)
+}
+for (i in 1:n_sim){
+  RP2[i,] = ests[,(2*i-1)]
+  MP2[i,] = ests[,2*i]
+}
+par_est_vis(P=MP2,par=1,PR=RP2)
+par_est_vis(P=MP2,par=2,PR=RP2)
+par_est_vis(P=MP2,par=3,PR=RP2)
+stopCluster(cl)
+print(proc.time()-p)
+```
+
+```{r}
+summary(MP2)
+summary(RP2)
+```
+

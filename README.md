@@ -1,3 +1,3 @@
 # Reports
 
-This is a repo to store images only.
+This is a repo to store images/reports/etc only.

@@ -1,0 +1,33 @@
+---
+title: "Importance sampling"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+We need
+
+
+$$ Q(\theta|\theta^*) = E_{MT} [l_{MT,OT}(\theta) | OT, \theta^*] $$
+
+So MT (missing tree) needs to be sampled from (density) 
+
+$$ f_{MT|OT} (T ; \theta^*) $$
+
+But instead we sample it from 
+
+$$ g(T;\theta^*,OT) $$
+
+To correct this  we re-weigh the expectation by importance scaling:
+
+$$ \frac{f_{MT|OT}(T;\theta^*)}{g(T;\theta^*,OT)} $$
+
+
+Where, in the case of $f_{MT|OT}(T;\theta^*)=\prod_i P_{ms_i}$ and $P_{ms_i}$ corresponds to the probability for the missing species number $i$. That is 
+
+$$ P_{ms_i} = (\sum \lambda_{i}) e^{t_i\sum \lambda_i} \frac{1}{n_i} \frac{\mu e^{t_i \mu}}{1-e^{-\mu rT}} $$
+
+
+Moreoever, $g(T;\theta^*,OT)$ is calculated on the reconstructed process. 

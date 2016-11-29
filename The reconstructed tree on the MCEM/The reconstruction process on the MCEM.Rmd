@@ -1,6 +1,5 @@
 ---
 title: "a MCEM approach to phylogenetic trees reconstruction"
-author: "F.R.M."
 date: "November 25, 2016"
 output: html_document
 ---
@@ -9,51 +8,61 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Introduction 
+## Stop reading :)
 
-MCEM.. 
+This document is work in progress, it will be ready soon. 
 
 
-## The reconstruction of trees
+# The reconstruction process
 
-First, to warm up, we plot a simple tree
+
 ```{r echo=FALSE, include=FALSE}
 library(dmea)
-```
-
-```{r echo=FALSE}
-obs = '((B:1,A:1):1,C:2);'
-#library(ape)
-obs = read.tree(text=obs)
-plot(obs,show.tip.label = T, root.edge = TRUE)
 
 ```
+### Introduction 
 
-Then a longer one
+We are interested on studing macro-evolutionary drivers given a phylogenetic tree
+
 
 ```{r echo=FALSE}
 # complete/incomplete trees
-comp = '((B:1,(A:0.6,D:0.3):0.4):1,((E:0.6,F:0.8):0.2,C:1.5):0.5);'
+comp = '((AB:1,(AA:0.6,AD:0.3):0.4):1,((AE:0.6,AF:0.8):0.2,AC:1.5):0.5):1;'
 comp= read.tree(text = comp)
 plot(comp,show.tip.label = T, root.edge = TRUE)
 ```
 
+However, we normally do not see extinct species
 
-Then we drop extinxt species
-
-```{r}
+```{r echo=FALSE}
 incomp = drop.fossil(comp)
-plot(incomp,show.tip.label = T)
+plot(incomp,show.tip.label = T, root.edge = TRUE)
 ```
 
-Now we would like to be able to add an extinct species
 
-```{r}
-in_dmea = phylo2p(incomp)
-in_dmea$t
-in_dmea$E
-in_dmea$n
-update_tree(wt=in_dmea$t,t_spe=0.5,t_ext = 1.5 ,E=in_dmea$E,n=in_dmea$n)
-```
+to infer information from incomplete trees we analyze them as a 'missing-data problem'. Thus, we performs an EM-algorithm 
 
-this is a little strange (?)
+### EM algorithm
+
+The Em algorithm consists on two steps:
+
+  1. E- step 
+  
+  $$ E_M[l_{D,M}(\beta)|D,\beta^*] $$
+
+  2. M-step 
+  
+  $$ \beta^{**} = max_\beta Q(\beta | \beta^*) $$
+  
+However, there is no close-form of the equation on the E-step in the phylogenetic tree context. An alternative to it is to calculate $E_M[l_{D,M}(\beta)|D,\beta^*]$ via monte-carlo method. 
+
+### MCEM 
+
+In order to use the monte-carlo method we need to simulate reconstructed trees...
+
+
+
+
+
+
+

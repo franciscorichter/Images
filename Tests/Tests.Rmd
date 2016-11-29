@@ -1,0 +1,98 @@
+---
+title: "Tests"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dmea)
+```
+
+## sim_phyl
+
+
+```{r}
+st <- sim_phyl(ct=5)
+plot(st$newick,root.edge = T)
+axisPhylo(backward = F,root.time = st$t[1])
+miss <- st$L[st$L[,3]!=(-1),]
+miss_spe <- miss$spec
+time <- rbind(data.frame(brtimes = st$L[,2], E=1, spec = st$L[,1]),data.frame(brtimes = miss[,3], E=0, spec = miss[,1]))
+time <- time[order(time$brtimes),]
+time
+time$n <- cumsum(time$E)-cumsum(1-time$E)
+time$n <- c(0,time$n[1:length(time$n)-1])
+time
+
+st$br
+st$E
+st$E == time$E[2:length(time$E)]
+st$br[1:(length(st$br)-1)] == time$brtimes[2:length(time$brtimes)]
+missing = time[which(is.element(time$spec,miss_spe)),]
+missing
+```
+
+
+## Phylo2p and update_tree
+
+First, to warm up, we plot a simple tree
+```{r echo=FALSE, include=FALSE}
+library(dmea)
+drop.fossil <- function (phy, tol = 1e-08) 
+{
+    n <- Ntip(phy)
+    x <- dist.nodes(phy)[n + 1, ][1:n]
+    drop.tip(phy,root.edge = T ,which(x < max(x) - tol))
+}
+```
+
+```{r}
+obs = '((AB:1,AA:1):1,AC:2):1;'
+#library(ape)
+obs = read.tree(text=obs)
+is.rooted(obs)
+plot(obs,show.tip.label = T, root.edge = TRUE)
+branching.times(obs)
+```
+
+Then a longer one
+
+```{r}
+# complete/incomplete trees
+comp = '((AB:1,(AA:0.6,AD:0.3):0.4):1,((AE:0.6,AF:0.8):0.2,AC:1.5):0.5):1;'
+comp= read.tree(text = comp)
+is.rooted(comp)
+plot(comp,show.tip.label = T, root.edge = TRUE)
+branching.times(comp)
+```
+
+
+Then we drop extinxt species
+
+```{r}
+incomp = drop.fossil(comp)
+write.tree(incomp)
+is.rooted(incomp)
+plot(incomp,show.tip.label = T, root.edge = TRUE)
+branching.times(incomp)
+```
+
+Now we would like to be able to add an extinct species
+
+```{r}
+in_dmea = phylo2p(incomp)
+in_dmea$t
+in_dmea$E
+in_dmea$n
+update_tree(wt=in_dmea$t,t_spe=0.5,t_ext = 1.5 ,E=in_dmea$E,n=in_dmea$n)
+```
+
+Now , after a little modification on the drop.fossil function, it works properly 
+
+```{r}
+in_dmea = phylo2p(obs)
+in_dmea$t
+in_dmea$E
+in_dmea$n
+update_tree(wt=in_dmea$t,t_spe=0.5,t_ext = 1.5 ,E=in_dmea$E,n=in_dmea$n)
+```
