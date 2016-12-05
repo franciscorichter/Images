@@ -1,0 +1,37 @@
+---
+title: "MCEM"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+WARNINGG!!... THIS FILE IS NOT WORKING. and I dont know why
+
+```{r echo=FALSE, include=FALSE}
+library(dmea)
+```
+
+```{r sim1}
+p = proc.time()
+n_sim = 10
+mu0 = 0.1
+MLE = matrix(nrow=n_sim,ncol=3)
+RP = matrix(nrow=n_sim,ncol=3)
+init = c(4,0.175,1)
+for(j in 1:n_sim){
+  st = sim_phyl(mu0=mu0)
+  p <- subplex(par = c(8,0.175,0.9),fn = llik,n = st$n, E = st$E, t = st$t)$par
+  RP[j,] = p
+  sit = drop.fossil(st$newick)
+  sit = phylo2p(sit)
+  parsis = EM_phylo(bt=sit$t,init_par = init,n_trees=10,n_it=2, printpar = F)
+  MLE[j,]=parsis
+}
+print(proc.time()-p)
+```
+
+```{r}
+summary(MLE)
+```

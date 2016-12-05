@@ -138,3 +138,33 @@ summary(MP2)
 summary(RP2)
 ```
 
+This is strange, with 100 trees for monte-carlo simulation we introduce some biases to lambda and beta that with 10 trees MC we did not have. 
+
+5. Does it makes sense to run 1 tree monte carlo?
+
+```{r sim5}
+p = proc.time()
+no_cores <- detectCores()- 1 
+cl <- makeCluster(no_cores)
+registerDoParallel(cl)
+
+n_sim = 1000
+n_trees = 1
+MP2 = matrix(nrow=n_sim,ncol=3)
+RP2 = matrix(nrow=n_sim,ncol=3)
+
+ests <- foreach(i = 1:n_sim, .combine=data.frame,.packages='dmea') %dopar% {  
+  set.seed(i)
+  sim_est(n_trees=n_trees)
+}
+for (i in 1:n_sim){
+  RP2[i,] = ests[,(2*i-1)]
+  MP2[i,] = ests[,2*i]
+}
+par_est_vis(P=MP2,par=1,PR=RP2)
+par_est_vis(P=MP2,par=2,PR=RP2)
+par_est_vis(P=MP2,par=3,PR=RP2)
+stopCluster(cl)
+print(proc.time()-p)
+```
+
