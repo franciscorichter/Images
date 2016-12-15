@@ -1,0 +1,262 @@
+---
+title: "Importance sampling"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+```
+
+```{r echo=FALSE, include=FALSE}
+library(dmea)
+```
+On this report we denote $D$ as the observed-part or extant-species, $+_i$ as the missing-part or extinct-species of the tree and $D^+$ is then the complete phylogenetic tree.  
+
+
+The EM algorithms consists on two steps. First, we calculate the conditional expectation:
+
+$$ Q(\theta|\theta^*) = E_{\theta^* } [log P(D^+|\theta) | D] $$
+
+and then we performs the maximization:
+
+$$ \theta ^{**} = argmax_{(\theta)} Q( \theta | \theta ^*) $$
+
+Given that the calculation of the conditional expectation is really hard (if not impossible), we use an approximation, sampling complete-phylogenies under a montecarlo approach. This simulations should be sampled from (real density) 
+
+$$ f_{\theta^*} (+_i | D) $$
+
+But instead we sample it from 
+
+$$ g_{\theta^*}(+_i | D) $$
+
+To correct this we re-weigh the approximation of the expectation by importance scaling:
+
+$$w_i =  \frac{f_{\theta^*} (+_i | D)}{g_{\theta^*}(+_i | D)} $$
+
+
+Thus, the montecarlo approximation we are using has the form
+
+$$ E_{\theta^* } [log P(D^+|\theta) | D] \approx \frac{1}{N} \sum^{N}_{i=1} log P(D_i^+ | \theta)  \frac{f_{\theta^*} (+_i | D)}{g_{\theta^*}(+_i | D)}$$
+
+Moreover, 
+
+$$ f_{ \theta^* } (+_i | D) = \frac{f_{\theta^*} (+_i \cap D)}{f_{\theta^*} (D)} = c \cdot f_{\theta^*} (D^+) $$ 
+
+where $c = \frac{1}{f_{\theta^*} (D)}$ does not depends on the $i$-iteration of the EM algorithm. And $f_{\theta^*} (D^+)$ is the density function of the complete phylogenetic tree. 
+
+Thus, we calculate $g_{\theta^*}(+_i | D)$ within the ```rec_tree``` function which calculates the density $g$ at the same time that simulates the missing species. The part of the code which does that is the one below
+
+```{r, eval=FALSE}
+t_spe = rexp(1,s)
+prob = prob*dexp(t_spe,rate=s)  #adding the speciation event to g
+if (t_spe < cwt){
+  t_ext = rexp(1,mu0)
+  prob = prob*dexp(t_ext,rate=mu0) #adding extinction event to g
+```
+
+and the same code calculates $f_{\theta^*} (D^+)$ just taking the exponential of the -log-likelihood function the the complete reconstructed tree. After that we calculate the weight:
+
+```{r, eval=FALSE}
+f_n = exp(-llik(b=pars,n=n,E=E,t=wt))
+weight = f_n/prob2
+```
+
+##### Implementation
+
+To have a better idea on how this implementation look like we do some simple observations. 
+
+We start simulating a whole tree
+
+```{r}
+st <- sim_phyl()
+plot(st$newick)
+```  
+
+Them we drop extinct species
+
+```{r}
+st2 <- drop.fossil(st$newick)
+plot(st2)
+```
+
+we transform phylo format into branching-times, number of species, and topology vectors
+
+```{r}
+st2 <- phylo2p(st2)
+```
+
+Now we simulate a complete tree (extinct+extans species) based on the observed tree (extant species only) 
+
+```{r, warning=FALSE}
+st3 <- rec_tree(wt=st2$t)
+```
+
+and we observe the calculated weight for this tree
+
+```{r}
+st3$weight
+```
+
+it seems very small, we can see also the values of $f$ and $g$ to have an idea of the order of them 
+
+```{r}
+st3$f_n
+st3$prob
+```
+
+
+This is a random process, if we do it again we end with another complete-tree and its corresponding weight, we do it for 30 iterations just to have an idea of the variability of the weight
+
+
+```{r, warning=FALSE} 
+for(i in 1:30){
+st3 <- rec_tree(wt=st2$t)
+print(st3$weight)
+}
+```
+So, a first observation, <span style="color:red">  THE WEIGHT VALUES ARE REALLY SMALL AND VARIES A LOT WITH DIFFERENT TREES. DO YOU THINK IS THAT OK? </span>
+
+
+***
+
+
+#### Estimations
+
+Moreover, we run estimations with importance sampling now (we would love that the estimations of $\mu$ would not be underestimated)
+
+```{r sim1}
+
+p = proc.time()
+no_cores <- detectCores()- 1 
+cl <- makeCluster(no_cores)
+registerDoParallel(cl)
+
+n_sim = 1000
+n_trees = 10
+MP = matrix(nrow=n_sim,ncol=3)
+RP = matrix(nrow=n_sim,ncol=3)
+
+ests <- foreach(i = 1:n_sim, .combine=data.frame,.packages='dmea') %dopar% {  
+  set.seed(i)
+  sim_est(n_trees=n_trees,impsam=TRUE)
+}
+for (i in 1:n_sim){
+  RP[i,] = ests[,(2*i-1)]
+  MP[i,] = ests[,2*i]
+}
+stopCluster(cl)
+print(proc.time()-p)
+```
+
+
+first we look at lambda:
+
+```{r plot1}
+par_est_vis(P=MP,par=1,PR=RP)
+```
+
+We can see now that there are few trees that could not get a proper estimation, [This does not happens on the estimations without importance sampling](http://rpubs.com/franciscorichter/231599).
+
+To visualize better the other estimations we just remove that ones
+
+```{r}
+par_est_vis(P=MP[MP[,1]<2,],par=1,PR=RP[MP[,1]<2,])
+```
+
+We have some outliers that we did not had before. Let´s see how are the estimations of $\mu$
+
+```{r}
+par_est_vis(P=MP[MP[,1]<3,],par=3,PR=RP[MP[,1]<3,])
+```
+
+It seems they are still biased as [before](http://rpubs.com/franciscorichter/231599)
+
+
+
+#### More code
+In case is useful, the function used to simulate the extinct part of the recontructe tree is the one below
+
+```{r, eval=F}
+rec_tree <- function(wt, pars=c(0.8,0.0175,0.1), model='dd'){
+  lambda0 = pars[1]
+  mu0 = pars[3]
+  K = (lambda0-mu0)/pars[2]
+  n = 1:length(wt)
+  i = 1
+  tails = tail(n,n=1)
+  E = rep(1,(length(wt)-1))
+  fake = FALSE
+  ct = sum(wt)
+  prob = 1
+  while(i < length(wt)){
+    N = n[i]
+    if(model == "dd"){  # diversity-dependence model
+      lambda = max(0,lambda0 - (lambda0-mu0)*N/K)
+      mu = mu0
+      lambda = rep(lambda,N)
+      mu = rep(mu,N)
+    }
+    if(model == 'cr'){ # constant-rate model
+      lambda = rep(lambda0,N)
+      mu = rep(mu0,N)
+    }
+    s = sum(lambda)
+    if(s==0){
+      #print('s=0')
+      break
+    }
+    if(fake){ # in case there was an speciation but not extinction previously
+      cwt = cwt - t_spe
+      cbt = cbt + t_spe
+    }
+    else{
+      cwt = wt[i]
+      cbt = cumsum(wt)[i] - cwt
+    }
+    t_spe = rexp(1,s)
+    prob = prob*dexp(t_spe,rate=s)
+    if (t_spe < cwt){
+      t_ext = rexp(1,mu0) # this is not as general as trees with trait-dependance species yet,
+      prob = prob*dexp(t_ext,rate=mu0)
+      t_ext = cbt + t_spe + t_ext
+      if (t_ext < ct){
+        up = update_tree(wt=wt,t_spe = (cbt + t_spe), t_ext = t_ext, E = E, n = n)
+        E = up$E
+        n = up$n
+        wt = up$wt
+        fake = FALSE
+      }else{
+        fake = TRUE
+        i = i-1
+      }
+    }else{
+      fake = FALSE
+    }
+    i = i+1
+  }
+  L = create_L(wt,E)
+  f_n = exp(-llik(b=pars,n=n,E=E,t=wt))
+  weight = f_n/prob
+  return(list(wt=wt,E=E,n=n,weight=weight,L=L,prob=prob,f_n=f_n))
+}
+```
+
+<!--
+
+```{r plot2}
+par_est_vis(P=MP[MP[,1]<3,],par=1,PR=RP[MP[,1]<3,])
+```
+ --> 
+
+
+
+
+<!--
+Where, in the case of  $f_{\theta^*} (+_i | D)  = \prod_i P_{ms_i}$, and $P_{ms_i}$ corresponds to the probability for the missing species number $i$. That is 
+
+$$ P_{ms_i} = \displaystyle\underbrace{\left(\sum \lambda\right)_{i} e^{-t_i(\sum \lambda)_i} \frac{1}{n_i}}_{speciation} \displaystyle\underbrace{\frac{\mu e^{-t_i \mu}}{1-e^{-\mu rT}}}_{extinction} $$
+
+Then, for the case of DD we have 
+
+$$ P_{ms_i} = n_i(\lambda_0-\beta n_i)  e^{-t_i(n_i(\lambda_0-\beta n_i))} \frac{1}{n_i} \frac{\mu e^{-t_i^{ext} \mu}}{1-e^{-\mu(ct-bt_i)}} $$
+ --> 
