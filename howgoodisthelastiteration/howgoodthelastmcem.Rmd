@@ -236,3 +236,7 @@ par_est_vis(P=MP2,par=3,PR=RP2)
 stopCluster(cl)
 print(proc.time()-p)
 ```
+
+
+
+

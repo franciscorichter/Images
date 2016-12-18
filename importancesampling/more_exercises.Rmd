@@ -119,3 +119,22 @@ plot(n_extinct,ll)
 lm(ll~n_extinct)
 ```
 
+***
+
+(Ernst:) This may be the important missing piece of the puzzle: adding an additional event reduces the likelihood. We need to compare the same number of events (or average the likelihood by the number of events)
+
+
+the -log-likelihood:
+```{r}
+plot(ll/n_extinct)
+```
+
+
+the likelihood:
+```{r}
+plot(exp(ll),exp(n_extinct))
+```
+
+```{r}
+summary(exp(ll))
+```

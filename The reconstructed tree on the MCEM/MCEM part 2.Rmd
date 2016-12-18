@@ -1,0 +1,309 @@
+---
+title: "MCEM part2"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+```
+
+```{r echo=FALSE, include=FALSE}
+library(dmea)
+```
+
+From [this report]() we know that in the case of monte-carlo with 10 trees, $\lambda=0.8$, $\beta=0.0175$ and $\mu=0.1$ simulated trees, the estimations of MCEM are really good for $\lambda$ and $\beta$, but slyghtly biased for $\mu$
+
+```{r}
+0.1-0.08918 
+```
+
+we complain that if $\mu$ would not be biased, then we would have perfect MCEM performance. Our trys on finding the right re-weithing method to make $\mu$ unbiased have not been succeful yet. However, we can probe if our complains make senses or not. 
+
+To do that, we just add the correct number to make it unbiased...
+
+
+```{r correctmu1}
+st <- sim_phyl()
+plot(st$newick,align.tip.label=T,root.edge=T)
+st2 <- phylo2p(drop.fossil(st$newick))
+em <- EM_phylo(wt=st2$t,init_par=c(8,0.175,0.9),n_trees=10,dummy=0.1-0.08918,n_it = 500,printpar = F)
+```
+
+
+```{r}
+plot(em$El)
+```
+
+the parameters
+```{r}
+plot(em$Pars[,1])
+plot(em$Pars[,2])
+plot(em$Pars[,3])
+```
+
+***
+
+if we do it normally?
+
+```{r normal EM}
+st <- sim_phyl()
+plot(st$newick,align.tip.label=T,root.edge=T)
+st2 <- phylo2p(drop.fossil(st$newick))
+em <- EM_phylo(wt=st2$t,init_par=c(8,0.175,0.9),n_trees=10,dummy=0,n_it = 500,printpar = F)
+```
+
+
+the $E[l]$ value
+```{r}
+plot(em$El)
+```
+
+tha parameters
+```{r}
+plot(em$Pars[,1])
+plot(em$Pars[,2])
+plot(em$Pars[,3])
+```
+
+
+***
+
+what if we try the adjusted one with other initial values?
+```{r correctmu2}
+st <- sim_phyl()
+plot(st$newick,align.tip.label=T,root.edge=T)
+st2 <- phylo2p(drop.fossil(st$newick))
+em <- EM_phylo(wt=st2$t,init_par=c(0.5,0.02,0.2),n_trees=10,dummy=0.1-0.08918,n_it = 500,printpar = F)
+```
+
+
+```{r}
+plot(em$El)
+```
+
+the parameters
+```{r}
+plot(em$Pars[,1])
+plot(em$Pars[,2])
+plot(em$Pars[,3])
+```
+
+***
+
+normally, but with thoso others parameters?
+
+```{r normal EM2}
+st <- sim_phyl()
+plot(st$newick,align.tip.label=T,root.edge=T)
+st2 <- phylo2p(drop.fossil(st$newick))
+em <- EM_phylo(wt=st2$t,init_par=c(0.5,0.02,0.2),n_trees=10,dummy=0,n_it = 500,printpar = F)
+```
+
+
+the $E[l]$ value
+```{r}
+plot(em$El)
+```
+
+tha parameters
+```{r}
+plot(em$Pars[,1])
+plot(em$Pars[,2])
+plot(em$Pars[,3])
+```
+
+nothing...
+
+***
+
+if we start with rates greater than 1?
+
+
+what if we try the adjusted one with other initial values?
+```{r correctmu3}
+st <- sim_phyl()
+plot(st$newick,align.tip.label=T,root.edge=T)
+st2 <- phylo2p(drop.fossil(st$newick))
+em <- EM_phylo(wt=st2$t,init_par=c(1.1,0.02,1),n_trees=10,dummy=0.1-0.08918,n_it = 500,printpar = F)
+```
+
+
+```{r}
+plot(em$El)
+```
+
+the parameters
+```{r}
+plot(em$Pars[,1])
+plot(em$Pars[,2])
+plot(em$Pars[,3])
+```
+
+or
+
+```{r}
+sa <- stack(as.data.frame(em$Pars))
+sa$x <- rep(seq_len(nrow(em$Pars)), ncol(em$Pars))
+qplot(x, values, data = sa, group = ind, colour = ind, geom = "line")
+```
+***
+
+(I will start doing less number of iterations)
+
+
+
+now even greater rates
+
+what if we try the adjusted one with other initial values?
+```{r correctmu4}
+st <- sim_phyl()
+plot(st$newick,align.tip.label=T,root.edge=T)
+st2 <- phylo2p(drop.fossil(st$newick))
+em <- EM_phylo(wt=st2$t,init_par=c(1.6,0.02,1.2),n_trees=10,dummy=0.1-0.08918,n_it = 200,printpar = F)
+```
+
+
+```{r}
+plot(em$El)
+```
+
+the parameters
+```{r}
+plot(em$Pars[,1])
+plot(em$Pars[,2])
+plot(em$Pars[,3])
+```
+
+or
+
+```{r}
+sa <- stack(as.data.frame(em$Pars))
+sa$x <- rep(seq_len(nrow(em$Pars)), ncol(em$Pars))
+qplot(x, values, data = sa, group = ind, colour = ind, geom = "line")
+```
+
+and
+
+```{r}
+summary(tail(em$Pars[,3],n = 100))
+summary(tail(em$Pars[,1],n = 100))
+```
+***
+
+if we (cheat less and)  do not take the perfect adjustment?
+
+```{r correctmu5}
+st <- sim_phyl()
+plot(st$newick,align.tip.label=T,root.edge=T)
+st2 <- phylo2p(drop.fossil(st$newick))
+em <- EM_phylo(wt=st2$t,init_par=c(1.6,0.02,1.2),n_trees=10,dummy=(0.1-0.08918)/2,n_it = 400,printpar = F)
+```
+
+
+```{r}
+plot(em$El)
+```
+
+the parameters
+```{r}
+plot(em$Pars[,1])
+plot(em$Pars[,2])
+plot(em$Pars[,3])
+```
+
+or
+
+```{r}
+sa <- stack(as.data.frame(em$Pars))
+sa$x <- rep(seq_len(nrow(em$Pars)), ncol(em$Pars))
+qplot(x, values, data = sa, group = ind, colour = ind, geom = "line")
+```
+
+and
+
+```{r}
+summary(tail(em$Pars[,3],n = 200))
+summary(tail(em$Pars[,1],n = 200))
+plot(tail(em$Pars[,3],n = 300))
+```
+
+
+it`s weird, it was suppose to go to zero, but it also stabilized the EM iterations. 
+
+let`s see if for a minimal dummy value we still have this
+
+
+if we (cheat less and)  do not take the perfect adjustment?
+
+```{r correctmu6}
+st <- sim_phyl()
+plot(st$newick,align.tip.label=T,root.edge=T)
+st2 <- phylo2p(drop.fossil(st$newick))
+em <- EM_phylo(wt=st2$t,init_par=c(1.6,0.02,1.2),n_trees=10,dummy=0.00001,n_it = 400,printpar = F)
+```
+
+
+```{r}
+plot(em$El)
+```
+
+the parameters
+```{r}
+plot(em$Pars[,1])
+plot(em$Pars[,2])
+plot(em$Pars[,3])
+```
+
+or
+
+```{r}
+sa <- stack(as.data.frame(em$Pars))
+sa$x <- rep(seq_len(nrow(em$Pars)), ncol(em$Pars))
+qplot(x, values, data = sa, group = ind, colour = ind, geom = "line")
+```
+
+and
+
+```{r}
+summary(tail(em$Pars[,3],n = 200))
+summary(tail(em$Pars[,1],n = 200))
+```
+
+ok, not anymore..
+***
+
+let´s see for bigger numbers
+
+```{r correctmu7}
+st <- sim_phyl()
+plot(st$newick,align.tip.label=T,root.edge=T)
+st2 <- phylo2p(drop.fossil(st$newick))
+em <- EM_phylo(wt=st2$t,init_par=c(1.6,0.02,1.2),n_trees=10,dummy=0.2, n_it = 400,printpar = F)
+```
+
+
+```{r}
+plot(em$El)
+```
+
+the parameters
+```{r}
+plot(em$Pars[,1])
+plot(em$Pars[,2])
+plot(em$Pars[,3])
+```
+
+or
+
+```{r}
+sa <- stack(as.data.frame(em$Pars))
+sa$x <- rep(seq_len(nrow(em$Pars)), ncol(em$Pars))
+qplot(x, values, data = sa, group = ind, colour = ind, geom = "line")
+```
+
+and
+
+```{r}
+summary(tail(em$Pars[,3],n = 200))
+summary(tail(em$Pars[,1],n = 200))
+```
