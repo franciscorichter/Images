@@ -1,0 +1,29 @@
+---
+title: "Computational times"
+author: "Jan, 27th"
+date: "January 28, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## How long it takes to generate a set of trees?
+
+For 10 trees?
+
+```{r}
+library(dmea)
+set.seed(128)
+s = sim_phyl()
+#plot(s$newick)
+s2 = drop.fossil(s$newick)
+s2 = phylo2p(s2)
+wt = s2$t
+n_trees = 100
+pars = c(0.8,0.0175,0.1)
+p = proc.time()
+S = sim_srt(wt=wt, pars=pars, parallel=F, n_trees=n_trees)
+print(proc.time()-p)
+```

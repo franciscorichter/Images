@@ -1,0 +1,30 @@
+---
+title: "How many extinctions we are simulating?"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache = TRUE)
+library(dmea)
+```
+
+```{r}
+num_miss = NULL
+real_num_miss = NULL
+num_miss_total = NULL
+n_sim = 1000
+for(j in 1:n_sim){
+  st = sim_phyl()
+  p = c(0.8,0.0175,0.1)
+  real_num_miss[j] = number_missing(st)
+  extant = phylo2p(drop.fossil(st$newick))
+  for(i in 1:100){
+    rec = rec_tree(wt=extant$t,pars=p)
+    num_miss[i] = (length(rec$wt)-length(extant$t))/2
+  }
+  num_miss_total[j] = mean(num_miss)
+}
+#WORK INPROGRESS, NEED TO BE ADDED THE THINKS BELOW
+#big.df <- do.call(rbind,ll)
+#plot(approx(big.df$x,big.df$y),type='l')
+```

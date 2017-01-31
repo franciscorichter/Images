@@ -1,12 +1,12 @@
 ---
-title: "December 14, 2016"
+title: "December 14, 2016. updated 27 jan"
 author: ""
 date: ""
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(cache = TRUE)
+knitr::opts_chunk$set(cache = FALSE)
 library(dmea)
 ```
 

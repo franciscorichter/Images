@@ -1,6 +1,6 @@
 ---
 title: "How many extinctions we are simulating?"
-output: html_document
+output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
