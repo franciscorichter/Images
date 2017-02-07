@@ -9,6 +9,8 @@ knitr::opts_chunk$set(cache=FALSE)
 
 ```{r echo=FALSE, include=FALSE}
 library(dmea)
+library(diagram)
+a=1
 ```
 On this report we denote $D$ as the observed-part or extant-species, $+_i$ as the missing-part or extinct-species of the tree and $D^+$ is then the complete phylogenetic tree.  
 
@@ -31,108 +33,249 @@ $$ g_{\theta^*}(+_i | D) $$
 
 To correct this we re-weigh the approximation of the expectation by importance scaling:
 
-$$w_i =  \frac{f_{\theta^*} (+_i | D)}{g_{\theta^*}(+_i | D)} $$
+$$w_i =  \frac{f_{\theta^*} (+_i | D)}{g_{\theta^*}(+_i | D)} = \frac{f_i}{g_i}$$
 
 
 Thus, the montecarlo approximation we are using has the form
 
-$$ E_{\theta^* } [log P(D^+|\theta) | D] \approx \frac{1}{N} \sum^{N}_{i=1} log P(D_i^+ | \theta)  \frac{f_{\theta^*} (+_i | D)}{g_{\theta^*}(+_i | D)}$$
+$$ E_{\theta^* } [log P(D^+|\theta) | D] \approx \frac{1}{N} \sum^{N}_{i=1} log P(D_i^+ | \theta)  \frac{f_i}{g_i}$$
 
-Moreover, 
 
-$$ f_{ \theta^* } (+_i | D) = \frac{f_{\theta^*} (+_i \cap D)}{f_{\theta^*} (D)} = c \cdot f_{\theta^*} (D^+) $$ 
+* $f_i$ is the density function (likelihood) of the complete phylogenetic tree. 
 
-where $c = \frac{1}{f_{\theta^*} (D)}$ does not depends on the $i$-iteration of the EM algorithm. And $f_{\theta^*} (D^+)$ is the density function of the complete phylogenetic tree. 
+* to calculate $g_i$ we have 2 ways so far. The first one is related with the diagram above
 
-Thus, we calculate $g_{\theta^*}(+_i | D)$ within the ```rec_tree``` function which calculates the density $g$ at the same time that simulates the missing species. The part of the code which does that is the one below
+```{r echo=FALSE}
+par(mar=c(1,1,1,1))
+openplotmat()
+elpos<-coordinates (c(1,1,2,4))
+fromto <- matrix(ncol=2,byrow=TRUE,data=c(1,2,2,3,2,4,4,7,4,8))
+nr     <-nrow(fromto)
+arrpos <- matrix(ncol=2,nrow=nr)
+for (i in 1:nr) 
+  arrpos[i,]<- straightarrow (to=elpos[fromto[i,2],],from=elpos[fromto[i,1],]
+                              ,lwd=2,arr.pos=0.6,arr.length=0.5)
+textellipse(elpos[1,],0.12,lab=paste("Update rates and",'\n',"draw next speciation time"),box.col="burlywood",shadow.col="darkgreen",shadow.size=0.005,cex=0.8)
+textrect   (elpos[2,],0.15,0.05,lab=expression(paste('s', '<', Delta,t[i])),box.col="thistle",shadow.col="darkblue",shadow.size=0.005,cex=1.5)
+textrect   (elpos[4,],0.15,0.05,lab=expression(paste('e', '<', t[p])),box.col="thistle",shadow.col="darkblue",shadow.size=0.005,cex=1.5)
+textellipse(elpos[3,],0.1,0.1,lab=c("go to next bt"),box.col="aquamarine",shadow.col="red",shadow.size=0.005,cex=0.8)
+#textellipse(elpos[3,],0.1,0.1,lab=c("other","term"),box.col="orange",shadow.col="red",shadow.size=0.005,cex=1.5)
+textellipse(elpos[7,],0.1,0.1,lab=paste("add missing species","\n","and go to next bt"),box.col="aquamarine",shadow.col="red",shadow.size=0.005,cex=0.8)
+textellipse(elpos[8,],0.1,0.1,lab=c("go to next bt"),box.col="aquamarine",shadow.col="red",shadow.size=0.005,cex=0.8)
 
-```{r, eval=FALSE}
-t_spe = rexp(1,s)
-prob = prob*dexp(t_spe,rate=s)  #adding the speciation event to g
-if (t_spe < cwt){
-  t_ext = rexp(1,mu0)
-  prob = prob*dexp(t_ext,rate=mu0) #adding extinction event to g
+dd <- c(0.0,0.025)
+text(arrpos[2,1]+0.05,arrpos[2,2],"no")
+text(arrpos[3,1]-0.05,arrpos[3,2],"yes")
+text(arrpos[4,1]+0.05,arrpos[4,2]+0.05,"yes")
+text(arrpos[5,1]-0.05,arrpos[5,2]+0.05,"no")
 ```
 
-and the same code calculates $f_{\theta^*} (D^+)$ just taking the exponential of the -log-likelihood function the the complete reconstructed tree. After that we calculate the weight:
+we multiply the corresponding probabilities to have every outcome, this is done on the piece of code bellow
+
 
 ```{r, eval=FALSE}
-f_n = exp(-llik(b=pars,n=n,E=E,t=wt))
-weight = f_n/prob
+  if (t_spe < cwt){
+      t_ext = rexp(1,mu0)
+      t_ext = cbt + t_spe + t_ext
+      if (t_ext < ct){
+        up = update_tree(wt=wt,t_spe = (cbt + t_spe), t_ext = t_ext, E = E, n = n)
+        E = up$E
+        n = up$n
+        wt = up$wt
+        fake = FALSE
+        prob[i] = dexp(t_ext,rate=mu0,log=TRUE) + dexp(t_spe,rate=s,log = TRUE)
+      }else{
+        prob[i] = pexp(q = ct,rate = mu0,lower.tail = F,log.p = TRUE) + dexp(t_spe,rate=s, log = TRUE)
+        fake = TRUE
+        i = i-1
+      }
+    }else{
+      fake = FALSE
+      prob[i] = pexp(q = cwt,rate = s,lower.tail = F,log.p = TRUE)
+    }
 ```
 
-##### Implementation
+
+
+Note that we are working with multiplication of many densities, which in the end are very small values. To avoid cutting most numbers to zero we consider the following fact:
+
+$$ w_i = \frac{f_i}{g_i} = e^{log(f_i) - log(g_i)} = e^{loglik - \sum_j log(g_{i,j})} $$
+
+and that is why on the code above the log of the densities is calculated. Considering that we calculate the weight in the following way
+
+
+
+```{r, eval=FALSE}
+f_n = -llik(b=pars,n=n,E=E,t=wt)
+weight = exp(f_n-sum(prob))
+return(list(wt=wt,E=E,n=n,weight=weight,L=L,g=prob,f_n=f_n))
+```
+
+another way to calculate $g$ is considering the probabilities of not having a new species on the interval $\Delta t_i$
+
+$$ \int_0^{\Delta t_i} s_{\lambda_i}e^{-s_{\lambda_i} t}[1-e^{-\mu (r_i-t)}]  dt =  s_{\lambda_i}\int_0^{\Delta t_i}e^{-s_{\lambda_i} t}-e^{ t(\mu-s_{\lambda_i})-\mu r_i} = s_{\lambda_i}\int_0^{\Delta t_i}e^{-s_{\lambda_i} t}dt - s_{\lambda_i} e^{-\mu r_i} \int_0^{\Delta t_i}e^{  t(\mu-s_{\lambda_i})} dt $$
+$$= 1-e^{-s_{\lambda_i} \Delta t} -\frac{s_{\lambda_i} e^{-\mu r_i}}{\mu - s_{\lambda_i}}[e^{\Delta t(\mu-s_{\lambda_i})}-1] $$
+so we do it with this function
+
+```{r, eval=FALSE}
+convol <-function(wt,lambda,mu,remt){
+  out = 1-exp(-lambda*wt)-lambda*exp(-mu*remt)/(mu-lambda)*(exp(wt*(mu-lambda))-1)
+  return(out)
+}
+```
+
+and we add this option to the code
+
+```{r, eval=FALSE}
+ if (t_spe < cwt){
+      t_ext = rexp(1,mu0)
+      t_ext = cbt + t_spe + t_ext
+      if (t_ext < ct){
+        up = update_tree(wt=wt,t_spe = (cbt + t_spe), t_ext = t_ext, E = E, n = n)
+        E = up$E
+        n = up$n
+        wt = up$wt
+        fake = FALSE
+        prob[i] = dexp(t_ext,rate=mu0,log=TRUE) + dexp(t_spe,rate=s,log = TRUE)
+      }else{
+        prob[i] = pexp(q = ct,rate = mu0,lower.tail = F,log.p = TRUE) + dexp(t_spe,rate=s,log = TRUE)
+        if(v2){ prob[i] = log(convol(wt = t_spe,lambda = s,mu = mu,remt = ct-cbt))}
+        fake = TRUE
+        i = i-1
+      }
+    }else{
+      fake = FALSE
+      prob[i] = pexp(q = cwt,rate = s,lower.tail = F,log.p = TRUE)
+      if(v2){prob[i] = log(convol(wt = t_spe,lambda = s,mu = mu,remt = ct-cbt))}
+    }
+```
+
+### Implementation
 
 To have a better idea on how this implementation look like we do some simple observations. 
 
 We start simulating a whole tree
 
 ```{r}
-st <- sim_phyl()
-plot(st$newick)
+s <- sim_phyl(seed=2)
+plot(s$newick)
 ```  
 
 Them we drop extinct species
 
 ```{r}
-st2 <- drop.fossil(st$newick)
-plot(st2)
+s2 <- drop.fossil(s$newick)
+plot(s2)
 ```
 
 we transform phylo format into branching-times, number of species, and topology vectors
 
 ```{r}
-st2 <- phylo2p(st2)
+s2 <- phylo2p(s2)
 ```
 
 Now we simulate a complete tree (extinct+extans species) based on the observed tree (extant species only) 
 
 ```{r, warning=FALSE}
-st3 <- rec_tree(wt=st2$t)
+s3 <- rec_tree(wt=s2$t)
 ```
 
 and we observe the calculated weight for this tree
 
 ```{r}
-st3$weight
+s3$weight
 ```
 
-it seems very small, we can see also the values of $f$ and $g$ to have an idea of the order of them 
-
-```{r}
-st3$f_n
-st3$prob
-```
-
+it seems very small
 
 This is a random process, if we do it again we end with another complete-tree and its corresponding weight, we do it for 30 iterations just to have an idea of the variability of the weight
 
 
 ```{r, warning=FALSE} 
+w=0
 for(i in 1:100){
-st3 <- rec_tree(wt=st2$t)
-print(st3$weight)
+st3 <- rec_tree(wt=s2$t)
+w[i] = st3$weight 
 }
+print(w)
 ```
-So, a first observation, <span style="color:red">  THE VALUES of g anf f ARE REALLY SMALL AND VARIES A LOT WITH DIFFERENT TREES. That is amaking a lot of numerical inestabilities. </span>
+
+```{r}
+w = w - max(w)
+print(w)
+w = exp(w)
+print(w)
+```
+
+So, a first observation, <span style="color:red">  the values of w are really small and varies a lot. That is amaking a lot of numerical inestabilities. </span>
 
 
+
+```{r, warning=FALSE} 
+boxplot(w)
+summary(w)
+```
+
+<span style="color:red">  we can also see how few trees has almost the whole weight and defines the outcome  </span>
+
+
+
+```{r, warning=FALSE} 
+#print(w/max(w))
+```
 ***
 
+now the same but with the second way
+
+```{r, warning=FALSE}
+s3 <- rec_tree(wt=s2$t,v2=T)
+```
+
+and we observe the calculated weight for this tree
+
+```{r}
+s3$weight
+```
+
+it seems very small
+
+This is a random process, if we do it again we end with another complete-tree and its corresponding weight, we do it for 30 iterations just to have an idea of the variability of the weight
 
 
-#### More code
-In case is useful, the function used to simulate the extinct part of the recontructe tree is the one below
+```{r, warning=FALSE} 
+w=0
+for(i in 1:100){
+st3 <- rec_tree(wt=s2$t,v2=T)
+w[i] = st3$weight 
+}
+print(w)
+```
+
+```{r}
+w = w - max(w)
+print(w)
+w = exp(w)
+print(w)
+```
+
+So, a first observation, <span style="color:red">  the values of w are really small and varies a lot. That is amaking a lot of numerical inestabilities. </span>
+
+```{r, warning=FALSE} 
+boxplot(w)
+summary(w)
+```
+
+<span style="color:red">  we can also see how few trees has almost the whole weight and defines the outcome  </span>
+
+we try dividing by the max, but it does not changes 
+
+```{r, warning=FALSE}
+#boxplot(w/max(w))
+#summary(w/max(w))
+```
 
 
+```{r, warning=FALSE} 
+#print(w/max(w))
+```
 
-
-<!--
-Where, in the case of  $f_{\theta^*} (+_i | D)  = \prod_i P_{ms_i}$, and $P_{ms_i}$ corresponds to the probability for the missing species number $i$. That is 
-
-$$ P_{ms_i} = \displaystyle\underbrace{\left(\sum \lambda\right)_{i} e^{-t_i(\sum \lambda)_i} \frac{1}{n_i}}_{speciation} \displaystyle\underbrace{\frac{\mu e^{-t_i \mu}}{1-e^{-\mu rT}}}_{extinction} $$
-
-Then, for the case of DD we have 
-
-$$ P_{ms_i} = n_i(\lambda_0-\beta n_i)  e^{-t_i(n_i(\lambda_0-\beta n_i))} \frac{1}{n_i} \frac{\mu e^{-t_i^{ext} \mu}}{1-e^{-\mu(ct-bt_i)}} $$
- --> 

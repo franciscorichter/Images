@@ -1,0 +1,81 @@
+---
+title: "Computational times"
+author: "F.R.M."
+date: "November 28, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+```
+
+## Reconstruction of trees
+
+We test the time needed to generate reconstructed trees from ```sim_srt```
+
+
+```{r, include=FALSE}
+library(dmea)
+```
+
+```{r}
+sim_srt <- function(tree, pars, parallel=F, n_trees){    # simulate set of reconstructed trees
+  if(parallel){
+    no_cores <- detectCores()- 1 
+    cl <- makeCluster(no_cores)
+    registerDoParallel(cl)
+    trees <- foreach(i = 1:n_trees, combine = list) %dopar% dmea::rec_tree(w=tree$t, pars=pars)
+    stopCluster(cl)
+  }
+  else{
+    trees = vector('list',length=n_trees)
+    for (i in 1:n_trees){
+      rec = dmea::rec_tree(w=tree$t, pars=pars)
+      trees[[i]] = rec
+    }
+  }
+  return(trees)
+}  
+```
+
+Thus, we test the two versions of this function:
+
+1. First for short simulations
+
+```{r}
+st = sim_phyl()
+st2 = dmea::drop.fossil(st$newick)
+st3 = phylo2p(st2)
+
+p=proc.time()
+tt = sim_srt(st3,pars=c(0.8,0.0175,0.1),n_trees=100)
+print(proc.time()-p)
+p=proc.time()
+tt = sim_srt(st3,pars=c(0.8,0.0175,0.1),n_trees=100,parallel=T)
+print(proc.time()-p)
+```
+
+
+2. Then for longer ones
+```{r}
+p=proc.time()
+tt = sim_srt(st3,pars=c(0.8,0.0175,0.1),n_trees=1000)
+print(proc.time()-p)
+p=proc.time()
+tt = sim_srt(st3,pars=c(0.8,0.0175,0.1),n_trees=1000,parallel=T)
+print(proc.time()-p)
+```
+
+
+3. And even longer ones. 
+```{r}
+p=proc.time()
+tt = sim_srt(st3,pars=c(0.8,0.0175,0.1),n_trees=10000)
+print(proc.time()-p)
+p=proc.time()
+tt = sim_srt(st3,pars=c(0.8,0.0175,0.1),n_trees=10000,parallel=T)
+print(proc.time()-p)
+```
+
+
+Conclusion: The parallel option is useful for big amount of simulations only. If we are goung to simulate only 100 trees better use the normal procedure. 

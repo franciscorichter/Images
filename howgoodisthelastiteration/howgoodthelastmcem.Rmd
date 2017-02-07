@@ -12,7 +12,7 @@ knitr::opts_chunk$set(cache=TRUE)
 
 ```{r echo=FALSE, include=FALSE}
 library(dmea)
-
+a=1
 ```
 
 ## A first exercise
@@ -80,16 +80,11 @@ p = proc.time()
 no_cores <- detectCores()- 1 
 cl <- makeCluster(no_cores)
 registerDoParallel(cl)
-
 n_sim = 1000
 n_trees = 10
 MP = matrix(nrow=n_sim,ncol=3)
 RP = matrix(nrow=n_sim,ncol=3)
-
-ests <- foreach(i = 1:n_sim, .combine=data.frame,.packages='dmea') %dopar% {  
-  set.seed(i)
-  sim_est(n_trees=n_trees)
-}
+ests <- foreach(i = 1:n_sim, .combine=data.frame,.packages='dmea') %dopar% sim_est(n_trees=n_trees,seed=i)
 for (i in 1:n_sim){
   RP[i,] = ests[,(2*i-1)]
   MP[i,] = ests[,2*i]
@@ -114,15 +109,13 @@ no_cores <- detectCores()- 1
 cl <- makeCluster(no_cores)
 registerDoParallel(cl)
 
-n_sim = 1000
+n_sim = 100
 n_trees = 100
 MP2 = matrix(nrow=n_sim,ncol=3)
 RP2 = matrix(nrow=n_sim,ncol=3)
 
-ests <- foreach(i = 1:n_sim, .combine=data.frame,.packages='dmea') %dopar% {  
-  set.seed(i)
-  sim_est(n_trees=n_trees)
-}
+ests <- foreach(i = 1:n_sim, .combine=data.frame,.packages='dmea') %dopar% sim_est(n_trees=n_trees)
+
 for (i in 1:n_sim){
   RP2[i,] = ests[,(2*i-1)]
   MP2[i,] = ests[,2*i]
@@ -189,10 +182,7 @@ n_trees = 10
 MP = matrix(nrow=n_sim,ncol=3)
 RP = matrix(nrow=n_sim,ncol=3)
 
-ests <- foreach(i = 1:n_sim, .combine=data.frame,.packages='dmea') %dopar% {  
-  set.seed(i)
-  sim_est(n_trees=n_trees, impsam = TRUE)
-}
+ests <- foreach(i = 1:n_sim, .combine=data.frame,.packages='dmea') %dopar% sim_est(n_trees=n_trees, impsam = TRUE)
 for (i in 1:n_sim){
   RP[i,] = ests[,(2*i-1)]
   MP[i,] = ests[,2*i]
@@ -217,15 +207,12 @@ no_cores <- detectCores()- 1
 cl <- makeCluster(no_cores)
 registerDoParallel(cl)
 
-n_sim = 1000
-n_trees = 10
+n_sim = 100
+n_trees = 100
 MP2 = matrix(nrow=n_sim,ncol=3)
 RP2 = matrix(nrow=n_sim,ncol=3)
 
-ests <- foreach(i = 1:n_sim, .combine=data.frame,.packages='dmea') %dopar% {  
-  set.seed(i)
-  sim_est(n_trees=n_trees,impsam=TRUE)
-}
+ests <- foreach(i = 1:n_sim, .combine=data.frame,.packages='dmea') %dopar% sim_est(n_trees=n_trees,impsam=TRUE,seed=i)
 for (i in 1:n_sim){
   RP2[i,] = ests[,(2*i-1)]
   MP2[i,] = ests[,2*i]

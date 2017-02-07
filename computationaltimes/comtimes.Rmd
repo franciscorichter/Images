@@ -6,7 +6,11 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(cache=TRUE)
+```
+
+```{r echo=FALSE, include=FALSE}
+library(dmea)
 ```
 
 ## How long it takes to generate a set of trees?
@@ -25,5 +29,106 @@ n_trees = 100
 pars = c(0.8,0.0175,0.1)
 p = proc.time()
 S = sim_srt(wt=wt, pars=pars, parallel=F, n_trees=n_trees)
+print(proc.time()-p)
+```
+
+```{r}
+p = proc.time()
+pars = subplex(par = pars, fn = llik_st , setoftrees = S)
+print(proc.time()-p)
+```
+
+
+For 1000 trees?
+
+```{r}
+library(dmea)
+set.seed(128)
+s = sim_phyl()
+#plot(s$newick)
+s2 = drop.fossil(s$newick)
+s2 = phylo2p(s2)
+wt = s2$t
+n_trees = 1000
+pars = c(0.8,0.0175,0.1)
+p = proc.time()
+S = sim_srt(wt=wt, pars=pars, parallel=F, n_trees=n_trees)
+print(proc.time()-p)
+```
+
+```{r}
+p = proc.time()
+pars = subplex(par = pars, fn = llik_st , setoftrees = S)
+print(proc.time()-p)
+```
+
+
+For 1000 parallel?
+
+```{r}
+library(dmea)
+set.seed(128)
+s = sim_phyl()
+#plot(s$newick)
+s2 = drop.fossil(s$newick)
+s2 = phylo2p(s2)
+wt = s2$t
+n_trees = 1000
+pars = c(0.8,0.0175,0.1)
+p = proc.time()
+S = sim_srt(wt=wt, pars=pars, parallel=T, n_trees=n_trees)
+print(proc.time()-p)
+```
+
+```{r}
+p = proc.time()
+pars = subplex(par = pars, fn = llik_st , setoftrees = S)
+print(proc.time()-p)
+```
+
+For 10000 trees?
+
+```{r}
+library(dmea)
+set.seed(128)
+s = sim_phyl()
+#plot(s$newick)
+s2 = drop.fossil(s$newick)
+s2 = phylo2p(s2)
+wt = s2$t
+n_trees = 10000
+pars = c(0.8,0.0175,0.1)
+p = proc.time()
+S = sim_srt(wt=wt, pars=pars, parallel=F, n_trees=n_trees)
+print(proc.time()-p)
+```
+
+```{r}
+p = proc.time()
+pars = subplex(par = pars, fn = llik_st , setoftrees = S)
+print(proc.time()-p)
+```
+
+
+For 10000 parallel?
+
+```{r}
+library(dmea)
+set.seed(128)
+s = sim_phyl()
+#plot(s$newick)
+s2 = drop.fossil(s$newick)
+s2 = phylo2p(s2)
+wt = s2$t
+n_trees = 10000
+pars = c(0.8,0.0175,0.1)
+p = proc.time()
+S = sim_srt(wt=wt, pars=pars, parallel=T, n_trees=n_trees)
+print(proc.time()-p)
+```
+
+```{r}
+p = proc.time()
+pars = subplex(par = pars, fn = llik_st , setoftrees = S)
 print(proc.time()-p)
 ```

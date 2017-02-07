@@ -1,0 +1,38 @@
+---
+title: "Dendroica"
+output: html_document
+---
+
+````{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+```
+
+```{r echo=FALSE, include=FALSE,cache=FALSE}
+library(dmea)
+```
+
+
+## Dendroica estimations for diversity-dependence model 
+
+```{r}
+setwd("~/Dropbox/Code/dmea/dat4")
+dendroica =  read.csv(file = 'Dendroica_branchtimes.csv',header = F,sep = ',')
+dendroica = rev(as.numeric(matrix(dendroica)))
+bt = diff(dendroica )
+init_pars = c(1,0.03,0.2)
+pars=init_pars
+
+EM_phylo(wt=bt,init_par = pars,n_trees=300,tol=0.01,parallel = T)
+```
+
+## Foraminifera estimations for diversity-dependence model 
+
+```{r}
+setwd("~/Dropbox/Code/dmea/dat4")
+foraminifera = read.csv(file='foraminifera_branchtimes.csv',header=F,sep=',')
+foraminifera = rev(as.numeric(matrix(foraminifera)))
+bt = diff(foraminifera)
+pars=init_pars
+
+EM_phylo(wt=bt,init_par = pars,n_trees=300,tol=0.01,parallel = T)
+```

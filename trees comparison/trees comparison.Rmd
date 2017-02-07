@@ -1,0 +1,61 @@
+---
+title: "Trees comparison"
+output: html_document
+---
+
+````{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+```
+
+```{r echo=FALSE, include=FALSE,cache=FALSE}
+library(dmea)
+library(reshape2)
+```
+
+
+
+
+```{r}
+
+s <- sim_phyl()
+plot(s$newick)
+p <- subplex(par = c(8,0.175,0.9),fn = llik,n = s$n, E = s$E, t = s$t)
+pa=c(p$par[1],p$par[2],p$par[3])
+dropex <- drop.fossil(s$newick)
+plot(dropex)
+s2 <- phylo2p(tree=dropex)
+
+a = data.frame(t=seq(0,15,by=0.1))
+a[[2]] = approx(cumsum(s$t),s$n,xou=seq(0,15,by=0.1))$y
+n_it = 100
+estimations=F
+if(estimations) P = matrix(nrow=n_it,ncol=4)
+S = vector('list',length=n_it)
+for (i in 1:n_it){
+  rt = rec_tree(wt=s2$t,pars=pa)
+  a[[i+2]] = approx(cumsum(rt$wt),rt$n,xou=seq(0,15,by=0.1))$y
+  if(estimations){
+    pars = subplex(par = c(8,0.175,0.9),fn = llik,n = rt$n, E = rt$E, t = rt$t)$par
+    pars2 = c(pars[1],pars[2],pars[3],(pars[1]-pars[3])/pars[2])
+    P[i,] = pars2}
+  S[[i]] = rt
+}
+
+melted = melt(a, id.vars="t")
+p <- ggplot(data=melted, aes(x=t, y=value, group=variable)) + geom_line() + ylab('# Lineages') + xlab('Time') + geom_line(data=melted[melted$variable=='V2',],aes(x=t, y=value),color='blue') +ggtitle('(mle)')#  + geom_line(data=data.frame(t=seq(0,15,by=0.1),variable="mean",value=rowMeans(AA, na.rm = TRUE, dims = 1)),aes(x=t, y=value),color='green')
+print(p)
+```
+
+
+```{r}
+la amabilidad la tengo, tu podrias tener la minima sensibilidad para agradecerla... pero ya me rendi, algun dia la vida te va a mostrar que todas las cosas que para ti son obvias tenerlas en realidad son lujos, y te va a ensenar a agradecer tener salud, comida, y la vida en general... a las buenas o a las malas...
+
+y si, podria hacerlo como lo hago, pero te equivocas cuando me dices que no me cuesta nada... pero bueno es mas de lo mismo, es imposible que entiendas el valor de las cosas...
+
+... y si, era broma y con amor, no he fumado hoy de hecho, la bolsa esta igual que ayer, era solo parte de tirar la talla con mi companera... pero siempre te las arreglas para mostrarme que de companera tienes muy poco...
+
+
+
+...en fin... estube todo el dia queriendo ir a verte, tirar la talla, abrazarte, compartir... pero ahora
+
+```

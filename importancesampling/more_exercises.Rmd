@@ -6,7 +6,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(cache = FALSE)
+knitr::opts_chunk$set(cache = TRUE)
 library(dmea)
 ```
 
@@ -37,104 +37,30 @@ The following are just simples exercises that helps on understanding the relatio
 We would like to see the relationship between the importance weight and the extinctions on a tree. To do that, given an observed tree we reconstruct 100 (extinct included) complete trees.  
 
 ```{r, warning=FALSE}
+
 num_miss = NULL
 imp_scal = NULL
-g = NULL
-f = NULL
-st = sim_phyl()
+#g = NULL
+#f = NULL
+seed=2
+st = sim_phyl(seed=seed)
 extant = phylo2p(drop.fossil(st$newick))
-for(i in 1:100){
-  rec = rec_tree(wt=extant$t)
-  imp_scal[i] = rec$weight
-  num_miss[i] = (length(rec$wt)-length(extant$t))/2
-  g[i] = rec$prob
-  f[i] = rec$f_n
+pars=c(0.8,0.0175,0.1)
+S = sim_srt(wt=extant$t, pars=pars, parallel=T, n_trees=1000)
+for(i in 1:1000){
+  imp_scal[i] = S[[i]]$weight
+  #num_miss[i] = (length(rec$wt)-length(extant$t))/2
+  #g[i] = rec$prob
+  #f[i] = rec$f_n
 }
-plot(num_miss,log(imp_scal))
+#plot(num_miss,log(imp_scal))
+boxplot(imp_scal)
 ```
 
-```{r lm1}
+```{r}
 imp_scal
+summary(imp_scal)
 #lm(log(imp_scal) ~ num_miss)
 
 ```
 
-Moreover, the number of real missing species is 
-```{r}
-number_missing(st)
-```
-
-
-and the set number of the simulated species are
-```{r}
-summary(num_miss)
-```
-
-the relationship between between f ang g as described [here](http://rpubs.com/franciscorichter/231493)
-
-```{r}
-plot(log(f),log(g))
-```
-
-
-the relationship between f and number of species
-```{r}
-plot(num_miss,log(f))
-```
-
-
-the relationship between g and number of species
-```{r}
-plot(num_miss,log(g))
-```
-
-
-
-***
-
-The plots above are interesting, let's go one step back and see the relationship between the likeihood of a tree and the number of species (extinct and extant)
-
-
-We simulate trees, count number of extinct species and the corresponding -log-likelihood function
-
-```{r}
-
-n_extinct = NULL
-ll = NULL
-sum_spec = NULL
-sum_ext = NULL
-for(i in 1:100){
-  s = sim_phyl(seed=TRUE,seed_val = i)
-  ll[i] = llik(b=c(0.8,0.0175,0.1),n=s$n,E=s$E,t=s$t)
-  n_extinct[i] = number_missing(s)
-  sum_spec[i] = sum(s$E)
-  sum_ext[i] = sum(1-s$E)
-}
-plot(n_extinct,ll)
-```
-
-
-
-```{r}
-lm(ll~n_extinct)
-```
-
-***
-
-(Ernst:) This may be the important missing piece of the puzzle: adding an additional event reduces the likelihood. We need to compare the same number of events (or average the likelihood by the number of events)
-
-
-the -log-likelihood:
-```{r}
-plot(ll/n_extinct)
-```
-
-
-the likelihood:
-```{r}
-plot(exp(ll),exp(n_extinct))
-```
-
-```{r}
-summary(exp(ll))
-```
