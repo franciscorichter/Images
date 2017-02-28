@@ -1,0 +1,231 @@
+---
+title: "reconstruction methods"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+```
+
+```{r echo=FALSE, include=FALSE, cache=FALSE}
+library(dmea)
+```
+
+First we create a phylogeny
+
+```{r, sim1}
+s <- sim_phyl(seed=3)
+s2 <- phylo2p(drop.fossil(s$newick))
+ltt = NULL
+nsim =10000
+for(i in 1:nsim){
+  s3 = p2phylo(rec_tree(wt = s2$wt,rec_method = 1))
+  ltt[i] = ltt_stat(s3,s$newick)
+}
+```
+
+```{r, cache=FALSE, message=F}
+summary(ltt)
+```
+
+```{r, sim2}
+ltt2 = NULL
+nsim =10000
+for(i in 1:nsim){
+  s3 = p2phylo(rec_tree(wt = s2$wt,rec_method = 2))
+  ltt2[i] = ltt_stat(s3,s$newick)
+}
+```
+
+```{r, cache=FALSE, message=F}
+summary(ltt2)
+```
+
+
+```{r, sim3}
+ltt3 = NULL
+nsim =10000
+for(i in 1:nsim){
+  s3 = p2phylo(rec_tree(wt = s2$wt,rec_method = 2))
+  ltt3[i] = ltt_stat(s3,s$newick)
+}
+```
+
+```{r, cache=FALSE}
+summary(ltt3)
+```
+
+```{r, cache=FALSE, message=FALSE}
+dat <- data.frame(xx = c(ltt,ltt2,ltt3),yy = rep(c('m1','m2','m3'),each = 10000))
+
+ggplot(dat, aes(x=xx, fill=yy)) + geom_histogram(alpha=0.2, position="identity")
+
+```
+
+A new method?
+
+```{r, sim14}
+pars = c(0.8,0.1,40)
+obsPhylo = drop.fossil(s$newick)
+f = cond_exp_ltt(obsPhylo,pars)
+ltt_stat(s$newick,p2phylo(f))
+```
+
+Now for another phylogeny (seed 44)
+
+```{r, sim12}
+s <- sim_phyl(seed=44)
+s2 <- phylo2p(drop.fossil(s$newick))
+ltt = NULL
+nsim =10000
+for(i in 1:nsim){
+  s3 = p2phylo(rec_tree(wt = s2$wt,rec_method = 1))
+  ltt[i] = ltt_stat(s3,s$newick)
+}
+```
+
+```{r, cache=FALSE}
+summary(ltt)
+```
+
+```{r, sim22}
+ltt2 = NULL
+nsim =10000
+for(i in 1:nsim){
+  s3 = p2phylo(rec_tree(wt = s2$wt,rec_method = 2))
+  ltt2[i] = ltt_stat(s3,s$newick)
+}
+```
+
+```{r, cache=FALSE}
+summary(ltt2)
+```
+
+
+```{r, sim32}
+ltt3 = NULL
+nsim =10000
+for(i in 1:nsim){
+  s3 = p2phylo(rec_tree(wt = s2$wt,rec_method = 2))
+  ltt3[i] = ltt_stat(s3,s$newick)
+}
+```
+
+```{r, cache=FALSE}
+summary(ltt3)
+```
+
+```{r, cache=FALSE, message=FALSE}
+dat <- data.frame(xx = c(ltt,ltt2,ltt3),yy = rep(c('m1','m2','m3'),each = 10000))
+
+ggplot(dat, aes(x=xx, fill=yy)) + geom_histogram(alpha=0.2, position="identity")
+
+```
+
+A new method?
+
+```{r, sim24}
+pars = c(0.8,0.1,40)
+obsPhylo = drop.fossil(s$newick)
+f = cond_exp_ltt(obsPhylo,pars)
+ltt_stat(s$newick,p2phylo(f))
+```
+
+Now for another phylogeny (seed 234)
+
+```{r, sim13}
+s <- sim_phyl(seed=234)
+s2 <- phylo2p(drop.fossil(s$newick))
+ltt = NULL
+nsim =10000
+for(i in 1:nsim){
+  s3 = p2phylo(rec_tree(wt = s2$wt,rec_method = 1))
+  ltt[i] = ltt_stat(s3,s$newick)
+}
+```
+
+```{r, cache=FALSE}
+summary(ltt)
+```
+
+```{r, sim23}
+ltt2 = NULL
+nsim =10000
+for(i in 1:nsim){
+  s3 = p2phylo(rec_tree(wt = s2$wt,rec_method = 2))
+  ltt2[i] = ltt_stat(s3,s$newick)
+}
+```
+
+```{r, cache=FALSE}
+summary(ltt2)
+```
+
+
+```{r, sim33}
+ltt3 = NULL
+nsim =10000
+for(i in 1:nsim){
+  s3 = p2phylo(rec_tree(wt = s2$wt,rec_method = 2))
+  ltt3[i] = ltt_stat(s3,s$newick)
+}
+```
+
+```{r, cache=FALSE}
+summary(ltt3)
+```
+
+
+```{r, cache=FALSE, message=FALSE}
+dat <- data.frame(xx = c(ltt,ltt2,ltt3),yy = rep(c('m1','m2','m3'),each = 10000))
+
+ggplot(dat, aes(x=xx, fill=yy)) + geom_histogram(alpha=0.2, position="identity")
+
+```
+
+
+A new method?
+
+```{r, sim44}
+pars = c(0.8,0.1,40)
+obsPhylo = drop.fossil(s$newick)
+f = cond_exp_ltt(obsPhylo,pars)
+ltt_stat(s$newick,p2phylo(f))
+```
+
+
+simulations?
+
+```{r, sim442}
+pars = c(0.8,0.1,40)
+obsPhylo = drop.fossil(s$newick)
+f = cond_exp_ltt(obsPhylo,pars,n_it=1000)
+ltt_stat(s$newick,p2phylo(f))
+```
+
+random?
+
+```{r, sim443}
+pars = c(0.8,0.1,40)
+obsPhylo = drop.fossil(s$newick)
+f = cond_exp_ltt(obsPhylo,pars,n_it=100)
+ltt_stat(s$newick,p2phylo(f))
+```
+
+more simulations?
+
+```{r, sim444}
+ltt4 = NULL
+pars = c(0.8,0.1,40)
+obsPhylo = drop.fossil(s$newick)
+for(j in 1:10){
+  f = cond_exp_ltt(obsPhylo,pars,n_it=100)
+  ltt4[j] = ltt_stat(s$newick,p2phylo(f))
+}
+ltt4
+  
+
+
+```

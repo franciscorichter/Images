@@ -1,0 +1,78 @@
+---
+title: 'The method #4'
+output: html_document
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=FALSE)
+```
+
+```{r echo=FALSE, include=FALSE, cache=FALSE}
+library(dmea)
+```
+
+
+
+```{r}
+s <- sim_phyl(seed=234)
+plot(s$newick)
+pars = c(0.8,0.1,40)
+p = subplex(par = pars, fn = llik, n = s$n, E = s$E, t = s$wt)
+p1 = c(p$par[1],p$par[2],p$par[3])
+obsPhylo = drop.fossil(s$newick)
+f = cond_exp_ltt(obsPhylo,pars)
+p <- subplex(par = pars, fn = llik, n = f$n, E = f$E, t = f$wt)
+p2 = c(p$par[1],p$par[2],p$par[3])
+p1
+p2
+ltt_stat(s$newick,p2phylo(f))
+plot(p2phylo(f))
+
+```
+
+
+```{r}
+s <- sim_phyl(seed=234)
+pars = c(0.8,0.1,40)
+p = subplex(par = pars, fn = llik, n = s$n, E = s$E, t = s$wt)
+p1 = c(p$par[1],p$par[2],p$par[3])
+obsPhylo = drop.fossil(s$newick)
+f = cond_exp_ltt(obsPhylo,pars)
+p <- subplex(par = pars, fn = llik, n = f$n, E = f$E, t = f$wt)
+p2 = c(p$par[1],p$par[2],p$par[3])
+p1
+p2
+ltt_stat(s$newick,p2phylo(f))
+plot(p2phylo(f))
+```
+
+
+```{r}
+l = proc.time()
+n_it = 1000
+p1=matrix(nrow=n_it,ncol = 3)
+p2=matrix(nrow=n_it,ncol = 3)
+ltt = NULL
+for(i in 1:n_it){
+  s <- sim_phyl(seed=i)
+  pars = c(0.8,0.1,40)
+  p = subplex(par = pars, fn = llik, n = s$n, E = s$E, t = s$wt)
+  p1[i,] = c(p$par[1],p$par[2],p$par[3])
+  s2 <- drop.fossil(s$newick)
+  f = cond_exp_ltt(obsPhylo=s2, pars, n_it = 100)
+  p <- subplex(par = pars, fn = llik, n = f$n, E = f$E, t = f$wt)
+  p2[i,] = c(p$par[1],p$par[2],p$par[3])
+  ltt[i] = ltt_stat(s$newick,p2phylo(f))
+}
+proc.time()-l
+#ltt
+#p1
+#p2
+
+```
+
+```{r}
+par_est_vis(P=p2,par=1,PR=p1)
+par_est_vis(P=p2,par=2,PR=p1)
+par_est_vis(P=p2,par=3,PR=p1)
+qplot(ltt, geom="histogram")
+```

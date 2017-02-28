@@ -19,8 +19,8 @@ library(reshape2)
 
 s <- sim_phyl()
 plot(s$newick)
-p <- subplex(par = c(8,0.175,0.9),fn = llik,n = s$n, E = s$E, t = s$t)
-pa=c(p$par[1],p$par[2],p$par[3])
+#p <- subplex(par = c(8,0.175,0.9),fn = llik,n = s$n, E = s$E, t = s$t)
+#pa=c(p$par[1],p$par[2],p$par[3])
 dropex <- drop.fossil(s$newick)
 plot(dropex)
 s2 <- phylo2p(tree=dropex)
@@ -48,14 +48,40 @@ print(p)
 
 
 ```{r}
-la amabilidad la tengo, tu podrias tener la minima sensibilidad para agradecerla... pero ya me rendi, algun dia la vida te va a mostrar que todas las cosas que para ti son obvias tenerlas en realidad son lujos, y te va a ensenar a agradecer tener salud, comida, y la vida en general... a las buenas o a las malas...
+#make it a function
+a = data.frame(t=seq(0,15,by=0.1))
+a[[2]] = approx(cumsum(s$t),s$n,xou=seq(0,15,by=0.1))$y
+n_it = 100
+for (i in 1:n_it){
+  s = sim_phyl()
+  a[[i+2]] = approx(cumsum(s$t),s$n,xou=seq(0,15,by=0.1))$y
+}
+a[is.na(a)]=0
+b = rowMeans(a[,-1])
+c = data.frame(t=a[,1],species=b)
+qplot(data=c,x=t,y=species)
+```
 
-y si, podria hacerlo como lo hago, pero te equivocas cuando me dices que no me cuesta nada... pero bueno es mas de lo mismo, es imposible que entiendas el valor de las cosas...
-
-... y si, era broma y con amor, no he fumado hoy de hecho, la bolsa esta igual que ayer, era solo parte de tirar la talla con mi companera... pero siempre te las arreglas para mostrarme que de companera tienes muy poco...
 
 
+another interestin way of comparison is using the nLTT package:
 
-...en fin... estube todo el dia queriendo ir a verte, tirar la talla, abrazarte, compartir... pero ahora
+```{r}
+library(nLTT)
+data(exampleTrees);
+obs <- exampleTrees[[1]];
+nltt_plot(obs);
+# Obtain the nLTT values
+dt <- 0.01
+phylogenies = exampleTrees
+nltt_values <- get_nltt_values(phylogenies, dt = dt)
+# Plot the phylognies, where the individual nLTT values are visible
+qplot(t, nltt, data = nltt_values, geom = "point",
+      ylim = c(0,1),
+      main = "Average nLTT plot of phylogenies", color = id, size = I(0.1)
+) + stat_summary(
+  fun.data = "mean_cl_boot", color = "red", geom = "smooth"
+)
 
+nLTTstat(exampleTrees[[1]], exampleTrees[[2]], distance_method = "abs")
 ```

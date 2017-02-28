@@ -1,0 +1,236 @@
+---
+title: "Reconstructions methods comparison"
+output: html_document
+---
+
+
+````{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+```
+
+```{r echo=FALSE, include=FALSE,cache=FALSE}
+library(dmea)
+library(reshape2)
+library(nLTT)
+```
+
+On this report we aim to compare the two main reconstruction methods and set up a standar tool for comparison for other purposes. 
+
+To do that we consider the following statistics:
+
+* nLTT statistic: Seems to be the most important one in our context
+* Gamma statistic: A value <0 indicates internal nodes close to expected tips on pure-birth model and the other way around
+* Phylogenetic Diversity statistic: Measures the phylogenetic diversity
+
+## Method 1 (standard)
+
+```{r sim1}
+pp=proc.time()
+s = sim_phyl(seed=2)
+s2 = phylo2p(drop.fossil(s$newick))
+n_trees=5000
+phylos=vector('list',length=n_trees)
+nLTT = vector(length=n_trees)
+gam = vector(length=n_trees)
+phylos2=vector('list',length=n_trees)
+nLTT2 = vector(length=n_trees)
+gam2 = vector(length=n_trees)
+dt=0.01
+for(i in 1:n_trees){
+  r = rec_tree(wt=s2$t)
+  r1 = p2phylo(r)
+  phylos[[i]] = read.tree(text=r1)
+  nLTT[i] = nLTTstat(s$newick, phylos[[i]], distance_method = "abs")
+  gam[i] = gammaStat(phylos[[i]])
+  #
+  r = rec_tree(wt=s2$t,rec_method=2)
+  r2 = p2phylo(r)
+  phylos2[[i]] = read.tree(text=r2)
+  nLTT2[i] = nLTTstat(s$newick, phylos2[[i]], distance_method = "abs")
+  gam2[i] = gammaStat(phylos2[[i]])
+}
+nltt_values <- get_nltt_values(phylos, dt = dt)
+# Plot the phylognies, where the individual nLTT values are visible
+qplot(t, nltt, data = nltt_values, geom = "point",
+      ylim = c(0,1),
+      main = "Average nLTT plot of phylogenies", size = I(0.1)
+) + stat_summary(
+  fun.data = "mean_cl_boot", color = "red", geom = "smooth"
+)
+
+dat = data.frame(nltt=c(nLTT,nLTT2),gamma = c(gam,gam2),method=c(rep('method 1',length(nLTT)),rep('method 2',length(nLTT))))
+ggplot(dat, aes(x=nltt, fill=method)) + geom_histogram()
+ggplot(dat, aes(x=gamma, fill=method)) + geom_histogram()
+print(pp-proc.time())
+```
+
+```{r}
+nltt_values <- get_nltt_values(phylos2, dt = dt)
+# Plot the phylognies, where the individual nLTT values are visible
+qplot(t, nltt, data = nltt_values, geom = "point",
+      ylim = c(0,1),
+      main = "Average nLTT plot of phylogenies", size = I(0.1)
+) + stat_summary(
+  fun.data = "mean_cl_boot", color = "red", geom = "smooth"
+)
+```
+
+
+
+```{r sim2}
+s = sim_phyl(seed=2)
+s2 = phylo2p(drop.fossil(s$newick))
+n_trees=5000
+phylos=vector('list',length=n_trees)
+nLTT = vector(length=n_trees)
+gam = vector(length=n_trees)
+phylos2=vector('list',length=n_trees)
+nLTT2 = vector(length=n_trees)
+gam2 = vector(length=n_trees)
+dt=0.001
+for(i in 1:n_trees){
+  r = rec_tree(wt=s2$t)
+  r1 = p2phylo(r)
+  phylos[[i]] = read.tree(text=r1)
+  nLTT[i] = nLTTstat(s$newick, phylos[[i]], distance_method = "abs")
+  gam[i] = gammaStat(phylos[[i]])
+  #
+  r = rec_tree(wt=s2$t,rec_method=2)
+  r2 = p2phylo(r)
+  phylos2[[i]] = read.tree(text=r2)
+  nLTT2[i] = nLTTstat(s$newick, phylos2[[i]], distance_method = "abs")
+  gam2[i] = gammaStat(phylos2[[i]])
+}
+nltt_values <- get_nltt_values(phylos, dt = dt)
+# Plot the phylognies, where the individual nLTT values are visible
+qplot(t, nltt, data = nltt_values, geom = "point",
+      ylim = c(0,1),
+      main = "Average nLTT plot of phylogenies", size = I(0.1)
+) + stat_summary(
+  fun.data = "mean_cl_boot", color = "red", geom = "smooth"
+)
+
+dat = data.frame(x=c(nLTT,nLTT2),method=c(rep('method 1',length(nLTT)),rep('method 2',length(nLTT))))
+ggplot(dat, aes(x=x, fill=method)) + geom_histogram(alpha=0.2, position="identity")
+
+```
+
+```{r}
+nltt_values <- get_nltt_values(phylos2, dt = dt)
+# Plot the phylognies, where the individual nLTT values are visible
+qplot(t, nltt, data = nltt_values, geom = "point",
+      ylim = c(0,1),
+      main = "Average nLTT plot of phylogenies", size = I(0.1)
+) + stat_summary(
+  fun.data = "mean_cl_boot", color = "red", geom = "smooth"
+)
+```
+
+```{r}
+dat = data.frame(nltt=c(nLTT,nLTT2),gamma = c(gam,gam2),method=c(rep('method 1',length(nLTT)),rep('method 2',length(nLTT))))
+ggplot(dat, aes(x=nltt, fill=method)) + geom_histogram(alpha=0.5)
+ggplot(dat, aes(x=gamma, fill=method)) + geom_histogram(alpha=0.3)
+ggplot(dat, aes(x=gamma, fill=method)) + geom_histogram(alpha=0.5, position='identity')
+```
+
+# more sim
+```{r sim3}
+s = sim_phyl(seed=2)
+s2 = phylo2p(drop.fossil(s$newick))
+n_trees=10000
+phylos=vector('list',length=n_trees)
+nLTT = vector(length=n_trees)
+gam = vector(length=n_trees)
+phylos2=vector('list',length=n_trees)
+nLTT2 = vector(length=n_trees)
+gam2 = vector(length=n_trees)
+dt=0.001
+for(i in 1:n_trees){
+  r = rec_tree(wt=s2$t)
+  r1 = p2phylo(r)
+  phylos[[i]] = read.tree(text=r1)
+  nLTT[i] = nLTTstat(s$newick, phylos[[i]], distance_method = "abs")
+  gam[i] = gammaStat(phylos[[i]])
+  #
+  r = rec_tree(wt=s2$t,rec_method=2)
+  r2 = p2phylo(r)
+  phylos2[[i]] = read.tree(text=r2)
+  nLTT2[i] = nLTTstat(s$newick, phylos2[[i]], distance_method = "abs")
+  gam2[i] = gammaStat(phylos2[[i]])
+}
+nltt_values <- get_nltt_values(phylos, dt = dt)
+# Plot the phylognies, where the individual nLTT values are visible
+qplot(t, nltt, data = nltt_values, geom = "point",
+      ylim = c(0,1),
+      main = "Average nLTT plot of phylogenies", size = I(0.1)
+) + stat_summary(
+  fun.data = "mean_cl_boot", color = "red", geom = "smooth"
+)
+
+dat = data.frame(x=c(nLTT,nLTT2),method=c(rep('method 1',length(nLTT)),rep('method 2',length(nLTT))))
+ggplot(dat, aes(x=x, fill=method)) + geom_histogram(alpha=0.2, position="identity")
+
+```
+
+
+```{r}
+nltt_values <- get_nltt_values(phylos2, dt = dt)
+# Plot the phylognies, where the individual nLTT values are visible
+qplot(t, nltt, data = nltt_values, geom = "point",
+      ylim = c(0,1),
+      main = "Average nLTT plot of phylogenies", size = I(0.1)
+) + stat_summary(
+  fun.data = "mean_cl_boot", color = "red", geom = "smooth"
+)
+```
+
+# more sim
+```{r sim4}
+pp = proc.time()
+s = sim_phyl(seed=2)
+s2 = phylo2p(drop.fossil(s$newick))
+n_trees=1000
+phylos=vector('list',length=n_trees)
+nLTT = vector(length=n_trees)
+gam = vector(length=n_trees)
+phylos2=vector('list',length=n_trees)
+nLTT2 = vector(length=n_trees)
+gam2 = vector(length=n_trees)
+dt=0.0001
+for(i in 1:n_trees){
+  r = rec_tree(wt=s2$t)
+  r1 = p2phylo(r)
+  phylos[[i]] = read.tree(text=r1)
+  nLTT[i] = nLTTstat(s$newick, phylos[[i]], distance_method = "abs")
+  gam[i] = gammaStat(phylos[[i]])
+  #
+  r = rec_tree(wt=s2$t,rec_method=2)
+  r2 = p2phylo(r)
+  phylos2[[i]] = read.tree(text=r2)
+  nLTT2[i] = nLTTstat(s$newick, phylos2[[i]], distance_method = "abs")
+  gam2[i] = gammaStat(phylos2[[i]])
+}
+nltt_values <- get_nltt_values(phylos, dt = dt)
+# Plot the phylognies, where the individual nLTT values are visible
+qplot(t, nltt, data = nltt_values, geom = "point",
+      ylim = c(0,1),
+      main = "Average nLTT plot of phylogenies", size = I(0.1)
+) + stat_summary(
+  fun.data = "mean_cl_boot", color = "red", geom = "smooth"
+)
+
+dat = data.frame(x=c(nLTT,nLTT2),method=c(rep('method 1',length(nLTT)),rep('method 2',length(nLTT))))
+ggplot(dat, aes(x=x, fill=method)) + geom_histogram(alpha=0.2, position="identity")
+print(proc.time()-pp)
+```
+
+```{r}
+nltt_values <- get_nltt_values(phylos2, dt = dt)
+# Plot the phylognies, where the individual nLTT values are visible
+qplot(t, nltt, data = nltt_values, geom = "point",
+      ylim = c(0,1),
+      main = "Average nLTT plot of phylogenies", size = I(0.1)
+) + stat_summary(
+  fun.data = "mean_cl_boot", color = "red", geom = "smooth"
+)
+```

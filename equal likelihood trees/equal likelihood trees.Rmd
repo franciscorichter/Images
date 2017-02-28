@@ -1,0 +1,156 @@
+---
+title: "equal likelihood trees"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dmea)
+```
+
+
+
+```{r}
+st <- sim_phyl(ct=5)
+plot(st$newick,root.edge = T)
+axisPhylo(backward = F,root.time = st$t[1])
+
+```
+
+
+
+First, to warm up, we plot a simple tree
+```{r echo=FALSE, include=FALSE}
+library(dmea)
+```
+
+```{r}
+obs = '((AB:1,AA:1):1,AC:2):1;'
+#library(ape)
+obs = read.tree(text=obs)
+is.rooted(obs)
+is.ultrametric(obs)
+plot(obs,show.tip.label = T, root.edge = TRUE)
+axisPhylo(backward = F,root.time = 1)
+branching.times(obs)
+```
+
+Then a longer one
+
+```{r}
+# complete/incomplete trees
+comp = '((AB:1,(AA:0.6,AD:0.3):0.4):1,((AE:0.6,AF:0.8):0.2,AC:1.5):0.5):1;'
+comp= read.tree(text = comp)
+is.rooted(comp)
+is.ultrametric(comp)
+plot(comp,show.tip.label = T, root.edge = TRUE)
+axisPhylo(backward = F,root.time = 1)
+branching.times(comp)
+```
+
+
+Then we drop extinxt species
+
+```{r}
+incomp = drop.fossil(comp)
+write.tree(incomp)
+is.rooted(incomp)
+is.ultrametric(incomp)
+plot(incomp,show.tip.label = T, root.edge = TRUE)
+axisPhylo(backward = F,root.time = 1)
+branching.times(incomp)
+```
+
+Now we would like to be able to add an extinct species
+
+```{r}
+in_dmea = phylo2p(incomp)
+in_dmea$wt
+in_dmea$E
+in_dmea$n
+ph2 <- update_tree(in_dmea,t_spe=0.5,t_ext = 1.5)
+ph2o = p2phylo(ph2)
+plot(ph2o,root.edge=T)
+axisPhylo(backward = F,root.time = 0.5)
+ltt.plot.coords(ph2o)
+```
+
+now we would like to see equivalent trees
+
+```{r}
+ph2e = p2phylo(ph2)
+plot(ph2e,root.edge=T)
+axisPhylo(backward = F,root.time = 0.5)
+ltt.plot.coords(ph2e)
+ph2e = p2phylo(ph2)
+plot(ph2e,root.edge=T)
+axisPhylo(backward = F,root.time = 0.5)
+ltt.plot.coords(ph2e)
+ph2e = p2phylo(ph2)
+plot(ph2e,root.edge=T)
+axisPhylo(backward = F,root.time = 0.5)
+ltt.plot.coords(ph2e)
+plot(ph2e,root.edge=T)
+axisPhylo(backward = F,root.time = 0.5)
+ltt.plot.coords(ph2e)
+ph2e = p2phylo(ph2)
+plot(ph2e,root.edge=T)
+axisPhylo(backward = F,root.time = 0.5)
+ltt.plot.coords(ph2e)
+```
+
+```{r}
+s = sim_phyl(ct=6)
+plot(s$newick)
+p = phylo2p(s$newick)
+p$E == s$E
+p$wt == s$t
+#p$wt
+#s$t
+p$n == s$n
+s2 = p2phylo(p)
+plot(s2)
+```
+
+voilà!, we found two things:
+
+1. This algorithm does not label species in a general way yet, but only to models where all species has same probability to speciate.
+2. We found a nice way to ilustrate 'equivalent' trees. 
+
+```{r}
+s = sim_phyl(ct=4)
+plot(s$newick)
+s2=p2phylo(phylo2p(s$newick))
+plot(s2)
+ltt.plot.coords(s2)
+nLTTstat(s2,s$newick)
+s2=p2phylo(phylo2p(s$newick))
+plot(s2)
+ltt.plot.coords(s2)
+nLTTstat(s2,s$newick)
+s2=p2phylo(phylo2p(s$newick))
+plot(s2)
+ltt.plot.coords(s2)
+nLTTstat(s2,s$newick)
+s2=p2phylo(phylo2p(s$newick))
+plot(s2)
+ltt.plot.coords(s2)
+nLTTstat(s2,s$newick)
+s2=p2phylo(phylo2p(s$newick))
+plot(s2)
+ltt.plot.coords(s2)
+nLTTstat(s2,s$newick)
+s2=p2phylo(phylo2p(s$newick))
+plot(s2)
+ltt.plot.coords(s2)
+nLTTstat(s2,s$newick)
+s2=p2phylo(phylo2p(s$newick))
+plot(s2)
+branching.times(s2)
+nLTTstat(s2,s$newick)
+plot(s$newick)
+ltt.plot.coords(s2)
+```
+
+* Why the branching times are different ??
+* Why on those cases the nLTT > 0 ??

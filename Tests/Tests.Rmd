@@ -1,6 +1,8 @@
 ---
 title: "Tests"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -38,12 +40,6 @@ missing
 First, to warm up, we plot a simple tree
 ```{r echo=FALSE, include=FALSE}
 library(dmea)
-drop.fossil <- function (phy, tol = 1e-08) 
-{
-    n <- Ntip(phy)
-    x <- dist.nodes(phy)[n + 1, ][1:n]
-    drop.tip(phy,root.edge = T ,which(x < max(x) - tol))
-}
 ```
 
 ```{r}
@@ -81,20 +77,10 @@ Now we would like to be able to add an extinct species
 
 ```{r}
 in_dmea = phylo2p(incomp)
-in_dmea$t
+in_dmea$wt
 in_dmea$E
 in_dmea$n
-update_tree(wt=in_dmea$t,t_spe=0.5,t_ext = 1.5 ,E=in_dmea$E,n=in_dmea$n)
-```
-
-Now , after a little modification on the drop.fossil function, it works properly 
-
-```{r}
-in_dmea = phylo2p(obs)
-in_dmea$t
-in_dmea$E
-in_dmea$n
-update_tree(wt=in_dmea$t,t_spe=0.5,t_ext = 1.5 ,E=in_dmea$E,n=in_dmea$n)
+update_tree(in_dmea,t_spe=0.5,t_ext = 1.5)
 ```
 
 ## Create_L
@@ -110,6 +96,62 @@ time$n <- cumsum(time$E)-cumsum(1-time$E)
 all.equal(st$n,time$n)
 all.equal(st$n,cumsum(time$E)-cumsum(1-time$E))
 all.equal(c(0,st$br),c(time$brtimes,15))
-
-
 ```
+
+## p2phylo
+
+```{r}
+s = sim_phyl(ct=6)
+plot(s$newick)
+p = phylo2p(s$newick)
+p$E == s$E
+p$wt == s$t
+#p$wt
+#s$t
+p$n == s$n
+s2 = p2phylo(p)
+plot(s2)
+```
+
+voilà!, we found two things:
+
+1. This algorithm does not label species in a general way yet, but only to models where all species has same probability to speciate.
+2. We found a nice way to ilustrate 'equivalent' trees. 
+
+```{r}
+s = sim_phyl(ct=2)
+plot(s$newick)
+s2=p2phylo(phylo2p(s$newick))
+plot(s2)
+branching.times(s2)
+nLTTstat(s2,s$newick)
+s2=p2phylo(phylo2p(s$newick))
+plot(s2)
+branching.times(s2)
+nLTTstat(s2,s$newick)
+s2=p2phylo(phylo2p(s$newick))
+plot(s2)
+branching.times(s2)
+nLTTstat(s2,s$newick)
+s2=p2phylo(phylo2p(s$newick))
+plot(s2)
+branching.times(s2)
+nLTTstat(s2,s$newick)
+s2=p2phylo(phylo2p(s$newick))
+plot(s2)
+branching.times(s2)
+nLTTstat(s2,s$newick)
+s2=p2phylo(phylo2p(s$newick))
+plot(s2)
+branching.times(s2)
+nLTTstat(s2,s$newick)
+s2=p2phylo(phylo2p(s$newick))
+plot(s2)
+branching.times(s2)
+nLTTstat(s2,s$newick)
+plot(s$newick)
+branching.times(s$newick)
+```
+
+* Why the branching times are different ??
+* Why on those cases the nLTT > 0 ??

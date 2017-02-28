@@ -1,0 +1,377 @@
+---
+title: "The complete phylogenetic tree"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+```
+
+```{r echo=FALSE, include=FALSE, cache=FALSE}
+library(dmea)
+```
+
+```{r, sim1X}
+
+n_sim = 100
+p=matrix(ncol=3,nrow=n_sim)
+for(i in 1:n_sim){
+  s = sim_phyl()
+  pars = c(8,1,70)
+  p[i,] = subplex(par = pars, fn = llik, n = s$n, E = s$E, t = s$wt)$par
+}
+```
+
+```{r, message=F}
+qplot(p[,1], geom="histogram") 
+summary(p[,1])
+qplot(p[,2], geom="histogram") 
+summary(p[,2])
+qplot(p[p[,3]<80,3], geom="histogram") 
+summary(p[,3])
+length(p[p[,3]<80,3])
+```
+
+and if I start closer to the solution?
+
+```{r, sim1X2}
+
+n_sim = 100
+p=matrix(ncol=3,nrow=n_sim)
+for(i in 1:n_sim){
+  s = sim_phyl()
+  pars = c(0.9,0.2,50)
+  p[i,] = subplex(par = pars, fn = llik, n = s$n, E = s$E, t = s$wt)$par
+}
+```
+
+```{r, message=F}
+qplot(p[,1], geom="histogram") 
+summary(p[,1])
+qplot(p[,2], geom="histogram") 
+summary(p[,2])
+qplot(p[p[,3]<80,3], geom="histogram") 
+summary(p[,3])
+```
+
+
+now with different parameters
+
+```{r, sim1X3}
+
+n_sim = 100
+p=matrix(ncol=3,nrow=n_sim)
+for(i in 1:n_sim){
+  s = sim_phyl(mu0 = 0.2)
+  pars = pars = c(8,1,70)
+  p[i,] = subplex(par = pars, fn = llik, n = s$n, E = s$E, t = s$wt)$par
+}
+```
+
+```{r, message=F}
+qplot(p[,1], geom="histogram") 
+summary(p[,1])
+qplot(p[,2], geom="histogram") 
+summary(p[,2])
+qplot(p[p[,3]<80,3], geom="histogram") 
+summary(p[,3])
+```
+
+
+```{r, sim1X4}
+
+n_sim = 100
+p=matrix(ncol=3,nrow=n_sim)
+for(i in 1:n_sim){
+  s = sim_phyl(mu0 = 0.4)
+  pars = pars = c(8,1,70)
+  p[i,] = subplex(par = pars, fn = llik, n = s$n, E = s$E, t = s$wt)$par
+}
+```
+
+```{r, message=F}
+qplot(p[,1], geom="histogram") 
+summary(p[,1])
+qplot(p[,2], geom="histogram") 
+summary(p[,2])
+qplot(p[p[,3]<80,3], geom="histogram") 
+summary(p[,3])
+```
+
+
+```{r, sim1X5}
+
+n_sim = 100
+p=matrix(ncol=3,nrow=n_sim)
+for(i in 1:n_sim){
+  s = sim_phyl(mu0 = 0)
+  pars = pars = c(8,1,70)
+  p[i,] = subplex(par = pars, fn = llik, n = s$n, E = s$E, t = s$wt)$par
+}
+```
+
+```{r, message=F}
+qplot(p[,1], geom="histogram") 
+summary(p[,1])
+qplot(p[,2], geom="histogram") 
+summary(p[,2])
+qplot(p[p[,3]<80,3], geom="histogram") 
+summary(p[,3])
+```
+
+
+***
+
+Crown age = 10. Note that we have to drop mall trees now
+
+```{r, sim1Y}
+
+n_sim = 100
+p=matrix(ncol=3,nrow=n_sim)
+k=0
+for(i in 1:n_sim){
+  s = sim_phyl(ct = 10)
+  if(s$newick$Nnode>5){
+    pars = c(8,1,70)
+    p[i,] = subplex(par = pars, fn = llik, n = s$n, E = s$E, t = s$wt)$par
+  }
+  else{
+    i = i-1
+    k=k+1}
+}
+k
+```
+
+```{r, message=F}
+qplot(p[,1], geom="histogram") 
+summary(p[,1])
+qplot(p[,2], geom="histogram") 
+summary(p[,2])
+qplot(p[p[,3]<80,3], geom="histogram") 
+summary(p[,3])
+length(p[p[,3]<80,3])
+```
+
+
+now with different parameters
+
+```{r, sim1Y3}
+
+n_sim = 100
+p=matrix(ncol=3,nrow=n_sim)
+k= 0
+for(i in 1:n_sim){
+  s = sim_phyl(mu0 = 0.2, ct = 10)
+  if(s$newick$Nnode>5){
+    pars = c(8,1,70)
+    p[i,] = subplex(par = pars, fn = llik, n = s$n, E = s$E, t = s$wt)$par
+  }
+  else{
+    i = i-1
+    k=k+1}
+}
+k
+```
+
+```{r, message=F}
+qplot(p[,1], geom="histogram") 
+summary(p[,1])
+qplot(p[,2], geom="histogram") 
+summary(p[,2])
+qplot(p[p[,3]<80,3], geom="histogram") 
+summary(p[,3])
+```
+
+
+```{r, sim1Y4}
+
+n_sim = 100
+p=matrix(ncol=3,nrow=n_sim)
+k=0
+for(i in 1:n_sim){
+  s = sim_phyl(mu0 = 0.4, ct = 10)
+   if(s$newick$Nnode>15){
+    pars = c(8,1,70)
+    p[i-k,] = subplex(par = pars, fn = llik, n = s$n, E = s$E, t = s$wt)$par
+  }
+  else{
+    k=k+1}
+}
+k
+```
+
+```{r, message=F}
+qplot(p[,1], geom="histogram") 
+summary(p[,1])
+qplot(p[,2], geom="histogram") 
+summary(p[,2])
+qplot(p[p[,3]<80,3], geom="histogram") 
+summary(p[,3])
+```
+
+
+```{r, sim1Y5}
+
+n_sim = 100
+p=matrix(ncol=3,nrow=n_sim)
+k=0
+for(i in 1:n_sim){
+  s = sim_phyl(mu0 = 0,ct = 10)
+   if(s$newick$Nnode>5){
+    pars = c(8,1,70)
+    p[i,] = subplex(par = pars, fn = llik, n = s$n, E = s$E, t = s$wt)$par
+  }
+  else{
+    i = i-1
+    k=k+1}
+}
+k
+```
+
+```{r, message=F}
+qplot(p[,1], geom="histogram") 
+summary(p[,1])
+qplot(p[,2], geom="histogram") 
+summary(p[,2])
+qplot(p[p[,3]<80,3], geom="histogram") 
+summary(p[,3])
+```
+
+
+
+***
+
+Crown age = 4. Note that we have to drop mall trees now
+
+```{r, sim1Z}
+
+n_sim = 100
+p=matrix(ncol=3,nrow=n_sim)
+k=0
+for(i in 1:n_sim){
+  s = sim_phyl(ct = 5)
+  if(s$newick$Nnode>5){
+    pars = c(8,1,70)
+    p[i,] = subplex(par = pars, fn = llik, n = s$n, E = s$E, t = s$wt)$par
+  }
+  else{
+    i = i-1
+    k=k+1}
+}
+k
+```
+
+```{r, message=F}
+qplot(p[,1], geom="histogram") 
+summary(p[,1])
+qplot(p[,2], geom="histogram") 
+summary(p[,2])
+qplot(p[p[,3]<80,3], geom="histogram") 
+summary(p[,3])
+length(p[p[,3]<80,3])
+```
+
+
+now with different parameters
+
+```{r, sim1Z3}
+
+n_sim = 100
+p=matrix(ncol=3,nrow=n_sim)
+k= 0
+for(i in 1:n_sim){
+  s = sim_phyl(mu0 = 0.2, ct = 5)
+  if(s$newick$Nnode>5){
+    pars = c(8,1,70)
+    p[i,] = subplex(par = pars, fn = llik, n = s$n, E = s$E, t = s$wt)$par
+  }
+  else{
+    i = i-1
+    k=k+1}
+}
+k
+```
+
+```{r, message=F}
+qplot(p[,1], geom="histogram") 
+summary(p[,1])
+qplot(p[,2], geom="histogram") 
+summary(p[,2])
+qplot(p[p[,3]<80,3], geom="histogram") 
+summary(p[,3])
+```
+
+## this one has many issues normally (mu=0.4) and with small crown age is too difficult
+```{r, sim1Z4, eval=FALSE}
+n_sim = 100
+p=matrix(ncol=3,nrow=n_sim)
+k=0
+while(i < n_sim){
+  s = sim_phyl(mu0 = 0.4, ct = 5,seed=i)
+   if(s$newick$Nnode>3){
+    pars = c(8,1,70)
+    p[i,] = subplex(par = pars, fn = llik, n = s$n, E = s$E, t = s$wt)$par
+    i=i+1
+  }
+  else{
+    k=k+1}
+}
+k
+```
+
+
+```{r, sim1Z4e, eval=FALSE}
+n_sim = 100
+p=matrix(ncol=3,nrow=n_sim)
+k=0
+g=0
+for(i in 1:n_sim){
+  s = sim_phyl(mu0 = 0.4, ct = 5,seed=i)
+   if(s$newick$Nnode>5){
+    g = g+1
+  }
+  else{
+    k=k+1}
+}
+k
+g
+```
+
+
+```{r, message=F, eval=F}
+qplot(p[,1], geom="histogram") 
+summary(p[,1])
+qplot(p[,2], geom="histogram") 
+summary(p[,2])
+qplot(p[p[,3]<80,3], geom="histogram") 
+summary(p[,3])
+```
+
+
+```{r, sim1Z5, eval=F}
+
+n_sim = 100
+p=matrix(ncol=3,nrow=n_sim)
+k=0
+for(i in 1:n_sim){
+  s = sim_phyl(mu0 = 0,ct = 5)
+   if(s$newick$Nnode>5){
+    pars = c(8,1,70)
+    p[i,] = subplex(par = pars, fn = llik, n = s$n, E = s$E, t = s$wt)$par
+  }
+  else{
+    i = i-1
+    k=k+1}
+}
+k
+```
+
+```{r, message=F, eval=F}
+qplot(p[,1], geom="histogram") 
+summary(p[,1])
+qplot(p[,2], geom="histogram") 
+summary(p[,2])
+qplot(p[p[,3]<80,3], geom="histogram") 
+summary(p[,3])
+```
+

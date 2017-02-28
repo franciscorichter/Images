@@ -1,0 +1,147 @@
+---
+title: "The complete phylogenetic tree"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+```
+
+```{r echo=FALSE, include=FALSE, cache=FALSE}
+library(dmea)
+```
+
+```{r, sim1X}
+
+n_sim = 10000
+p=matrix(ncol=3,nrow=n_sim)
+for(i in 1:n_sim){
+  s = sim_phyl()
+  pars = c(8,1,70)
+  p[i,] = subplex(par = pars, fn = llik, n = s$n, E = s$E, t = s$wt)$par
+}
+```
+
+```{r, message=F}
+qplot(p[,1], geom="histogram") 
+summary(p[,1])
+qplot(p[,2], geom="histogram") 
+summary(p[,2])
+qplot(p[p[,3]<80,3], geom="histogram") 
+summary(p[,3])
+length(p[p[,3]<60,3])
+```
+
+
+if we do it for 100 sumulations only? (like the paper)
+
+```{r, sim1X100}
+
+n_sim = 100
+p=matrix(ncol=3,nrow=n_sim)
+for(i in 1:n_sim){
+  s = sim_phyl()
+  pars = c(8,1,70)
+  p[i,] = subplex(par = pars, fn = llik, n = s$n, E = s$E, t = s$wt)$par
+}
+```
+
+```{r, message=F}
+qplot(p[,1], geom="histogram") 
+summary(p[,1])
+qplot(p[,2], geom="histogram") 
+summary(p[,2])
+qplot(p[p[,3]<80,3], geom="histogram") 
+summary(p[,3])
+length(p[p[,3]<60,3])
+```
+
+and if I start closer to the solution?
+
+```{r, sim1X2}
+
+n_sim = 10000
+p=matrix(ncol=3,nrow=n_sim)
+for(i in 1:n_sim){
+  s = sim_phyl()
+  pars = c(0.9,0.2,50)
+  p[i,] = subplex(par = pars, fn = llik, n = s$n, E = s$E, t = s$wt)$par
+}
+```
+
+```{r, message=F}
+qplot(p[,1], geom="histogram") 
+summary(p[,1])
+qplot(p[,2], geom="histogram") 
+summary(p[,2])
+qplot(p[p[,3]<60,3], geom="histogram") 
+summary(p[p[,3]<60,3])
+```
+
+
+now with different parameters
+
+```{r, sim1X3}
+
+n_sim = 10000
+p=matrix(ncol=3,nrow=n_sim)
+for(i in 1:n_sim){
+  s = sim_phyl(mu0 = 0.2)
+  pars = c(0.9,0.2,50)
+  p[i,] = subplex(par = pars, fn = llik, n = s$n, E = s$E, t = s$wt)$par
+}
+```
+
+```{r, message=F}
+qplot(p[,1], geom="histogram") 
+summary(p[,1])
+qplot(p[,2], geom="histogram") 
+summary(p[,2])
+qplot(p[p[,3]<60,3], geom="histogram") 
+summary(p[p[,3]<60,3])
+```
+
+
+```{r, sim1X4}
+
+n_sim = 10000
+p=matrix(ncol=3,nrow=n_sim)
+for(i in 1:n_sim){
+  s = sim_phyl(mu0 = 0.4)
+  pars = c(0.9,0.2,50)
+  p[i,] = subplex(par = pars, fn = llik, n = s$n, E = s$E, t = s$wt)$par
+}
+```
+
+```{r, message=F}
+qplot(p[,1], geom="histogram") 
+summary(p[,1])
+qplot(p[,2], geom="histogram") 
+summary(p[,2])
+qplot(p[p[,3]<60,3], geom="histogram") 
+summary(p[p[,3]<60,3])
+```
+
+
+```{r, sim1X5}
+
+n_sim = 10000
+p=matrix(ncol=3,nrow=n_sim)
+for(i in 1:n_sim){
+  s = sim_phyl(mu0 = 0)
+  pars = c(0.9,0.2,50)
+  p[i,] = subplex(par = pars, fn = llik, n = s$n, E = s$E, t = s$wt)$par
+}
+```
+
+```{r, message=F}
+qplot(p[,1], geom="histogram") 
+summary(p[,1])
+qplot(p[,2], geom="histogram") 
+summary(p[,2])
+qplot(p[p[,3]<60,3], geom="histogram") 
+summary(p[p[,3]<60,3])
+```
+
+
+

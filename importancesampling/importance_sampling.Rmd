@@ -1,16 +1,17 @@
 ---
 title: "Importance sampling"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(cache=FALSE)
 ```
 
-```{r echo=FALSE, include=FALSE}
+```{r echo=FALSE, include=FALSE, cache=FALSE}
 library(dmea)
 library(diagram)
-a=1
 ```
 On this report we denote $D$ as the observed-part or extant-species, $+_i$ as the missing-part or extinct-species of the tree and $D^+$ is then the complete phylogenetic tree.  
 
@@ -19,7 +20,7 @@ The EM algorithms consists on two steps. First, we calculate the conditional exp
 
 $$ Q(\theta|\theta^*) = E_{\theta^* } [log P(D^+|\theta) | D] $$
 
-and then we performs the maximization:
+and then we perform the maximization:
 
 $$ \theta ^{**} = argmax_{(\theta)} Q( \theta | \theta ^*) $$
 
@@ -36,7 +37,7 @@ To correct this we re-weigh the approximation of the expectation by importance s
 $$w_i =  \frac{f_{\theta^*} (+_i | D)}{g_{\theta^*}(+_i | D)} = \frac{f_i}{g_i}$$
 
 
-Thus, the montecarlo approximation we are using has the form
+Thus, the montecarlo re-weighted approximation has the form
 
 $$ E_{\theta^* } [log P(D^+|\theta) | D] \approx \frac{1}{N} \sum^{N}_{i=1} log P(D_i^+ | \theta)  \frac{f_i}{g_i}$$
 
@@ -107,8 +108,8 @@ and that is why on the code above the log of the densities is calculated. Consid
 
 ```{r, eval=FALSE}
 f_n = -llik(b=pars,n=n,E=E,t=wt)
-weight = exp(f_n-sum(prob))
-return(list(wt=wt,E=E,n=n,weight=weight,L=L,g=prob,f_n=f_n))
+logweight = f_n-sum(prob)
+return(list(wt=wt,E=E,n=n,weight=logweight,L=L,g=prob,f_n=f_n))
 ```
 
 another way to calculate $g$ is considering the probabilities of not having a new species on the interval $\Delta t_i$
@@ -157,15 +158,13 @@ To have a better idea on how this implementation look like we do some simple obs
 We start simulating a whole tree
 
 ```{r}
-s <- sim_phyl(seed=2)
-plot(s$newick)
+s <- sim_phyl()
 ```  
 
 Them we drop extinct species
 
 ```{r}
 s2 <- drop.fossil(s$newick)
-plot(s2)
 ```
 
 we transform phylo format into branching-times, number of species, and topology vectors
@@ -177,7 +176,7 @@ s2 <- phylo2p(s2)
 Now we simulate a complete tree (extinct+extans species) based on the observed tree (extant species only) 
 
 ```{r, warning=FALSE}
-s3 <- rec_tree(wt=s2$t)
+s3 <- rec_tree(wt=s2$wt)
 ```
 
 and we observe the calculated weight for this tree
@@ -191,44 +190,68 @@ it seems very small
 This is a random process, if we do it again we end with another complete-tree and its corresponding weight, we do it for 30 iterations just to have an idea of the variability of the weight
 
 
-```{r, warning=FALSE} 
+```{r, warning=FALSE, sim1} 
+l = proc.time()
 w=0
-for(i in 1:100){
-st3 <- rec_tree(wt=s2$t)
-w[i] = st3$weight 
+nLTT=0
+n_it = 10000
+st=sim_srt(wt=s2$wt,pars=c(0.8,0.0175,0.1),n_trees = n_it,parallel = TRUE)
+for(i in 1:n_it){
+  st3 = st[[i]]
+  w[i] = st3$weight 
+  rec = p2phylo(st3)
+  nLTT[i] = ltt_stat(s$newick, rec)
 }
-print(w)
+print(proc.time()-l)
+su=summary(w)
+su
+boxplot(w)
+q3 = w>su[5]
+boxplot(w[q3])
 ```
+
+They seems very small to be the logarithm of the weight, we centreate it to avoid numerical issues
 
 ```{r}
 w = w - max(w)
-print(w)
-w = exp(w)
-print(w)
-```
-
-So, a first observation, <span style="color:red">  the values of w are really small and varies a lot. That is amaking a lot of numerical inestabilities. </span>
-
-
-
-```{r, warning=FALSE} 
 boxplot(w)
-summary(w)
+points(rep(1,length(w)),w)
 ```
 
-<span style="color:red">  we can also see how few trees has almost the whole weight and defines the outcome  </span>
+now we would like to check if trees with larger weight are really ''better trees''. To do that we check the nLTT statistic
 
-
-
-```{r, warning=FALSE} 
-#print(w/max(w))
+```{r}
+qplot(w,nLTT)
+qplot(w[q3],nLTT[q3])
 ```
+
+we can see that there is not relationship between the weight and the nLTT statistic. There is clearly something wrong about it. 
+
+Now let´s check the real weights, that is 
+
+```{r}
+w = exp(w)
+qplot(w,nLTT)
+```
+
+```{r}
+phyl = st[[which(w==1)]]
+pars = c(1.6,0.02,0.5)
+subplex(par = pars, fn = llik_st, setoftrees = list(phyl), impsam = F)$par
+subplex(par = pars, fn = llik_st, setoftrees = st, impsam = F)$par
+subplex(par = pars, fn = llik_st, setoftrees = st, impsam = T)$par
+subplex(par = pars, fn = llik_st, setoftrees = list(s), impsam = F)$par
+
+```
+
+
+
 ***
 
 now the same but with the second way
 
 ```{r, warning=FALSE}
-s3 <- rec_tree(wt=s2$t,v2=T)
+s3 <- rec_tree(wt=s2$wt,v2=T)
 ```
 
 and we observe the calculated weight for this tree
@@ -245,7 +268,7 @@ This is a random process, if we do it again we end with another complete-tree an
 ```{r, warning=FALSE} 
 w=0
 for(i in 1:100){
-st3 <- rec_tree(wt=s2$t,v2=T)
+st3 <- rec_tree(wt=s2$wt,v2=T)
 w[i] = st3$weight 
 }
 print(w)
@@ -267,15 +290,4 @@ summary(w)
 
 <span style="color:red">  we can also see how few trees has almost the whole weight and defines the outcome  </span>
 
-we try dividing by the max, but it does not changes 
-
-```{r, warning=FALSE}
-#boxplot(w/max(w))
-#summary(w/max(w))
-```
-
-
-```{r, warning=FALSE} 
-#print(w/max(w))
-```
 
