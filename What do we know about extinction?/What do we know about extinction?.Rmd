@@ -11,7 +11,6 @@ knitr::opts_chunk$set(cache=TRUE)
 
 ```{r echo=FALSE, include=FALSE, cache=FALSE}
 library(dmea)
-library(matrixStats)
 ```
 
 
@@ -405,20 +404,107 @@ qplot(mu0,stat)
 
 that look nice, let´s do it a bit more professional
 
-```{r, lttvsmu}
+```{r, lttvsmu2}
 time=proc.time()
 stat=NULL
 mu0 = seq(0.03,0.35,by=0.01)
 phylo = s$newick.extant
+prior_pars = c(0.8,40)
 for(i in 1:length(mu0)){
   mu = mu0[i]
-  stat[i] = ltt_mu(mu,phylo)
+  stat[i] = ltt_mu(mu,phylo,prior_pars = prior_pars)
 }
 print(proc.time()-time)
 qplot(mu0,stat)
 ```
 
 
+```{r, lttvsmu}
+time=proc.time()
+stat=NULL
+mu0 = seq(0.01,0.35,by=0.01)
+phylo = s$newick.extant
+prior_pars = c(0.8,40)
+for(i in 1:length(mu0)){
+  mu = mu0[i]
+  stat[i] = ltt_mu(mu,phylo,prior_pars = prior_pars,n_trees=50)
+}
+print(proc.time()-time)
+qplot(mu0,stat)
+```
+
+```{r, lttvsmu3}
+time=proc.time()
+stat=NULL
+mu0 = seq(0.01,0.3,by=0.005)
+phylo = s$newick.extant
+prior_pars = c(0.8,40)
+#n_trees = 10
+for(i in 1:length(mu0)){
+  mu = mu0[i]
+  stat[i] = ltt_mu(mu,phylo,prior_pars = prior_pars)
+}
+print(proc.time()-time)
+qplot(mu0,stat)
+```
+```{r, lttvsmu4}
+time=proc.time()
+stat=NULL
+mu0 = seq(0.01,0.3,by=0.001)
+phylo = s$newick.extant
+prior_pars = c(0.8,40)
+#n_trees = 10
+for(i in 1:length(mu0)){
+  mu = mu0[i]
+  stat[i] = ltt_mu(mu,phylo,prior_pars = prior_pars)
+}
+print(proc.time()-time)
+qplot(mu0,stat)
+```
+
+what if we take this min?
+
+```{r}
+mu = mean(mu0[stat < quantile(stat,0.1)])
+mu
+trees = sim_srt(wt=wt,pars = prior_pars,n_trees = n_trees,mu = mu)
+lambda_K = subplex(par =c(2,60), fn = llik_st , setoftrees = trees, mu = mu, impsam = FALSE)$par
+lambda_K
+```
+
+```{r}
+p
+```
+
+
+now... what about a small EM? 
+
+
+```{r, em1}
+pars = c(2,80)
+s = sim_phyl(seed=3)
+stat=NULL
+mu0 = seq(0.01,0.35,by=0.005)
+phylo = s$newick.extant
+wt = (s$newick.extant.p)$wt
+for(i in 1:30){
+  print(pars)
+  stat=NULL
+  for(j in 1:length(mu0)){
+    mu = mu0[j]
+    stat[j] = ltt_mu(mu,phylo,prior_pars = pars)
+  }
+  qplot(mu0,stat,main=paste('iteration',i))
+  mu = mean(mu0[stat < quantile(stat,0.1)])
+  trees = sim_srt(wt=wt,pars = prior_pars,n_trees = n_trees,mu = mu)
+  pars = subplex(par =c(2,60), fn = llik_st , setoftrees = trees, mu = mu, impsam = FALSE)$par
+}
+
+
+```
+
+
+***
 it looks fine, but 10 trees has too much variation, let´s repeat it for 100 trees
 
 
