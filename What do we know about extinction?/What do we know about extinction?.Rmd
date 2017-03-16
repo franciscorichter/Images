@@ -480,7 +480,7 @@ p
 now... what about a small EM? 
 
 
-```{r, em1}
+```{r, em1, eval=FALSE}
 pars = c(2,80)
 s = sim_phyl(seed=3)
 stat=NULL

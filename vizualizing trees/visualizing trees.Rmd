@@ -1,0 +1,37 @@
+---
+title: "visualizing trees"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(dmea)
+```
+
+## Extinct-Extant trees
+
+```{r}
+s = sim_phyl()
+par(mfrow=(c(1,3))) # 1 row but 2 plot panels
+color = 'darkgreen'
+plot(s$newick,direction = 'upwards',show.tip.label=FALSE,edge.width=4,edge.color = color,type="fan", no.margin = TRUE)
+# this arrows are not working yet, just spend 5 minuts and solve it..
+plot(1:10,type="n", yaxt="n",xaxt="n",xlab="", ylab="", bty="n")
+arrows(x0=8, y0=7, x1 = 3, y1 = 7, lwd = 5,col = 'darkblue')
+arrows(x0=3, y0=4, x1 = 8, y1 = 4, lwd = 5,col = 'darkblue')
+dropex <- drop.fossil(s$newick)
+plot(dropex,direction = 'upwards',show.tip.label=FALSE,edge.width=4,edge.color = color,type="fan", no.margin = TRUE)
+```
+
+
+## Something else
+
+```{r}
+s = sim_phyl()
+plot(s$newick)
+axisPhylo()
+mtext(expression(Delta*italic("t")["i"]), side = 1, line = 3)
+mtext(expression(Delta*italic("t")["i"]), side = 2, line = 3)
+mtext(expression(Delta*italic("t")["i"]), side = 1, line = 2)
+mtext(expression(Delta*italic("t")["i"]), at = c(-2,-4))
+```

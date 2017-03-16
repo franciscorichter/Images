@@ -10,3 +10,4 @@ doParallel
 nLTT
 dmea
 matrixStats
+dplyr
