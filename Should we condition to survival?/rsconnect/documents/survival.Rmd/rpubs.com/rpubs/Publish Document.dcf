@@ -1,0 +1,8 @@
+name: Publish Document
+title:
+account: rpubs
+server: rpubs.com
+appId: https://api.rpubs.com/api/v1/document/262967/de2ad2b522b34f808d9759479bbc4b38
+bundleId: https://api.rpubs.com/api/v1/document/262967/de2ad2b522b34f808d9759479bbc4b38
+url: http://rpubs.com/franciscorichter/262967/edit
+when: 1490781082.26331

@@ -173,6 +173,23 @@ llik(pars=c(0.8,0.1,40),n=s$n,E=s$E,t=s$wt,conditionToSurvival = TRUE)</code></p
 <pre class="r"><code>t2 = proc.time()-time
 paste(t2[3],'sec')</code></pre>
 <pre><code>## [1] &quot;0.032 sec&quot;</code></pre>
+<pre class="r"><code>time = proc.time()
+s=sim_phyl()
+t2 = proc.time()-time
+paste(t2[3],'sec')</code></pre>
+<pre><code>## [1] &quot;0.256 sec&quot;</code></pre>
+<pre class="r"><code>time = proc.time()
+llik(pars=c(0.8,0.1,40),n=s$n,E=s$E,t=s$wt)</code></pre>
+<pre><code>## [1] 330.1948</code></pre>
+<pre class="r"><code>t2 = proc.time()-time
+paste(t2[3],'sec')</code></pre>
+<pre><code>## [1] &quot;0.00300000000000011 sec&quot;</code></pre>
+<pre class="r"><code>time = proc.time()
+llik(pars=c(0.8,0.1,40),n=s$n,E=s$E,t=s$wt,conditionToSurvival = TRUE)</code></pre>
+<pre><code>## [1] 330.4473</code></pre>
+<pre class="r"><code>t2 = proc.time()-time
+paste(t2[3],'sec')</code></pre>
+<pre><code>## [1] &quot;0.0349999999999997 sec&quot;</code></pre>
 </div>
 
 

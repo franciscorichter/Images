@@ -76,3 +76,20 @@ t2 = proc.time()-time
 paste(t2[3],'sec')
 
 ```
+
+
+```{r}
+time = proc.time()
+s=sim_phyl()
+t2 = proc.time()-time
+paste(t2[3],'sec')
+time = proc.time()
+llik(pars=c(0.8,0.1,40),n=s$n,E=s$E,t=s$wt)
+t2 = proc.time()-time
+paste(t2[3],'sec')
+time = proc.time()
+llik(pars=c(0.8,0.1,40),n=s$n,E=s$E,t=s$wt,conditionToSurvival = TRUE)
+t2 = proc.time()-time
+paste(t2[3],'sec')
+
+```
