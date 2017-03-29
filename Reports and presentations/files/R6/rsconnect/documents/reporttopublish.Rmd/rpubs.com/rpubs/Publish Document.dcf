@@ -1,0 +1,7 @@
+name: Publish Document
+account: rpubs
+server: rpubs.com
+appId: https://api.rpubs.com/api/v1/document/229941/8dacb5969874470899fe751caadcdf1b
+bundleId: https://api.rpubs.com/api/v1/document/229941/8dacb5969874470899fe751caadcdf1b
+url: http://rpubs.com/franciscorichter/229941
+when: 1480248040.04448

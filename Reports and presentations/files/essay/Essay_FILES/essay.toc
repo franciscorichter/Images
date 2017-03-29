@@ -1,0 +1,24 @@
+\contentsline {chapter}{Contents}{2}{chapter*.1}
+\contentsline {chapter}{\numberline {1}Introduction}{4}{chapter.1}
+\contentsline {chapter}{\numberline {2}Species Diversification}{6}{chapter.2}
+\contentsline {section}{\numberline {2.1}The evolutionary diversification process and the mechanism behind it. Review and Research Questions.}{6}{section.2.1}
+\contentsline {section}{\numberline {2.2}Incomplete Phylogeny trees}{10}{section.2.2}
+\contentsline {chapter}{\numberline {3}Species diversification model}{12}{chapter.3}
+\contentsline {section}{\numberline {3.1}Process}{13}{section.3.1}
+\contentsline {section}{\numberline {3.2}Estimation}{14}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Generalized Linear Models}{14}{subsection.3.2.1}
+\contentsline {subsubsection}{\numberline {3.2.1.1}Iterative Re-Weighed Least Squares algorithm (IRWLS)}{15}{subsubsection.3.2.1.1}
+\contentsline {subsection}{\numberline {3.2.2}Maximun GLM likelihood for phylogenetic trees}{17}{subsection.3.2.2}
+\contentsline {subsubsection}{\numberline {3.2.2.1}Example 1: Diversity-dependence model }{20}{subsubsection.3.2.2.1}
+\contentsline {subsubsection}{\numberline {3.2.2.2}Example 2: Linear model for traits dependence}{22}{subsubsection.3.2.2.2}
+\contentsline {subsection}{\numberline {3.2.3}Incomplete phylogenetic trees. The EM algorithm}{24}{subsection.3.2.3}
+\contentsline {subsection}{\numberline {3.2.4}Automatic selection of variables: differential geometric extension of the least angle regression method.}{25}{subsection.3.2.4}
+\contentsline {chapter}{\numberline {4}Knowledge utilization}{28}{chapter.4}
+\contentsline {section}{\numberline {4.1}Implementation of results}{28}{section.4.1}
+\contentsline {subsection}{\numberline {4.1.1}Software development}{28}{subsection.4.1.1}
+\contentsline {subsection}{\numberline {4.1.2}Application to real data}{28}{subsection.4.1.2}
+\contentsline {section}{\numberline {4.2}Contribution of research to specific fields beyond mathematics, ecology and evolution: Language evolution}{28}{section.4.2}
+\contentsline {section}{\numberline {4.3}Contribution of research to society: Global conservation}{29}{section.4.3}
+\contentsline {section}{\numberline {4.4}Open Access policy}{29}{section.4.4}
+\contentsline {chapter}{\numberline {5}Time Planning}{30}{chapter.5}
+\contentsline {chapter}{Bibliography}{31}{chapter*.6}

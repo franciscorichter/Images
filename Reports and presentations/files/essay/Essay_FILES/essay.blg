@@ -1,0 +1,54 @@
+This is BibTeX, Version 0.99d (TeX Live 2013/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: essay.aux
+A level-1 auxiliary file: introduction.aux
+A level-1 auxiliary file: c2.aux
+A level-1 auxiliary file: c1.aux
+A level-1 auxiliary file: c3.aux
+A level-1 auxiliary file: timeline.aux
+The style file: apalike.bst
+Database file #1: Bibliography.bib
+Warning--empty journal in Bertsekas
+Warning--empty journal in silwood1999evolutionary
+You've used 41 entries,
+            1935 wiz_defined-function locations,
+            735 strings with 10488 characters,
+and the built_in function-call counts, 16250 in all, are:
+= -- 1618
+> -- 611
+< -- 31
++ -- 218
+- -- 200
+* -- 1374
+:= -- 2788
+add.period$ -- 121
+call.type$ -- 41
+change.case$ -- 298
+chr.to.int$ -- 41
+cite$ -- 43
+duplicate$ -- 625
+empty$ -- 1138
+format.name$ -- 265
+if$ -- 3173
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 47
+newline$ -- 206
+num.names$ -- 123
+pop$ -- 250
+preamble$ -- 1
+purify$ -- 304
+quote$ -- 0
+skip$ -- 508
+stack$ -- 0
+substring$ -- 1221
+swap$ -- 98
+text.length$ -- 7
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 234
+warning$ -- 2
+while$ -- 140
+width$ -- 0
+write$ -- 523
+(There were 2 warnings)

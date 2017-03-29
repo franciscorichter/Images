@@ -1,0 +1,235 @@
+\begin{thebibliography}{}
+
+\bibitem[Abbruzzo et~al., 2014]{abbruzzo2014generalized}
+Abbruzzo, A., Vuja{\v{c}}i{\'c}, I., Wit, E., and Mineo, A.~M. (2014).
+\newblock Generalized information criterion for model selection in penalized
+  graphical models.
+\newblock {\em arXiv preprint arXiv:1403.1249}.
+
+\bibitem[Abegaz and Wit, 2013]{abegaz2013sparse}
+Abegaz, F. and Wit, E. (2013).
+\newblock Sparse time series chain graphical models for reconstructing genetic
+  networks.
+\newblock {\em Biostatistics}, page kxt005.
+
+\bibitem[Augugliaro et~al., 2013]{augugliaro2013differential}
+Augugliaro, L., Mineo, A.~M., and Wit, E.~C. (2013).
+\newblock Differential geometric least angle regression: a differential
+  geometric approach to sparse generalized linear models.
+\newblock {\em Journal of the Royal Statistical Society: Series B (Statistical
+  Methodology)}, 75(3):471--498.
+
+\bibitem[Barraclough, 2015]{barraclough2015species}
+Barraclough, T.~G. (2015).
+\newblock How do species interactions affect evolutionary dynamics across whole
+  communities?
+\newblock {\em Annual Review of Ecology, Evolution, and Systematics},
+  46:25--48.
+
+\bibitem[Barraclough et~al., 1998]{barraclough1998revealing}
+Barraclough, T.~G., Vogler, A.~P., and Harvey, P.~H. (1998).
+\newblock Revealing the factors that promote speciation.
+\newblock {\em Philosophical Transactions of the Royal Society of London B:
+  Biological Sciences}, 353(1366):241--249.
+
+\bibitem[Bertsekas, 1999]{Bertsekas}
+Bertsekas, D.~P. (1999).
+\newblock Nonlinear programming.
+
+\bibitem[Casella and Berger, 2002]{casella}
+Casella, G. and Berger, R.~L. (2002).
+\newblock {\em Statistical inference}, volume~2.
+\newblock Duxbury Pacific Grove, CA.
+
+\bibitem[Chivian and Bernstein, 2008]{chivian2008sustaining}
+Chivian, E. and Bernstein, A. (2008).
+\newblock {\em Sustaining life: how human health depends on biodiversity}.
+\newblock Oxford University Press.
+
+\bibitem[Cornell, 2013]{cornell2013regional}
+Cornell, H.~V. (2013).
+\newblock Is regional species diversity bounded or unbounded?
+\newblock {\em Biological Reviews}, 88(1):140--165.
+
+\bibitem[Dempster et~al., 1977]{em}
+Dempster, A.~P., Laird, N.~M., and Rubin, D.~B. (1977).
+\newblock Maximum likelihood from incomplete data via the em algorithm.
+\newblock {\em Journal of the royal statistical society. Series B
+  (methodological)}, pages 1--38.
+
+\bibitem[Dobson and Barnett, 2008]{Dobson2008}
+Dobson, A.~J. and Barnett, A. (2008).
+\newblock {\em An introduction to generalized linear models}.
+\newblock CRC press.
+
+\bibitem[Efron et~al., 2004]{efron2004least}
+Efron, B., Hastie, T., Johnstone, I., Tibshirani, R., et~al. (2004).
+\newblock Least angle regression.
+\newblock {\em The Annals of statistics}, 32(2):407--499.
+
+\bibitem[Etienne et~al., 2011]{etienne2011diversity}
+Etienne, R.~S., Haegeman, B., Stadler, T., Aze, T., Pearson, P.~N., Purvis, A.,
+  and Phillimore, A.~B. (2011).
+\newblock Diversity-dependence brings molecular phylogenies closer to agreement
+  with the fossil record.
+\newblock {\em Proceedings of the Royal Society of London B: Biological
+  Sciences}, page rspb20111439.
+
+\bibitem[Etienne and Rosindell, 2012]{etienne2012prolonging}
+Etienne, R.~S. and Rosindell, J. (2012).
+\newblock Prolonging the past counteracts the pull of the present: protracted
+  speciation can explain observed slowdowns in diversification.
+\newblock {\em Systematic Biology}, 61(2):204--213.
+
+\bibitem[FitzJohn, 2010]{fitzjohn2010quantitative}
+FitzJohn, R.~G. (2010).
+\newblock Quantitative traits and diversification.
+\newblock {\em Systematic biology}, page syq053.
+
+\bibitem[FitzJohn, 2012]{fitzjohn2012diversitree}
+FitzJohn, R.~G. (2012).
+\newblock Diversitree: comparative phylogenetic analyses of diversification in
+  r.
+\newblock {\em Methods in Ecology and Evolution}, 3(6):1084--1092.
+
+\bibitem[FitzJohn et~al., 2009]{fitzjohn2009estimating}
+FitzJohn, R.~G., Maddison, W.~P., and Otto, S.~P. (2009).
+\newblock Estimating trait-dependent speciation and extinction rates from
+  incompletely resolved phylogenies.
+\newblock {\em Systematic biology}, 58(6):595--611.
+
+\bibitem[Friedman et~al., 2002]{friedman2002structural}
+Friedman, N., Ninio, M., Pe'er, I., and Pupko, T. (2002).
+\newblock A structural em algorithm for phylogenetic inference.
+\newblock {\em Journal of Computational Biology}, 9(2):331--353.
+
+\bibitem[Gillman, 2009]{gillman2009introduction}
+Gillman, M. (2009).
+\newblock {\em An introduction to mathematical models in ecology and evolution:
+  time and space}, volume~4.
+\newblock John Wiley \& Sons.
+
+\bibitem[Gittleman and Purvis, 1998]{gittleman1998body}
+Gittleman, J.~L. and Purvis, A. (1998).
+\newblock Body size and species--richness in carnivores and primates.
+\newblock {\em Proceedings of the Royal Society of London B: Biological
+  Sciences}, 265(1391):113--119.
+
+\bibitem[Jetz et~al., 2012]{jetz2012global}
+Jetz, W., Thomas, G., Joy, J., Hartmann, K., and Mooers, A. (2012).
+\newblock The global diversity of birds in space and time.
+\newblock {\em Nature}, 491(7424):444--448.
+
+\bibitem[Kendall, 1948]{kendall1948some}
+Kendall, D.~G. (1948).
+\newblock On some modes of population growth leading to ra fisher's logarithmic
+  series distribution.
+\newblock {\em Biometrika}, 35(1/2):6--15.
+
+\bibitem[Lemey, 2009]{Phyl}
+Lemey, P. (2009).
+\newblock {\em The phylogenetic handbook: a practical approach to phylogenetic
+  analysis and hypothesis testing}.
+\newblock Cambridge University Press.
+
+\bibitem[Maddison et~al., 2007]{maddison2007estimating}
+Maddison, W.~P., Midford, P.~E., and Otto, S.~P. (2007).
+\newblock Estimating a binary character's effect on speciation and extinction.
+\newblock {\em Systematic biology}, 56(5):701--710.
+
+\bibitem[Magallon and Sanderson, 2001]{magallon2001absolute}
+Magallon, S. and Sanderson, M.~J. (2001).
+\newblock Absolute diversification rates in angiosperm clades.
+\newblock {\em Evolution}, 55(9):1762--1780.
+
+\bibitem[McCullagh and Nelder, 1989]{mccullagp.j.a.nelder1989}
+McCullagh, P. and Nelder, J.~A. (1989).
+\newblock {\em Generalized linear models}, volume~37.
+\newblock CRC press.
+
+\bibitem[Moen and Morlon, 2014]{moen2014does}
+Moen, D. and Morlon, H. (2014).
+\newblock Why does diversification slow down?
+\newblock {\em Trends in ecology \& evolution}, 29(4):190--197.
+
+\bibitem[Nee et~al., 1994]{nee1994reconstructed}
+Nee, S., May, R.~M., and Harvey, P.~H. (1994).
+\newblock The reconstructed evolutionary process.
+\newblock {\em Philosophical Transactions of the Royal Society of London B:
+  Biological Sciences}, 344(1309):305--311.
+
+\bibitem[Nelder and Baker, 1972]{nelder}
+Nelder, J.~A. and Baker, R.~J. (1972).
+\newblock Generalized linear models.
+\newblock {\em Encyclopedia of Statistical Sciences}.
+
+\bibitem[Paradis, 2005]{paradis2005statistical}
+Paradis, E. (2005).
+\newblock Statistical analysis of diversification with species traits.
+\newblock {\em Evolution}, 59(1):1--12.
+
+\bibitem[Ricklefs, 2007]{ricklefs2007estimating}
+Ricklefs, R.~E. (2007).
+\newblock Estimating diversification rates from phylogenetic information.
+\newblock {\em Trends in Ecology \& Evolution}, 22(11):601--610.
+
+\bibitem[Rosindell et~al., 2010]{rosindell2010protracted}
+Rosindell, J., Cornell, S.~J., Hubbell, S.~P., and Etienne, R.~S. (2010).
+\newblock Protracted speciation revitalizes the neutral theory of biodiversity.
+\newblock {\em Ecology Letters}, 13(6):716--727.
+
+\bibitem[Scannell et~al., 2006]{multi}
+Scannell, D.~R., Byrne, K.~P., Gordon, J.~L., Wong, S., and Wolfe, K.~H.
+  (2006).
+\newblock Multiple rounds of speciation associated with reciprocal gene loss in
+  polyploid yeasts.
+\newblock {\em Nature}, 440(7082):341--345.
+
+\bibitem[Silwood~Park et~al., 1999]{silwood1999evolutionary}
+Silwood~Park, U., Dytham, C., and Perrin, N. (1999).
+\newblock The evolutionary ecology of dispersal.
+
+\bibitem[Tilman et~al., 2006]{tilman2006biodiversity}
+Tilman, D., Reich, P.~B., and Knops, J.~M. (2006).
+\newblock Biodiversity and ecosystem stability in a decade-long grassland
+  experiment.
+\newblock {\em Nature}, 441(7093):629--632.
+
+\bibitem[{Vujacic} et~al., 2013]{2013arXiv1309.6216V}
+{Vujacic}, I., {Abbruzzo}, A., and {Wit}, E. (2013).
+\newblock {A computationally fast alternative to cross-validation in penalized
+  Gaussian graphical models}.
+\newblock {\em ArXiv e-prints}.
+
+\bibitem[Wake and Vredenburg, 2008]{wake2008we}
+Wake, D.~B. and Vredenburg, V.~T. (2008).
+\newblock Are we in the midst of the sixth mass extinction? a view from the
+  world of amphibians.
+\newblock {\em Proceedings of the National Academy of Sciences}, 105(Supplement
+  1):11466--11473.
+
+\bibitem[Wei and Tanner, 1990]{mcem}
+Wei, G.~C. and Tanner, M.~A. (1990).
+\newblock A monte carlo implementation of the em algorithm and the poor man's
+  data augmentation algorithms.
+\newblock {\em Journal of the American statistical Association},
+  85(411):699--704.
+
+\bibitem[Wiens, 2003]{wiens2003missing}
+Wiens, J.~J. (2003).
+\newblock Missing data, incomplete taxa, and phylogenetic accuracy.
+\newblock {\em Systematic Biology}, 52(4):528--538.
+
+\bibitem[Wit et~al., 2012]{wit2012all}
+Wit, E., Heuvel, E. v.~d., and Romeijn, J.-W. (2012).
+\newblock ‘all models are wrong...’: an introduction to model uncertainty.
+\newblock {\em Statistica Neerlandica}, 66(3):217--236.
+
+\bibitem[Yule, 1925]{yule1925mathematical}
+Yule, G.~U. (1925).
+\newblock A mathematical theory of evolution, based on the conclusions of dr.
+  jc willis, frs.
+\newblock {\em Philosophical Transactions of the Royal Society of London.
+  Series B, Containing Papers of a Biological Character}, 213:21--87.
+
+\end{thebibliography}

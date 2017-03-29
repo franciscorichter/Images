@@ -1,0 +1,604 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Report</title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+<div id="header">
+<h1 class="title">Report</h1>
+</div>
+<h1 id="summary" class="unnumbered">Summary</h1>
+<p>On this report we review the theory behind the diversity-dependence model under the framework described on the introductory essay. In the later section we show results of the algorithm. To materialize this theory we</p>
+<ul>
+<li><p>Write MLE code for diversity-dependence model</p></li>
+<li><p>Paralellize the code</p></li>
+<li><p>Create R package</p></li>
+</ul>
+<h1 id="overview" class="unnumbered">Overview</h1>
+<p>We consider a phylogenetic tree, mathematicaly expressed as a set <span class="math inline"><em>Y</em> = (𝒯, <em>Υ</em>)</span>, where <span class="math inline">𝒯</span> represent the set of branching times <a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>, and <span class="math inline"><em>Υ</em></span> has the information of the topology of the tree. The markov nature of the process means that the likelihood is exaclty the product of the conditional densities <a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>, in other words, the likelihood of the tree is then described as a multiplication of an exponenial distribution and a multinomial distribution</p>
+<p><br /><span class="math display">$$L(\theta | Y) = \displaystyle\prod_{i}^N -\sigma_i(\theta) e^{-\sigma_i(\theta) t_i} \frac{\rho_i(\theta)}{\sigma_i (\theta)}$$</span><br /> thus, the log-likelihood is <br /><span class="math display">$$l(\theta | Y) = \displaystyle\sum_{i}^N -\sigma_i(\theta) t_i + log (\rho_i(\theta))$$</span><br /></p>
+<h2 id="diversity-dependence-model" class="unnumbered">Diversity-dependence model</h2>
+<p>For the simplest diversity-dependence model</p>
+<p><br /><span class="math display">$$\lambda_{i,j} = \lambda_0 - (\lambda_0 - \mu_0)\frac{n_i}{K}, \qquad \mu_n = \mu_0$$</span><br /></p>
+<p>The MLE can be finded partialy analiticaly and partialy numerically. First we consider <span class="math inline"><em>σ</em><sub><em>i</em></sub></span> and <span class="math inline"><em>ρ</em><sub><em>i</em></sub></span></p>
+<p><br /><span class="math display">$$\sigma_i  = \sum_{j=1}^{N}  \lambda_0 - (\lambda_0 - \mu_0)\frac{n_i}{K} + \mu_0 
+         = n_i(\lambda_0 + \mu_0) - n_i^2\beta_0$$</span><br /></p>
+<p>where <span class="math inline">$ \beta_0=\left(\frac{\lambda_0-\mu_0}{K}\right)$</span>, and</p>
+<p><br /><span class="math display"><em>ρ</em><sub><em>i</em></sub> = <em>E</em><sub><em>i</em></sub>(<em>λ</em><sub>0</sub> − <em>n</em><sub><em>i</em></sub><em>β</em><sub>0</sub>)+(1 − <em>E</em><sub><em>i</em></sub>)<em>μ</em><sub>0</sub></span><br /></p>
+<p>Here, <span class="math inline"><em>n</em><sub><em>i</em></sub></span> is defined as the number of species at time <span class="math inline"><em>t</em><sub><em>i</em></sub></span> and <span class="math inline"><em>E</em><sub><em>i</em></sub></span> is a binary vector with <span class="math inline">1</span> if there was an speciation at time <span class="math inline"><em>t</em><sub><em>i</em></sub></span> or <span class="math inline">0</span> is there was an extinction at time <span class="math inline"><em>t</em><sub><em>i</em></sub></span>.</p>
+<p>Thus, seeking for the MLE values, we analyze the thee equations <br /><span class="math display">$$\begin{cases} \frac{\partial l(\lambda,\beta,\mu | Y)}{\partial \lambda} = 0 \\
+                \frac{\partial l(\lambda,\beta,\mu  | Y)}{\partial \beta} = 0 \\
+                \frac{\partial l(\lambda,\beta,\mu  | Y)}{\partial \mu} = 0 
+\end{cases}$$</span><br /></p>
+<p>Firstly, after some algebra, we find a very nice analytical solution for the extinction rate parameter <br /><span class="math display">$$\label{mu}
+ \frac{\partial l(\lambda,\beta,\mu | Y)}{\partial \mu} = 0  \Leftrightarrow \hat{u}_0 = \frac{\displaystyle\sum_{i=1}^N (1-E)}{\displaystyle\sum_{i=1}^N(n_it_i)}$$</span><br /> Moreover, with the other two equations, we have the following system <br /><span class="math display">$$\begin{cases} \displaystyle\sum_{i=1}^N \frac{E_i}{\lambda-n_i\beta} = \displaystyle\sum_{i=1}^N n_i t_i \\ \displaystyle\sum_{i=1}^N \frac{E_in_i}{\lambda-n_i\beta} = \displaystyle\sum_{i=1}^N n^2_i t_i \end{cases}$$</span><br /></p>
+<p>A numerical efficient method to solve this system is described in the appendix.</p>
+<h1 id="algorithm" class="unnumbered">Algorithm</h1>
+<p>Under the previous results, we developed an algorithm able to find accurate solution for the MLE. The algorithm is based on the following formulation.</p>
+<p>Step 1. get <span class="math inline">$\hat{\mu_0}$</span> using eq [mu].<br />
+Step 2. Consider the function</p>
+<p><br /><span class="math display">$$\hat{\beta}(\lambda) = \displaystyle\operatorname*{arg\,max}_{\beta} L(\lambda,\beta,\hat{\mu}_0)$$</span><br /><br />
+Step 3. Calculate the MLE such that,</p>
+<p><br /><span class="math display">$$(\hat{\lambda},\hat{\beta},\hat{\mu}) =  \displaystyle\operatorname*{arg\,max}_{\lambda}L(\lambda,\hat{\beta}(\lambda),\hat{\mu})$$</span><br /></p>
+<p>Two important properties of this algorithm ensures convergence (the writting of the proof is pending):</p>
+<ol>
+<li><p><span class="math inline">$ \hat{\beta}(\lambda)$</span> is a linear function of <span class="math inline"><em>λ</em></span></p></li>
+<li><p><span class="math inline">$\displaystyle\operatorname*{arg\,max}_{\lambda}L(\lambda,\hat{\beta}(\lambda),\hat{\mu})$</span> is a convex funcion of <span class="math inline"><em>λ</em></span>.</p></li>
+</ol>
+<p>This two results ensures the existence of an unique global maximum, which is easily calculated by several classic optimization methods.</p>
+<p>As an example, on figure [hists] we can see the estimations over 1000 simulations of the diversity-dependence process with true values <span class="math inline"><em>λ</em><sub>=</sub>0.8, <em>β</em><sub>0</sub> = 0.0175, <em>μ</em><sub>0</sub> = 0.1, <em>K</em> = 40</span> and crown time <span class="math inline">=15</span>. We can see accurate estimations to the true value.</p>
+<h1 id="results" class="unnumbered">Results</h1>
+<p>On table [alg] we can see the bias and precision of the maximum-likelihood estimates, as shown by the median and the 25th and 75th percentiles of the estimated parameters of 100 simulated datasets. There we can see that the results are quite accurate regarding the real values.<br />
+Morever, on table [ddd] we have the estimated parameters of the diversity-dependence model simulated under the DDD package. Here we can see that the algorithm is even able to capture true values simulated under the DDD framework.</p>
+<table>
+<caption>MLE estimation of 100 simulations. Simulations and estimations are from the algorithm described above.<span data-label="alg"></span></caption>
+<tbody>
+<tr class="odd">
+<td align="center"><span class="math inline"><em>λ</em><sub>0</sub></span></td>
+<td align="center"><span class="math inline"><em>K</em></span></td>
+<td align="center">crown age</td>
+<td align="center"><span class="math inline"><em>μ</em></span></td>
+<td align="center"></td>
+<td align="center"><span class="math inline"><em>λ</em><sub>0</sub></span></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"><span class="math inline"><em>μ</em></span></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"><span class="math inline"><em>K</em></span></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">025th</td>
+<td align="center">50th</td>
+<td align="center">75th</td>
+<td align="center">025th</td>
+<td align="center">50th</td>
+<td align="center">75th</td>
+<td align="center">025th</td>
+<td align="center">50th</td>
+<td align="center">75th</td>
+</tr>
+<tr class="odd">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="center">0.8</td>
+<td align="center">40</td>
+<td align="center">5</td>
+<td align="center">0</td>
+<td align="center">0.71</td>
+<td align="center">0.87</td>
+<td align="center">1.04</td>
+<td align="center">0.00</td>
+<td align="center">0.00</td>
+<td align="center">0.00</td>
+<td align="center">31.20</td>
+<td align="center">39.09</td>
+<td align="center">440.16</td>
+</tr>
+<tr class="odd">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">0.1</td>
+<td align="center">0.76</td>
+<td align="center">0.92</td>
+<td align="center">1.11</td>
+<td align="center">0.07</td>
+<td align="center">0.10</td>
+<td align="center">0.13</td>
+<td align="center">22.23</td>
+<td align="center">32.65</td>
+<td align="center">65.39</td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">0.2</td>
+<td align="center">0.80</td>
+<td align="center">0.96</td>
+<td align="center">1.28</td>
+<td align="center">0.13</td>
+<td align="center">0.19</td>
+<td align="center">0.26</td>
+<td align="center">12.74</td>
+<td align="center">31.76</td>
+<td align="center">83.12</td>
+</tr>
+<tr class="odd">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">0.4</td>
+<td align="center">1.05</td>
+<td align="center">1.23</td>
+<td align="center">1.55</td>
+<td align="center">0.27</td>
+<td align="center">0.36</td>
+<td align="center">0.44</td>
+<td align="center">7.00</td>
+<td align="center">17.61</td>
+<td align="center">30.58</td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">10</td>
+<td align="center">0</td>
+<td align="center">0.68</td>
+<td align="center">0.79</td>
+<td align="center">0.87</td>
+<td align="center">0.00</td>
+<td align="center">0.00</td>
+<td align="center">0.00</td>
+<td align="center">39.63</td>
+<td align="center">40.98</td>
+<td align="center">43.92</td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">0.1</td>
+<td align="center">0.71</td>
+<td align="center">0.86</td>
+<td align="center">0.98</td>
+<td align="center">0.09</td>
+<td align="center">0.10</td>
+<td align="center">0.12</td>
+<td align="center">37.11</td>
+<td align="center">39.52</td>
+<td align="center">42.01</td>
+</tr>
+<tr class="odd">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">0.2</td>
+<td align="center">0.78</td>
+<td align="center">0.91</td>
+<td align="center">1.05</td>
+<td align="center">0.18</td>
+<td align="center">0.20</td>
+<td align="center">0.23</td>
+<td align="center">34.08</td>
+<td align="center">38.13</td>
+<td align="center">43.32</td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">0.4</td>
+<td align="center">0.87</td>
+<td align="center">1.01</td>
+<td align="center">1.20</td>
+<td align="center">0.37</td>
+<td align="center">0.41</td>
+<td align="center">0.46</td>
+<td align="center">18.32</td>
+<td align="center">30.13</td>
+<td align="center">42.13</td>
+</tr>
+<tr class="odd">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">15</td>
+<td align="center">0</td>
+<td align="center">0.69</td>
+<td align="center">0.77</td>
+<td align="center">0.87</td>
+<td align="center">0.00</td>
+<td align="center">0.00</td>
+<td align="center">0.00</td>
+<td align="center">39.58</td>
+<td align="center">40.00</td>
+<td align="center">41.03</td>
+</tr>
+<tr class="odd">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">0.1</td>
+<td align="center">0.72</td>
+<td align="center">0.80</td>
+<td align="center">0.91</td>
+<td align="center">0.09</td>
+<td align="center">0.10</td>
+<td align="center">0.11</td>
+<td align="center">38.72</td>
+<td align="center">39.89</td>
+<td align="center">40.98</td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">0.2</td>
+<td align="center">0.78</td>
+<td align="center">0.84</td>
+<td align="center">0.96</td>
+<td align="center">0.18</td>
+<td align="center">0.20</td>
+<td align="center">0.22</td>
+<td align="center">38.29</td>
+<td align="center">40.25</td>
+<td align="center">41.93</td>
+</tr>
+<tr class="odd">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">0.4</td>
+<td align="center">0.79</td>
+<td align="center">0.90</td>
+<td align="center">1.00</td>
+<td align="center">0.38</td>
+<td align="center">0.40</td>
+<td align="center">0.43</td>
+<td align="center">31.40</td>
+<td align="center">37.38</td>
+<td align="center">43.89</td>
+</tr>
+</tbody>
+</table>
+<p><img src="lambda.png" title="fig:" alt="Estimations over 1000 simulations of the diversity-dependence process with true values \lambda_ = 0.8, \beta_0 = 0.0175, \mu_0 = 0.1, K=40 and crown time =15. The black vertical lines shows the real values." /> <img src="beta.png" title="fig:" alt="Estimations over 1000 simulations of the diversity-dependence process with true values \lambda_ = 0.8, \beta_0 = 0.0175, \mu_0 = 0.1, K=40 and crown time =15. The black vertical lines shows the real values." /> <img src="mu.png" title="fig:" alt="Estimations over 1000 simulations of the diversity-dependence process with true values \lambda_ = 0.8, \beta_0 = 0.0175, \mu_0 = 0.1, K=40 and crown time =15. The black vertical lines shows the real values." /> <img src="K.png" title="fig:" alt="Estimations over 1000 simulations of the diversity-dependence process with true values \lambda_ = 0.8, \beta_0 = 0.0175, \mu_0 = 0.1, K=40 and crown time =15. The black vertical lines shows the real values." /> [hists]</p>
+<table>
+<caption>MLE estimation of 100 simulations. Simulations are from the ’DDD’ package and estimation from p1 algorithm.<span data-label="ddd"></span></caption>
+<tbody>
+<tr class="odd">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline"><em>λ</em><sub>0</sub></span></td>
+<td align="center"><span class="math inline"><em>K</em></span></td>
+<td align="center">crown age</td>
+<td align="center"><span class="math inline"><em>μ</em></span></td>
+<td align="center"></td>
+<td align="center"><span class="math inline"><em>λ</em><sub>0</sub></span></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"><span class="math inline"><em>μ</em></span></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"><span class="math inline"><em>K</em></span></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="center">0.8</td>
+<td align="center">40</td>
+<td align="center">5</td>
+<td align="center">0</td>
+<td align="center">0.74</td>
+<td align="center">0.91</td>
+<td align="center">1.11</td>
+<td align="center">0.00</td>
+<td align="center">0.00</td>
+<td align="center">0.00</td>
+<td align="center">34.84</td>
+<td align="center">41.04</td>
+<td align="center">59.34</td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">0.1</td>
+<td align="center">0.94</td>
+<td align="center">1.15</td>
+<td align="center">1.28</td>
+<td align="center">0.08</td>
+<td align="center">0.11</td>
+<td align="center">0.14</td>
+<td align="center">26.57</td>
+<td align="center">32.55</td>
+<td align="center">39.98</td>
+</tr>
+<tr class="odd">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">0.2</td>
+<td align="center">1.03</td>
+<td align="center">1.22</td>
+<td align="center">1.46</td>
+<td align="center">0.17</td>
+<td align="center">0.21</td>
+<td align="center">0.29</td>
+<td align="center">17.06</td>
+<td align="center">27.85</td>
+<td align="center">37.47</td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">0.4</td>
+<td align="center">1.13</td>
+<td align="center">1.43</td>
+<td align="center">1.67</td>
+<td align="center">0.33</td>
+<td align="center">0.42</td>
+<td align="center">0.52</td>
+<td align="center">9.40</td>
+<td align="center">17.52</td>
+<td align="center">27.29</td>
+</tr>
+<tr class="odd">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">10</td>
+<td align="center">0</td>
+<td align="center">0.75</td>
+<td align="center">0.87</td>
+<td align="center">0.98</td>
+<td align="center">0.00</td>
+<td align="center">0.00</td>
+<td align="center">0.00</td>
+<td align="center">38.55</td>
+<td align="center">39.33</td>
+<td align="center">40.35</td>
+</tr>
+<tr class="odd">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">0.1</td>
+<td align="center">0.78</td>
+<td align="center">0.90</td>
+<td align="center">1.05</td>
+<td align="center">0.09</td>
+<td align="center">0.10</td>
+<td align="center">0.12</td>
+<td align="center">37.09</td>
+<td align="center">38.55</td>
+<td align="center">40.33</td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">0.2</td>
+<td align="center">0.86</td>
+<td align="center">0.96</td>
+<td align="center">1.08</td>
+<td align="center">0.19</td>
+<td align="center">0.21</td>
+<td align="center">0.23</td>
+<td align="center">34.47</td>
+<td align="center">37.45</td>
+<td align="center">40.38</td>
+</tr>
+<tr class="odd">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">0.4</td>
+<td align="center">0.96</td>
+<td align="center">1.11</td>
+<td align="center">1.22</td>
+<td align="center">0.38</td>
+<td align="center">0.42</td>
+<td align="center">0.45</td>
+<td align="center">28.11</td>
+<td align="center">33.88</td>
+<td align="center">40.41</td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">15</td>
+<td align="center">0</td>
+<td align="center">0.74</td>
+<td align="center">0.83</td>
+<td align="center">0.96</td>
+<td align="center">0.00</td>
+<td align="center">0.00</td>
+<td align="center">0.00</td>
+<td align="center">38.57</td>
+<td align="center">39.05</td>
+<td align="center">40.00</td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">0.1</td>
+<td align="center">0.80</td>
+<td align="center">0.88</td>
+<td align="center">0.99</td>
+<td align="center">0.09</td>
+<td align="center">0.11</td>
+<td align="center">0.12</td>
+<td align="center">37.57</td>
+<td align="center">38.67</td>
+<td align="center">39.57</td>
+</tr>
+<tr class="odd">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">0.2</td>
+<td align="center">0.88</td>
+<td align="center">0.95</td>
+<td align="center">1.05</td>
+<td align="center">0.20</td>
+<td align="center">0.21</td>
+<td align="center">0.22</td>
+<td align="center">36.98</td>
+<td align="center">38.58</td>
+<td align="center">40.07</td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">0.4</td>
+<td align="center">0.92</td>
+<td align="center">1.03</td>
+<td align="center">1.14</td>
+<td align="center">0.38</td>
+<td align="center">0.41</td>
+<td align="center">0.44</td>
+<td align="center">34.02</td>
+<td align="center">37.45</td>
+<td align="center">41.96</td>
+</tr>
+</tbody>
+</table>
+<h1 id="further-steps-first-ideas-about-mcem-applied-to-incomplete-phylogenies" class="unnumbered">Further steps: First Ideas about MCEM applied to incomplete phylogenies</h1>
+<p>To complete this first example we would like to estimate trees where extinc species are not observable. Bellow is a draft of the pseudo-code, inspired on a montecarlo EM algorithm approach.<br />
+</p>
+<p>[1] Set number of iterations, initial parameters<br />
+simulate a reconstructed phylogenetic tree with algorithm [euclid]<br />
+use the simulated tree to estimate parameters<br />
+average parameters and use it as initial parameters<br />
+</p>
+<p>[1] Load the incomplete phylogenetic tree set <span class="math inline"><em>t</em></span> be the vector of branching times of the incomplete tree<br />
+update <span class="math inline"><em>λ</em></span> and <span class="math inline"><em>μ</em></span> for moment <span class="math inline"><em>t</em><sub><em>i</em></sub></span><br />
+simulate a new branching time <span class="math inline"><em>t</em><sub><em>t</em><em>e</em><em>m</em><em>p</em></sub></span> from <span class="math inline"><em>t</em><sub><em>i</em></sub></span><br />
+simulate the extinction event from exponential distribution with rate <span class="math inline"><em>μ</em><sub><em>i</em></sub></span><br />
+simulate new branching time <span class="math inline"><em>t</em><sub><em>t</em><em>e</em><em>m</em><em>p</em></sub></span> from previous <span class="math inline"><em>t</em><sub><em>t</em><em>e</em><em>m</em><em>p</em></sub></span> and extinction event<br />
+update <span class="math inline"><em>λ</em></span> and <span class="math inline"><em>μ</em></span> for moment <span class="math inline"><em>t</em><sub><em>i</em></sub></span><br />
+update the reconstructed tree<br />
+Reconstructed tree</p>
+<h1 id="appendix" class="unnumbered">Appendix</h1>
+<p>In order to solve the system given by the diversity-dependence set up we consider the following idea,<br />
+Given</p>
+<ul>
+<li><p><span class="math inline"><em>b</em><sub>1</sub>, <em>b</em><sub>2</sub>, …, <em>b</em><sub><em>n</em></sub> ∈ {0, 1}</span></p></li>
+<li><p><span class="math inline">$m_1, m_2, \dots, m_n \in \mathbb N$</span></p></li>
+<li><p><span class="math inline">$c_1, c_2 \in \mathbb R$</span></p></li>
+</ul>
+<p>define</p>
+<p><br /><span class="math display">$$z_i := \dfrac{1}{\lambda - m_i \beta}$$</span><br /></p>
+<p>we have a system of <span class="math inline">2</span> equaions in <span class="math inline">$\mathrm z \in \mathbb R^n$</span></p>
+<p><br /><span class="math display">$$\begin{bmatrix} b_1 &amp; b_2 &amp; \dots &amp; b_n\\ b_1 m_1 &amp; b_2 m_2 &amp; \dots &amp; b_n m_n\end{bmatrix} \begin{bmatrix} z_1\\ z_2\\ \vdots\\ z_n\end{bmatrix} = \begin{bmatrix} c_1\\ c_2\end{bmatrix}$$</span><br /></p>
+<p>or, in a more succinct form, <span class="math inline">$\mathrm A \mathrm z = \mathrm c$</span>. If <span class="math inline"><em>n</em> &gt; 2</span>, this is an underdetermined system whose <span><strong>least-norm</strong></span> solution is</p>
+<p><br /><span class="math display">$$\hat{\mathrm z} := \mathrm A^T (\mathrm A \mathrm A^T)^{-1} \mathrm c$$</span><br /></p>
+<p>If all the entries of <span class="math inline">$\hat{\mathrm z}$</span> are nonzero, then we have an overdetermined system of equations</p>
+<p><br /><span class="math display">$$\begin{array}{rl} x - m_1 y &amp;= \hat z_1^{-1}\\ x - m_2 y &amp;= \hat z_2^{-1}\\ &amp;\vdots \\ x - m_n y &amp;= \hat z_n^{-1}\end{array}$$</span><br /></p>
+<p>Lastly, we compute the <span><strong>least-squares</strong></span> solution <span class="math inline">$(\hat \lambda, \hat \beta)$</span>. If <span class="math inline">$\hat z_i = 0$</span>, then the <span class="math inline"><em>i</em></span>-th equation, whose right-hand side is illegal, is simply discarted.</p>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>that is, <span class="math inline"><em>t</em><sub><em>i</em></sub></span> is described as the minumun time over all possible times any species could take to speciate/extinct after <span class="math inline"><em>t</em><sub><em>i</em> − 1</sub></span><a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>please see the introductory esay for details<a href="#fnref2">↩</a></p></li>
+</ol>
+</div>
+</body>
+</html>

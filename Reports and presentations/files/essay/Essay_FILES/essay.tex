@@ -1,0 +1,282 @@
+\documentclass[letterpaper,12pt]{report} %letterpaper
+%\documentclass[letterpaper,12pt]{article} %letterpaper
+
+%\setcounter{secnumdepth}{0}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{colortbl}
+\usepackage{float}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{calc}  
+\usepackage{enumitem} 
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{tikz}
+\usetikzlibrary{mindmap, shadows}
+\usepackage{metalogo}
+\usepackage{verbatim}
+\usepackage{dsfont}
+
+
+
+
+
+
+\usepackage{xcolor}
+\newcommand\ytl[2]{
+\parbox[b]{18em}{\hfill{\color{cyan}\bfseries\sffamily #1}~$\cdots\cdots$~}\makebox[0pt][c]{$\bullet$}\vrule\quad \parbox[c]{7.5cm}{\vspace{7pt}\color{red!40!black!80}\raggedright\sffamily #2.\\[7pt]}\\[-3pt]}
+
+\makeatletter% Set distance from top of page to first float
+%\setlength{\@fptop}{5pt}
+\makeatother
+
+%\input{spanishAlgorithmic} % mi archivo de traducción
+\definecolor{orange}{rgb}{1,0.5,0}
+\usepackage{hyperref}
+\hypersetup{
+%%%%--- Options for Acrobat
+    bookmarks=true,         % show bookmarks bar?
+    unicode=false,          % non-Latin characters in Acrobat's bookmarks
+    pdftoolbar=true,        % show Acrobat's toolbar?
+    pdfmenubar=true,        % show Acrobat's menu?
+    pdffitwindow=false,     % page fit to window when opened
+%%%%--- PDF informations
+    pdftitle={Introductory Essay},
+    pdfauthor={Francisco Richter}, 
+    pdfsubject={Simultaneous estimation and selection of species diversification models}, 
+    pdfkeywords={},         % list of keywords
+%%%%--- Link option
+    pdfnewwindow=true,      % links in new window
+    colorlinks=true,        % false: boxed links; true: colored links
+    linkcolor=blue,         % color of internal links
+    citecolor=blue,         % color of links to bibliography
+    filecolor=red,         % color of file links
+    urlcolor=gray           % color of external links
+}
+
+%%%%********************************************************************
+% fancy quotes
+\definecolor{quotemark}{gray}{0.7}
+\makeatletter
+\def\fquote{%
+    \@ifnextchar[{\fquote@i}{\fquote@i[]}%]
+           }%
+\def\fquote@i[#1]{%
+    \def\tempa{#1}%
+    \@ifnextchar[{\fquote@ii}{\fquote@ii[]}%]
+                 }%
+\def\fquote@ii[#1]{%
+    \def\tempb{#1}%
+    \@ifnextchar[{\fquote@iii}{\fquote@iii[]}%]
+                      }%
+\def\fquote@iii[#1]{%
+    \def\tempc{#1}%
+    \vspace{1em}%
+    \noindent%
+    \begin{list}{}{%
+         \setlength{\leftmargin}{0.1\textwidth}%
+         \setlength{\rightmargin}{0.1\textwidth}%
+                  }%
+         \item[]%
+         \begin{picture}(0,0)%
+         \put(-15,-5){\makebox(0,0){\scalebox{3}{\textcolor{quotemark}{``}}}}%
+         \end{picture}%
+         \begingroup\itshape}%
+ %%%%********************************************************************
+ \def\endfquote{%
+ \endgroup\par%
+ \makebox[0pt][l]{%
+ \hspace{0.8\textwidth}%
+ \begin{picture}(0,0)(0,0)%
+ \put(15,15){\makebox(0,0){%
+ \scalebox{3}{\color{quotemark}''}}}%
+ \end{picture}}%
+ \ifx\tempa\empty%
+ \else%
+    \ifx\tempc\empty%
+       \hfill\rule{100pt}{0.5pt}\\\mbox{}\hfill\tempa,\ \emph{\tempb}%
+   \else%
+       \hfill\rule{100pt}{0.5pt}\\\mbox{}\hfill\tempa,\ \emph{\tempb},\ \tempc%
+   \fi\fi\par%
+   \vspace{0.5em}%
+ \end{list}%
+ }%
+ 
+ \setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{3}
+\makeatletter
+\newcounter {subsubsubsection}[subsubsection]
+\renewcommand\thesubsubsubsection{\thesubsubsection .\@alph\c@subsubsubsection}
+\newcommand\subsubsubsection{\@startsection{subsubsubsection}{4}{\z@}%
+                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                     {1.5ex \@plus .2ex}%
+                                     {\normalfont\normalsize\bfseries}}
+\newcommand*\l@subsubsubsection{\@dottedtocline{3}{10.0em}{4.1em}}
+\newcommand*{\subsubsubsectionmark}[1]{} 
+ 
+ \makeatother
+ %%%%********************************************************************
+
+
+\textwidth=440pt 
+\textheight=670pt 
+\headheight=1pt
+\topmargin=-1cm
+\DeclareMathAlphabet{\mathcal}{OMS}{cmsy}{m}{n}
+\usepackage{tocbibind}
+\usepackage{theorem}
+%\newtheorem{propo}{{\sc Proposicin}}
+\newcommand{\argmax}{\operatornamewithlimits{argmax}}
+
+
+
+%%%%%%%%%%%%%%%%%%%
+
+
+%%%--- Header & Footer ---%%%
+% 
+% 
+  \usepackage{fancyhdr}
+    \fancyhead[L]{%
+      \begin{picture}(.1,.1)
+        \put(400,-4.7){\includegraphics[width=1.3cm]{Pictures/bird.jpg}}
+      %  \put(0,3.7){\includegraphics[width=0.5cm]{imagenes/estrellas.png}}
+        %\put(10,0){\footnotesize{\leftmark}}
+      \end{picture}}
+    \fancyhead[R]{}
+%%%%-Movie within the Margin
+    \fancyfoot[R]{ 
+%%%-LSO Line at Footrule
+      %\begin{picture}(.1,.1)
+        %\put(-10,-28){\includegraphics[width=0.4cm]{estrella}}
+    %  \end{picture}
+%%%-Small movies :-)
+      \ifthenelse{\thepage > 3}{
+        \ifthenelse{\thepage < 173}{
+          \ifthenelse{\isodd{\thepage}}
+            {}
+            {
+              \ifthenelse{\thepage = 86}
+              {}
+                         }
+        }
+      }
+    }
+    \fancyfoot[C]{\Large \thepage}
+    
+    
+        \renewcommand{\headrulewidth}{0.4pt}
+    \renewcommand{\footrulewidth}{0.4pt}
+    \pagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%
+
+
+
+%\setcounter {section} {2}
+
+
+\begin{document}
+
+\begin{titlepage}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+\center % Center everything on the page
+ 
+%----------------------------------------------------------------------------------------
+%	HEADING SECTIONS
+%----------------------------------------------------------------------------------------
+\includegraphics[scale=0.2]{Pictures/logo.jpg}\\[0.1cm] 
+\textsc{\LARGE University of Groningen}\\[1.5cm] % Name of your university/college
+
+\textsc{\large Johann Bernoulli Institute for Mathematics and Computer Science}\\[0.5cm] % Major heading such as course name
+\textsc{\large Groningen Institute for Evolutionary Life Sciences}\\[0.5cm] % Minor heading such as course title
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\HRule \\[0.4cm]
+{ \huge \bfseries Simultaneous estimation and selection of species diversification models}\\[0.4cm] % Title of your document
+\HRule \\[1.5cm]
+ 
+%----------------------------------------------------------------------------------------
+%	AUTHOR SECTION
+%----------------------------------------------------------------------------------------
+
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Author:}\\
+Francisco Richter % Your name
+\end{flushleft}
+\end{minipage}
+~
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{Supervisors:} \\
+Prof. Dr. Ernst C. Wit\\ % Supervisor's Name
+Prof. Dr. Rampal S. Etienne
+\end{flushright}
+\end{minipage}\\[4cm]
+
+% If you don't want a supervisor, uncomment the two lines below and remove the section above
+%\Large \emph{Author:}\\
+%John \textsc{Smith}\\[3cm] % Your name
+
+%----------------------------------------------------------------------------------------
+%	DATE SECTION
+%----------------------------------------------------------------------------------------
+
+{\large \today}\\[3cm] % Date, change the \today to a set date if you want to be precise
+
+%----------------------------------------------------------------------------------------
+%	LOGO SECTION
+%----------------------------------------------------------------------------------------
+
+% Include a department/university logo - this will require the graphicx package
+ 
+%----------------------------------------------------------------------------------------
+
+%\vfill % Fill the rest of the page with whitespace
+
+\end{titlepage}
+\newpage
+\thispagestyle{empty}
+\mbox{}
+\newpage
+\tableofcontents
+\newpage
+\thispagestyle{empty}
+\mbox{}
+\newpage
+\include{introduction}
+
+\include{c2}
+
+\newpage
+%
+
+
+
+\include{c1}
+\newpage
+
+\include{c3}
+\newpage
+\include{timeline}
+%\thispagestyle{fancy}
+%\mbox{}
+\newpage
+
+\bibliography{Bibliography} 
+%\bibliographystyle{ieeetr}
+\bibliographystyle{apalike}
+
+
+\end{document}
+

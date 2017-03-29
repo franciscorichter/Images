@@ -1,0 +1,97 @@
+\documentclass[a4paper,9pt]{extarticle}
+\usepackage[utf8]{inputenc}
+
+
+\usepackage[a4paper, total={7in, 13in}]{geometry}
+
+
+
+%opening
+\title{}
+\author{}
+
+\begin{document}
+
+\maketitle
+
+%\begin{abstract}
+
+%\end{abstract}
+
+
+\section*{Readings}
+
+\begin{itemize}
+  \item Ecology
+    \begin{itemize}
+      \item Biological modeling: \cite{bulmer} , \cite{hilborn} (data applications).
+      \item Phylogenies and birth-death models: \cite{etienne}, \cite{nee}.
+    \end{itemize}
+ \item Math
+    \begin{itemize}
+      \item Stochastic differential equations modeling: \cite{wilkinson}, \cite{pellin} (applied to cell differentiation). 
+      \item GLM: \cite{dobson}.
+      \item DGlars: \cite{augugliaro}.
+    \end{itemize}
+    
+\end{itemize}
+
+\section*{Some first steps}
+
+  We define \begin{itemize}
+  
+\item  $X_t$: Number of species on time $t$. 
+  
+\item  $\lambda$: Speciation rate.
+  
+\item  $\delta$ : Extinction rate.
+  
+\item  $T_i$: Time when the event $i$ (speciation or extinction) occurs.
+  
+\item  $T^{(\lambda,j)}$: Random variable corresponding to the time when an speciation occurs after the event $j-1$.
+  
+\item  $T^{(\delta,j)}$: Random variable corresponding to the time when an extinction occurs after the event $j-1$.
+
+\end{itemize}
+
+ We assume that $\lambda$ and $\delta$ are constant. We also assume that any species have same probability to speciate 
+ and same probability to get extinct, moreover for any $j \in \{1,2,...,X_{j-1}\}$ we have $$T^{(\lambda,j)} \sim exp(\lambda)$$ and $$T^{(\delta,j)} \sim exp(\delta)$$ then $$T_i \sim exp(X_{T_{i-1}}(\lambda+\delta))$$
+  
+%\subsection*{Some Asumptions}
+
+%\begin{itemize}
+% \item $\lambda$ and $\delta$ are constants.
+% \item All species have same probability to speciate and same probability to get extinct, moreover $T^{(\lambda,j)} \sim exp(\lambda)$ and $T^{(\delta,j)} \sim exp(\delta)$ for all $j$.
+% \end{itemize}
+
+%\subsection*{The first objective}
+
+
+Given the whole phylogenic tree (data), we are interested in estimate $\lambda$ and $\delta$. For that, three methods are sugested: 
+
+\begin{itemize}
+ \item MLE
+ \item Bayesian inference
+ \item Method of moments
+\end{itemize}
+
+%\subsection*{MLE}
+
+
+
+%Note that $T_i = \min $ ...  then $T_i \sim exp(X_{T_{i-1}(\lambda+\delta)})$
+  
+ 
+\begin{thebibliography}{widest entry}
+\bibitem[HilMan]{hilborn} R. Hilborn and M. Mangel. \emph{The Ecological Detective, Confronting models with data}, 1997.
+\bibitem[Bul]{bulmer} M. Bulmer. \emph{Theoretical Evolutionary Ecology}, 1994.
+\bibitem[Wil]{wilkinson}D. J. Wilkinson. \emph{Stochastic Modelling for Systems Biology}, 2006.
+\bibitem[DobBar]{dobson} A. J. Dobson, A.G. Barnett \emph{An Introduction to Generalized Liner Models}, 2008.
+\bibitem[Etienne]{etienne} R. S. Etienne et al. \emph{Diversity-dependence brings molecular phylogenies closer to agreement with the fossil record}, 2011.
+\bibitem[Nee]{nee} S. Nee. \emph{Birth-Death Models in Macroevolution}, 2006.
+\bibitem[Pellin]{pellin} P. Pellin et al. \emph{A stochastic model for cell differentiation, efficient parameters estimation and model selection}, 2016.
+\bibitem[Augugliaro]{augugliaro} L. Augugliaro, A.M. Mineo and E.C Wit. \emph{Differential geometrix least angle regression: a differential geometric approach to sparse generalized models}, 2012.
+
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,22 @@
+---
+title: "How good is the last iteration of the MCEM algorithm?"
+author: "F.R.M."
+date: "November 27, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+In order to analyze the convergence of the proposed MCEM algorithm (add link) we perform the following experiment:
+
+1. Simulate 1000 phylogenetic trees, calculate the complete-tree mle,  and drop extinct species
+2. Reconstruct 100 trees for each observed tree simulated in 1. from the complete-tree mle parameter and calculate the MLE as described here (add link)
+
+To visualize the results on the described simulation we plot, for each parameter, the value of the complete-tree MLE versus the MLE calculated on step 2. 
+
+
+

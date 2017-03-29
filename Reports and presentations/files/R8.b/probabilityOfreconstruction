@@ -1,0 +1,12 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\begin{document}
+\section*{A general distribution for the number of missin species in an interal of observed time}
+
+$$ \lambda_0\lambda_1\cdots\lambda_n\lambda_{n+1}e^{-\lambda_{n+1}t_0} \displaystyle\int_{0}^{t_0} e^{x_0(lambda_{n+1}-\lambda_0}\cdots e^{x_n(lambda_{n+1}-\lambda_n} dx_n $$
+\end{document}

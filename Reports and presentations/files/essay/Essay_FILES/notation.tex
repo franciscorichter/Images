@@ -1,0 +1,20 @@
+\begin{center}
+{\Large \bf Notation}
+\end{center}
+
+
+\begin{description}[leftmargin=!,labelwidth=\widthof{\bfseries The longest label}]
+%\item[$T$] : Time of speciation or extinction (Random Variable).
+\item[$\mathcal{T} = \{t_1,...,t_p\}:$] : Set of branching times.
+\item[$n_i$] : Number of species at time $t_i$.
+\item[$m$] : Number of covariates
+\item[$S_i = \{ s_{i,1},...,s_{i,n_i}\}$] : Set of extant species at time $t_i$.
+\item[$\lambda_{i,j}$] : Speciation rate for specie $s_{i,j}$ (at time $t_i$).
+\item[$\mu_{i,j}$] : Extinction rate for specie $s_{i,j}$ (at time $t_i$).
+\item[$\mathfrak{S} = \{\mathfrak{s}_1,...,\mathfrak{s}_p\}$] : Set of speciated/exctincted species. $\mathfrak{s}_i$ is the speciated/extincted specie at time $t_i$ (note that $\mathfrak{s}_i \in S_i$ as well). 
+\item[$\mathfrak{X} = \{ \mathfrak{x}_1, ..., \mathfrak{x}_n \} $] : Binary vector; $\mathfrak{x}_i =$ "extinction" ($0$) if an extinction occurs at time $t_i$ and $\mathfrak{x}_i =$ "speciation" ($1$) if an speciation occurs at time $t_i$. 
+%\item[$\pi_i$] : $\mathfrak{x}_i$ rate of specie $\mathfrak{s}_i$.  
+\item[$\rho_{i,l}$] : speciation/extinction rate for specie $j$ at time $t_i$, where $l=j$ if speciation, and $l=2n_i+j$ if extinction.
+\item[$x_{i,j,k}$] : $k$-covariate of the specie $j$ at time $t_i$.
+\end{description}
+

@@ -1,0 +1,24 @@
+\BOOKMARK [0][-]{chapter*.1}{Contents}{}% 1
+\BOOKMARK [0][-]{chapter.1}{Introduction}{}% 2
+\BOOKMARK [0][-]{chapter.2}{Species Diversification}{}% 3
+\BOOKMARK [1][-]{section.2.1}{The evolutionary diversification process and the mechanism behind it. Review and Research Questions.}{chapter.2}% 4
+\BOOKMARK [1][-]{section.2.2}{Incomplete Phylogeny trees}{chapter.2}% 5
+\BOOKMARK [0][-]{chapter.3}{Species diversification model}{}% 6
+\BOOKMARK [1][-]{section.3.1}{Process}{chapter.3}% 7
+\BOOKMARK [1][-]{section.3.2}{Estimation}{chapter.3}% 8
+\BOOKMARK [2][-]{subsection.3.2.1}{Generalized Linear Models}{section.3.2}% 9
+\BOOKMARK [3][-]{subsubsection.3.2.1.1}{Iterative Re-Weighed Least Squares algorithm \(IRWLS\)}{subsection.3.2.1}% 10
+\BOOKMARK [2][-]{subsection.3.2.2}{Maximun GLM likelihood for phylogenetic trees}{section.3.2}% 11
+\BOOKMARK [3][-]{subsubsection.3.2.2.1}{Example 1: Diversity-dependence model }{subsection.3.2.2}% 12
+\BOOKMARK [3][-]{subsubsection.3.2.2.2}{Example 2: Linear model for traits dependence}{subsection.3.2.2}% 13
+\BOOKMARK [2][-]{subsection.3.2.3}{Incomplete phylogenetic trees. The EM algorithm}{section.3.2}% 14
+\BOOKMARK [2][-]{subsection.3.2.4}{Automatic selection of variables: differential geometric extension of the least angle regression method.}{section.3.2}% 15
+\BOOKMARK [0][-]{chapter.4}{Knowledge utilization}{}% 16
+\BOOKMARK [1][-]{section.4.1}{Implementation of results}{chapter.4}% 17
+\BOOKMARK [2][-]{subsection.4.1.1}{Software development}{section.4.1}% 18
+\BOOKMARK [2][-]{subsection.4.1.2}{Application to real data}{section.4.1}% 19
+\BOOKMARK [1][-]{section.4.2}{Contribution of research to specific fields beyond mathematics, ecology and evolution: Language evolution}{chapter.4}% 20
+\BOOKMARK [1][-]{section.4.3}{Contribution of research to society: Global conservation}{chapter.4}% 21
+\BOOKMARK [1][-]{section.4.4}{Open Access policy}{chapter.4}% 22
+\BOOKMARK [0][-]{chapter.5}{Time Planning}{}% 23
+\BOOKMARK [0][-]{chapter*.6}{Bibliography}{}% 24

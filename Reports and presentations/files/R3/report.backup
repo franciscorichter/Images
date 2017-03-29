@@ -1,0 +1,233 @@
+\documentclass[a4paper,9pt]{extarticle}
+\usepackage[utf8]{inputenc}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage[]{algorithm2e}
+\usepackage{float}
+\usepackage[caption = false]{subfig}
+\usepackage{graphicx}
+\usepackage[a4paper, total={7in, 10in}]{geometry}
+
+%opening
+\title{}
+\author{}
+
+\begin{document}
+
+\maketitle
+
+%\begin{abstract}
+\section*{Introduction}
+
+In this report we 
+
+\begin{itemize}
+  \item Describe a tree simulation 
+  \item Show results of the MLE fitting to simulated data
+
+
+\end{itemize}
+%\end{abstract}\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\section*{Data Simulation}
+%\begin{center}
+% Einrahmung der Minipage
+%
+% erste Minipage mit einer Breite von 80% der Textbreite
+\begin{minipage}[t]{0.8\textwidth}
+	\begingroup
+	\parfillskip=0pt
+	% zwei weitere Minipages
+	\begin{minipage}[b]{0.47\textwidth}
+	  \begin{itemize}
+	    \item To generate simulated data (phylogenetic tree) we use the model described in the report of 7/12/15.
+	
+	    \item In the pseudo-code we denote $a_j$ as the characteristic value of the specie $j$. $x_i$ is the number of 
+	species on time $t_i$. 
+	
+	    \item We generate the initial $a_1$ from an exponential distribution. After a speciation event we generate the 
+	characteristic number of the new specie randomly from the characteristic number of their antecessor (using a gamma distribution).
+	
+	    \item We set the parameters $\theta$ and $\varphi$ arbitrarily
+	    
+	    \item The R implementation is in the appendix section. 
+	  \end{itemize}
+	
+	\end{minipage}%
+	\hfill
+	\begin{minipage}[b]{0.47\textwidth}
+	\fbox{
+	\begin{algorithm}[H]
+ \KwData{N, $\theta$, $\phi$}
+ \KwResult{Pseudo-code of Phylogenetic tree Simulation (i.e T, X, A)}
+ Initialization\;
+ $a_1= rexp(4)$\;
+ $x_0=1$\;
+ $t_0=0$\;
+ $i=2$\;
+ $\theta = (3,4)$\;
+ $\varphi = (1,2)$\;
+ \While{$i<N$ and $x>0$}{
+  $\beta = e^{\theta_1 + \theta_2 a(t_i)}$\;
+  $\delta = e^{\varphi_1 + \varphi_2 a(t_1)}$\;
+  $S = \sum |\beta| + |\delta| $\;
+  $t_i = rexp(S)$\;
+  $p = (\beta,\delta)/S$\;
+  Sample a Birth-Death event from probability $p$\;
+  From the sample we get an birth or death value, and the corresponding specie $x^*$.
+  \eIf{Death}{
+   $x_t = x_{t-1} - 1$\;
+   remove characteristic number of the extincted specie $x^*$\;
+   }{
+   $x_t = x_{t-1} + 1$\;
+   $ r = rgamma(1,100,100) $\;
+   $a_{new x} = r a_{x^*}$\;
+  % generate characteristic number of new specie multiplying the characteristic number of their antecessor with a random number from rgamma(1,100,100)  
+  }
+ }
+ \caption{Pseudo-code of the Phylogenetic tree simulation}
+\end{algorithm}
+}
+	\end{minipage}%
+	\par\endgroup
+\end{minipage}
+
+%\end{center}
+\newpage
+\section*{Some results}
+
+As a first experiment we simulated 896 phylogenetic trees from same parameters and we performed the MLE 
+procedure described in the report of 7/12/15. 
+
+The table bellow shows the mean, median, max and min of the estimated values. Note that the mean of the estimations does not gives a good estimation 
+of the real values, specially for parameters $\theta_2$ and $\varphi_2$, which have high variance (we can have an idea from the min/max) and extreme values. The 
+median, however, gives a much better estimation of the real parameters. 
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{r|rrrrr}
+  \hline
+  n = 896 & real value & mean & median & min & max \\ 
+  \hline
+$\theta_1$  & 3.00 & 3.05 & {\color{blue}3.03} & 0.39 & 6.00 \\ 
+  $\theta_2$  & 4.00 & 0.61 & {\color{blue}3.85} & -4136.88 & 949.77 \\ 
+  $\phi_1$  & 1.00 & 0.68 & {\color{blue}0.81} & -26.92 & 24.46 \\ 
+  $\phi_2$  & 2.00 & 5.00 & {\color{blue}1.80} & -2712.26 & 2164.94 \\ \hline
+%   $\theta_1$ & 9137 & 3.00 & 3.05 & {\color{blue}3.03} & 0.12 & 6.58 \\ 
+%   $\theta_2$ & 9137 & 4.00 & 0.59 & {\color{blue}3.79} & -6129.01 & 3038.34 \\ 
+%   $\phi_1$ & 9137 & 1.00 & 1.99 & {\color{blue}0.87} & -33.06 & 8901.94 \\ 
+%   $\phi_2$ & 9137 & 2.00 & 0.09 & {\color{blue}1.59} & -18755.83 & 10629.12 \\ 
+%    \hline
+\end{tabular}
+\end{table}
+
+Moreover, plotting the histograms of the estimations we can see bellow some symetry in the estimations;
+the black vertical line corresponds to the real value. This histrograms shows us that the estimations are 
+actually around the real values, the lack of precision on the mean is due to the outliers. 
+
+% \begin{table}[ht]
+% \centering
+% \begin{tabular}{rrrrrrr}
+%   \hline
+%  & n & real value & mean & median & min & max \\ 
+%   \hline
+% 1 & 20420.00 & 3.00 & 3.04 & 3.03 & -0.07 & 6.14 \\ 
+%   2 & 20420.00 & 4.00 & 1.94 & 3.81 & -7241.63 & 11568.35 \\ 
+%   3 & 20420.00 & 1.00 & 1.33 & 0.90 & -268.61 & 4566.41 \\ 
+%   4 & 20420.00 & 2.00 & -1.45 & 1.33 & -14324.20 & 13590.28 \\ 
+%    \hline
+% \end{tabular}
+% \end{table}
+
+\begin{figure}[H]
+\subfloat[$\theta_1$]{\includegraphics[width = 3in]{h1}} 
+\subfloat[$\theta_2$]{\includegraphics[width = 3in]{h2}}\    
+\subfloat[$\varphi_1$]{\includegraphics[width = 3in]{h3}}
+\subfloat[$\varphi_2$]{\includegraphics[width = 3in]{h4}} 
+\caption{Histograms of the estimated values. The black vertical line corresponds to the real values.}
+\label{some example}
+\end{figure}
+
+\newpage
+
+\section*{Apendix}
+
+\subsection*{code}
+
+\begin{verbatim}
+nP = 1000000
+P <- matrix(nrow=nP,ncol=4)
+
+for(k in 1:nP){
+  nT = 100
+  theta = c(3,4)
+  phi = c(1,2)
+  #set.seed(123)
+  dat<-NULL
+  A=rexp(1,4)
+  x=1
+  dat[[1]]<-list(tm=0,x=x,A=A)
+  X=x
+  Tm=0
+  i<-2
+  a=A
+  stm <- 0
+  E=1
+  while (i<=nT){
+    empty = FALSE
+    beta<-exp(theta[1]+theta[2]*dat[[i-1]]$A)
+    delta<-exp(phi[1]+phi[2]*dat[[i-1]]$A)
+    prev.x=dat[[i-1]]$x  
+    tm<-rexp(1,(sum(beta)+sum(delta)))
+    stm <- stm+tm
+    prob<-c(delta,beta)/(sum(beta)+sum(delta))
+    BD<-sample(2*prev.x,1,prob=prob)
+    if(BD<=prev.x){
+      x = prev.x-1
+      if (x==0){
+        empty = TRUE
+      break
+      } 
+      a[i] = dat[[i-1]]$A[BD]
+      A = dat[[i-1]]$A[-BD]
+      E[i] = 0
+    } 
+    else {
+      x = prev.x + 1
+      a[i] = dat[[i-1]]$A[BD-prev.x] 
+      A = c(dat[[i-1]]$A,dat[[i-1]]$A[BD-prev.x]*rgamma(1,100,100))
+      E[i] = 1
+    }
+    dat[[i]]<-list(tm=stm,x=x,A=A)
+    X[i]=x
+    Tm[i]=tm
+    i<-i+1
+    }
+  if (!empty){
+    fn <- function(theta) {
+    beta = 0
+    delta = 0
+    parm = (theta[1] + theta[2]*a)*E+(theta[3] + theta[4]*a)*(1-E)
+    sig = 0
+    for (i in 1:nT){
+      sig[i] = sum(exp(theta[1] + theta[2]*dat[[i]]$A) + exp(theta[3] + theta[4]*dat[[i]]$A))
+    }
+    fn=sum(-sig*Tm+parm)
+    -fn
+    }
+    op <- nlm(fn, theta <- c(1,1,1,1), hessian=TRUE)
+    P[k,1]=op$estimate[1]
+    P[k,2]=op$estimate[2]
+    P[k,3]=op$estimate[3]
+    P[k,4]=op$estimate[4]
+    B[k]=length(E[E==1])
+    D[k]=length(E[E==0])
+
+    }
+}
+
+
+\end{verbatim}
+
+\includegraphics{i.jpeg}
+
+\end{document}
+

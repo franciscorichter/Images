@@ -1,0 +1,179 @@
+\documentclass[11pt]{beamer}
+\usetheme{CambridgeUS}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{mathtools, amsthm, amssymb, amsfonts}
+\usepackage{graphicx}
+\usepackage{tabularx}
+
+\usefonttheme{professionalfonts} % using non standard fonts for beamer
+\usefonttheme{serif} % default family is serif
+\usepackage{fontspec}
+\setmainfont{Liberation Serif}
+
+
+\usepackage{tikzsymbols}
+\usepackage{textcomp}
+\usepackage{phaistos}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,topaths}% <-- new
+\tikzset{loop arrow/.style={% <-- new
+    -{Stealth[length=8mm]}, draw=green!40!red,
+    bend left=28}}
+
+\newcommand{\tikzmark}[1]{\tikz[overlay,remember picture] \node (#1) {};}
+
+\tikzset{square arrow/.style={
+    to path={-- ++(0,-2.25)  -| (\tikztotarget) \tikztonodes},below,pos=3.75}}
+\newcommand\myleaf{\mbox{\textleaf}}
+\newcommand\mytree{\mbox{\PHplaneTree}}
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+\renewcommand{\vec}[1]{\ushort{#1}}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+
+\usepackage{bigints}
+
+
+
+
+
+\author{F. Richter Mendoza}
+\title{The EM algorithm applied to diversification modeling}
+%\setbeamercovered{transparent} 
+%\setbeamertemplate{navigation symbols}{} 
+%\logo{} 
+%\institute{} 
+%\date{} 
+%\subject{} 
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+%\begin{frame}
+%\tableofcontents
+%\end{frame}
+
+\begin{frame}{The EM algorithm}
+
+The EM algorithm is a broadly applicable algorithm that provides an iterative procedure for computing MLE in situations where, but for the absence of some aditional data, ML estimation would be straightfoward. 
+\end{frame}
+
+\begin{frame}{The EM algorithm}
+
+The situations where the EM algorithm can be applies include not only evidently incomplete-data situations, where there are missing data, truncated distributions, censored or grouped observations, but also a whole variety of situations where the incompleteness of data is not all that natural or evident. These includes statistical models such as random effect, mixtures, convolutions, log linear models, and latent variable structures. The Em algorithm has thus found applications in almost all fields where statistical techniques have been applied-- medical imaging, diary science, correcting census undercount, and AIDS apidemiology, to mention a few. 
+
+\end{frame}
+
+
+\begin{frame}{Formulation of the EM algorithm}
+
+The EM algorithm approaches the problem of solving the incomplete-data likelihood equation indirecly by proceeding iteratively in terms of the complete-data log likelihood function $L_c(\theta)$. As it is unobserved, it is replaced by its conditional expectation given $y$, using the current fit for $\theta$.  
+
+\end{frame}
+
+\begin{frame}{Monotonicity of the EM algorithm}
+
+%DLR(1977) show that the (incomplete-data) likelihood function $L(\theta)$ is not decreased. \\
+\begin{block}{Theorem}
+The EM algorithm increases the likelihood at every iteration.
+\end{block}
+{\bf Proof:}
+
+
+Let 
+
+$$ k(x|y;\theta) = g_c(x;\theta)/g(y;\theta)$$ 
+
+be the conditional density of $X$ given $Y=y$.\pause  Then the log likelihood is given by 
+\begin{equation}
+\begin{split}
+log L(\theta) & = \log g(y;\theta) \\
+&=  \log g_c (x;\theta) - \log k(x | y;\theta) \\
+ &= \log L_c (\theta) - \log k(x | y;\theta)
+\end{split}
+\end{equation}
+\end{frame}
+
+\begin{frame}{Monotonicity of the EM algorithm}
+
+On taking the expectations of both sides with respect to the conditional distribution of $X$ given $Y=y$, using the fit $\theta^{(k)}$ fot $\theta$, we have that 
+\begin{equation}
+\begin{split}
+ \log L(\theta) &= E_{\theta^{(k)}} \{ \log L_c (\theta) | y \} - E_{\theta^{(k)}} \{ \log k(X | y; \theta) | y \} \\
+				&= Q(\theta;\theta^{(k)}) - H(\theta;\theta^{(k)}) \end{split} \end{equation}  
+\pause
+where $$  H(\theta;\theta^{(k)}) = E_{\theta^{(k)}} \{ \log k(X | y; \theta) | y \}$$
+ 
+ 
+
+
+\end{frame}
+
+\begin{frame}{Monotonicity of the EM algorithm}
+
+With that, we have 
+\begin{equation}
+\begin{split} 
+\log L(\theta^{(k+1)}) - \log L(\theta^{(k)}) \\ &\hspace{-3.8cm} = \{ Q(\theta^{(k+1)};\theta^{(k)}) - Q(\theta^{(k)};\theta^{(k)}) \} - \{ H(\theta^{(k+1)};\theta^{(k)}) - H(\theta^{(k)};\theta^{(k)}) \}
+\end{split}
+\end{equation}
+
+\pause
+the first difference on the right hand is not negative since $\theta^{(k+1)}$ is chosen so that 
+
+$$ Q(\theta^{(k+1)};\theta^{(k)}) \geq Q(\theta;\theta^{(k)}), \qquad \forall \theta \in \Theta  $$
+%
+%
+
+%\log L(\theta^{(k+1)} - \log L(\theta^{(k)}) \\
+%= \{ Q(\theta^{(k+1)};\theta^{(k)}) - Q(\theta^{(k)};\theta^{(k)}) \} - \{ H(\theta^{(k+1)};\theta^{(k)}) - H(\theta^{(k)};\theta^{(k)}) \} 
+
+%
+%
+
+\end{frame}
+
+
+\begin{frame}{Monotonicity of the EM algorithm}
+\begin{equation}
+\begin{split} 
+H(\theta^{(k+1)};\theta^{(k)}) - H(\theta^{(k)};\theta^{(k)}) 
+& = E_{\theta^{(k)}}[\log \{k(X|y;\theta)/k(X|y;\theta^{(k)})\} | y] \\
+& \leq \log E_{\theta^{(k)}}[\{k(X|y;\theta)/k(X|y;\theta^{(k)})\} | y]\\
+&= \log \int_{\mathcal{X}(y)} k(x|y;\theta)dx \\
+&= 0 
+\end{split}
+\end{equation}
+\pause
+
+Finally, we can conclude that the EM algorithm increases the Likelihood function every iteracion.
+
+\end{frame}
+
+
+\begin{frame}{Convergence of the EM algorithm}
+
+\begin{block}{Theorem}
+
+For unimodal likelihood functions the EM algorithm converges to its global maximum.
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}{MCEM}
+\[
+Q(\theta | \textcolor{red}{\theta_{(i\tikzmark{a})}})% <-- changed
+    = \smashoperator[r]{\bigint_{\{\small
+                           \Springtree, \Autumntree, \Summertree, \dots \}}
+                        }
+    \log L(\theta|\Wintertree) \mathrm{d}\Wintertree \longrightarrow
+           \textcolor{red}{\theta_{(i\tikzmark{b}+1)}}% <-- changed
+    = \displaystyle\argmax_{\theta} Q\left(\theta | \theta_{(i)}\right)
+\]
+\end{frame}
+\end{document}

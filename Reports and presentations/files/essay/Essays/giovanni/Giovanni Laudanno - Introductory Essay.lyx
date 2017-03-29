@@ -1,0 +1,3302 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass book
+\begin_preamble
+\usepackage{changepage}
+\usepackage{microtype}
+\usepackage[margin=10pt,font=small,labelfont=bf,labelsep=endash]{caption}
+\usepackage{pdfpages}
+\usepackage{placeins}
+
+\usepackage{afterpage}
+
+\setlength{\footnotesep}{12pt}
+
+\renewcommand\[{\begin{equation}}
+\renewcommand\]{\end{equation}}
+\@addtoreset{equation}{chapter}
+
+\lhead{\bfseries \nouppercase{\rightmark}}
+\rhead{\thepage}
+\cfoot{}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% \makeatletter % Use \makeatletter if you put this in your main document
+\renewcommand\section{\@startsection {section}{1}{\z@}%
+{-3.5ex \@plus -1ex \@minus -.2ex}%
+{2.3ex \@plus.2ex}%
+{\FloatBarrier\normalfont\Large\bfseries}}
+ % \makeatother % Use \makeatother if you put this in your main document
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package auto
+\inputencoding auto
+\fontencoding global
+\font_roman ae
+\font_sans lmss
+\font_typewriter lmtt
+\font_math auto
+\font_default_family rmdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format pdf2
+\output_sync 0
+\bibtex_command bibtex8
+\index_command default
+\float_placement h
+\paperfontsize 11
+\spacing other 1.5
+\use_hyperref false
+\papersize a4paper
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 2
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 3cm
+\rightmargin 3cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle fancy
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+includepdf{Title_Page.pdf}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+addcontentsline{toc}{chapter}{Introduction}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+markboth{Introduzione}{Introduction} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter*
+Introduction
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+singlespacing 
+\backslash
+small 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+onehalfspacing 
+\backslash
+normalsize
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Why math?
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{quotation}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Quotes eld
+\end_inset
+
+I am convinced that purely mathematical construction enables us to find
+ those concepts and those lawlike connections between them that provide
+ the key to the understanding of natural phenomena.
+\begin_inset Quotes erd
+\end_inset
+
+ Albert Einstein 1933
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{quotation}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+What is a model? Model is some representation of reality, and it is the
+ best way human culture, unable to read directly at the nature's 
+\begin_inset Quotes eld
+\end_inset
+
+source code
+\begin_inset Quotes erd
+\end_inset
+
+, developed to explain natural phenomena since the birth of modern science.
+ Galileo, one of main founders of science as we know it today, used to say
+ that nature is a big book but to be able to read it we must first learn
+ the language and grasp the symbols in which it is written, in one word:
+ mathematics.
+ But why? A lot of answers could be given to this question but what I feel
+ to answer here, in a very brief way, is because nature, per se, is deceptive.
+ As everybody will probably know in fact, for centuries people have believed
+ that every celestial body used to rotate around our planet, just because
+ that was the everyday experience.
+ The great paradigm shift from geocentric to heliocentric model was achieved
+ by introducing a proper way to collect data as well as developing the right
+ theoretical tools to read them, i.e.
+ the invention of calculus, to eventually create a model and properly read
+ nature (and not being deceived).
+ Since then a lot of mathematical models were developed and they allowed
+ us to systematize our knowledge, predict phenomena and understand their
+ underlying principles.
+\end_layout
+
+\begin_layout Standard
+So, why modeling in biology? The impact and the necessity of the mathematics
+ in life sciences have grown enormously in recent decades as recently developed
+ techniques gave us access to enormous quantities of data.
+ Besides complexity of the processes demands the development of models to
+ unveil underlying mechanisms.
+ This is especially true when it comes to deal with evolutionary processes.
+ 
+\end_layout
+
+\begin_layout Standard
+Possible points to develop here:
+\end_layout
+
+\begin_layout Standard
+- how to collect data: developing of technology gave us access to new stuff
+ (e.g.
+ PCR invention).
+ For example, in the 90's, since invention of the PCR molecular information
+ starts to become preponderant as before mostly morphologic data were considered.
+ That brought a lot of attention to the field in the academic world with
+ more and more people working on that in the last years.
+ All these studies, of course, demand also more and more theorethical support.
+\end_layout
+
+\begin_layout Standard
+- As our understanding of the field improves in time, yet a lot of new questions
+ arise.
+ For example: in a given habitat is the metapopulation (basicly, the population
+ of populations living there) being able to growth and fill all available
+ niches, reaching a steady state? Or big events (huge floods, glaciation
+ events, mountains arising etc) can occur before the reaching of the steady
+ state? Why species richness is not geographically equally distributed?
+ Why there is so much species' richness on the tropics zone respect to colder
+ areas? Other big questions?
+\end_layout
+
+\begin_layout Standard
+- Theoretical development of the field: for example Felzenstein 1981 applies
+ likelihood approach to phylogenetic trees and changes the way people could
+ speculate on such problems
+\end_layout
+
+\begin_layout Standard
+- Models are usually used to infer parameters like speciation or extinction
+ rates; but they are not only useful to study rates by themselves but they
+ can also be used to create new models that requires additional informations
+ such as time scales of diversification, influence of traits on the diversificat
+ion process etc
+\end_layout
+
+\begin_layout Standard
+- Something else?
+\end_layout
+
+\begin_layout Chapter
+Background
+\end_layout
+
+\begin_layout Section
+Diversification models
+\end_layout
+
+\begin_layout Subsection
+Pure Birth Model
+\end_layout
+
+\begin_layout Standard
+From fossils and genetic data we know that some process must be occurred
+ to increase number of species in a given habitat, even though this can
+ require millions of years.
+ Given the required time interval the simplest possible explanation to give
+ is claiming that there should be some average speciation rate (usually
+ denoted as 
+\begin_inset Formula $\lambda$
+\end_inset
+
+) bringing the total number of species to grow over time.
+ This is the Yule's Model (often called simply 
+\begin_inset Quotes eld
+\end_inset
+
+Pure birth model
+\begin_inset Quotes erd
+\end_inset
+
+).
+ The assumption is straightforward: assuming a constant speciation rate,
+ the more species you have the faster is the speciation process:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{dN(t)}{dt}=\lambda N(t)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+this very easy ODE (Ordinary Differential Equation) is solved by an exponential
+ growth solution:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+N(t)=N_{0}e^{\lambda t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It is also possible to define such model in terms of probability distributions
+ 
+\begin_inset Formula $P_{n}(t)$
+\end_inset
+
+ for each number of species present in the phylogeny at time 
+\begin_inset Formula $t$
+\end_inset
+
+ :
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{dP_{n}(t)}{dt}=(n-1)\lambda P_{n-1}(t)-n\lambda P_{n}(t)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where the two terms on the right hand side give, respectively, the probability
+ to enter or going out from the state 
+\begin_inset Formula $P_{n}$
+\end_inset
+
+.
+ This kind of equation is known as master equation for a Markov Process
+ and is broadly used to describe several processes in a variety of fields
+ like, among others, biology, physics or finance.
+\end_layout
+
+\begin_layout Standard
+It is necessary to point out the main features of this process:
+\end_layout
+
+\begin_layout Standard
+- this is a set of ODEs, due to the their shape, it is known beforehand
+ their solutions have always an exponential behaviour;
+\end_layout
+
+\begin_layout Standard
+- the state space is discrete (as the 
+\begin_inset Formula $n$
+\end_inset
+
+ index);
+\end_layout
+
+\begin_layout Standard
+- state transitions can occur only between neighbouring states, 
+\begin_inset Formula $n\rightarrow n+1$
+\end_inset
+
+ (for speciation), 
+\begin_inset Formula $n\rightarrow n-1$
+\end_inset
+
+ (for extinction), i.e.
+ no more than one event can occur in the time interval 
+\begin_inset Formula $dt$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Standard
+- what happens to 
+\begin_inset Formula $P_{n}$
+\end_inset
+
+ in the time interval 
+\begin_inset Formula $dt$
+\end_inset
+
+ depends only on adjacent time intervals (the process is 
+\begin_inset Quotes eld
+\end_inset
+
+memoryless
+\begin_inset Quotes erd
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+Then it is possible to evaluate the average (or estimated) number of species
+ using these probability distributions:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+N(t)=\sum_{n=1}^{\infty}nP_{n}(t)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+to recover the same result.
+\end_layout
+
+\begin_layout Standard
+This kind of model gives us possibility to run simulations to include stochastic
+ity in the process and could be really useful as a check, due to its simplicity.
+\end_layout
+
+\begin_layout Standard
+One may of course argue this kind of model to be quite too simplicistic.
+ We know, though, that species can either speciate or going extinct; for
+ this reason the first and natural expansion of this model is to take into
+ account also an extinction rate.
+\end_layout
+
+\begin_layout Subsection
+Birth-Death models
+\end_layout
+
+\begin_layout Standard
+Here, in the same fashion of the Yule's model, a new rate is introduced:
+ extinction rate 
+\begin_inset Formula $\mu$
+\end_inset
+
+.
+ Even though these rates could be time-dependent or diversity-dependant,
+ standard birth-death models take into account only 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ and 
+\begin_inset Formula $\mu$
+\end_inset
+
+ as constants through all the process:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{dP_{n}(t)}{dt}=(n-1)\lambda P_{n-1}(t)+(n+1)\mu P_{n+1}(t)-n(\lambda+\mu)P_{n}(t)\label{eq:birth-death master equation}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It obviously respects the same properties I listed for the pure birth case.
+ To evaluate the average number of species in time you can follow the same
+ procedure as before.
+\end_layout
+
+\begin_layout Subsection
+Kendall 1948 - An analytical solution for the standard Birth-Death model
+\end_layout
+
+\begin_layout Standard
+Standard birth-death model has been analytically solved by Kendall
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kendall1948"
+
+\end_inset
+
+ in 1948.
+ To do that he used the generating function approach, defining:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\phi(z,t)=\sum_{n=-\infty}^{\infty}z^{n}P_{n}(t)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $z\in[0,1]$
+\end_inset
+
+ is an auxiliary variable.
+ This approach is a standard technique for this kind of problem and allow
+ to transform a set of infinite ODEs in just one PDE (Partial Differential
+ Equation) for the unknown generating function 
+\begin_inset Formula $\phi(z,t)$
+\end_inset
+
+, from which it is possible to come back to the solution of the original
+ problem with simple operations.
+ Multiplying each equation of the ODEs set by 
+\begin_inset Formula $z^{n}$
+\end_inset
+
+ and summing them all together is possible to get the PDE:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial\phi(z,t)}{\partial t}=(\lambda z-\mu)(z-1)\frac{\partial\phi(z,t)}{\partial z}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+that is in the standard Lagrangian form and could be solved through method
+ of characteristics.
+ From auxiliary equation:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+-dt=\frac{dz}{(\lambda z-\mu)(z-1)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+along with initial condition (equivalent to 
+\begin_inset Formula $P_{n}(-T)=\delta_{n,1}$
+\end_inset
+
+):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\phi(z,-T)=z
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+it is possible to get the general solution:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\phi(z,t)=\frac{(\lambda z-\mu)\Lambda(t)-\mu(z-1)\Lambda(-T)}{(\lambda z-\mu)\Lambda(t)-\lambda(z-1)\Lambda(-T)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\Lambda(t)=e^{-(\lambda-\mu)t}$
+\end_inset
+
+ (here my notation is slightly different from original Kendall's one on
+ 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ and 
+\begin_inset Formula $\Lambda$
+\end_inset
+
+).
+ Now it is possible to derive 
+\begin_inset Formula $P_{n}(t)$
+\end_inset
+
+ for all 
+\begin_inset Formula $n$
+\end_inset
+
+.
+ For example, for the first 2 solutions:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{0}(t)=\phi(z,t)|_{z=0}=\frac{\mu\Lambda(-T)-\mu\Lambda(t)}{\lambda\Lambda(-T)-\mu\Lambda(t)}=\frac{e^{(\lambda-\mu)T}-e^{-(\lambda-\mu)t}}{\frac{\lambda}{\mu}e^{(\lambda-\mu)T}-e^{-(\lambda-\mu)t}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{1}(t)=\frac{\partial}{\partial z}\phi(z,t)|_{z=0}=\frac{\Lambda(t)\Lambda(-T)(\lambda-\mu)^{2}}{[\mu\Lambda(t)-\lambda\Lambda(T)]^{2}}=[1-P_{0}(t)]\cdot[1-u_{t}]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+u_{t}=\frac{\lambda[\Lambda(-T)-\Lambda(t)]}{\lambda\Lambda(-T)-\mu\Lambda(t)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+1-P_{0}(t)=\frac{(\lambda-\mu)\Lambda(-T)}{\lambda\Lambda(-T)-\mu\Lambda(t)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+it is also possible to prove that for any generic 
+\begin_inset Formula $n$
+\end_inset
+
+, solutions may be expressed as a geometric series:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{n}(t)=[1-P_{0}(t)]\cdot(1-u_{t})u_{t}^{n-1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Likelihood approaches
+\end_layout
+
+\begin_layout Standard
+For several models, included birth death, is possible to infer best values
+ for parameters maximizing the likelihood function.
+ A likelihood function (often used in its logarithmic form) measures the
+ probability to have parameters 
+\begin_inset Formula $\theta$
+\end_inset
+
+ given the data:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+L=L(\theta|data)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Studying evolutionary processes usually data are phylogenies.
+ These can be represented as trees and are composed by two main part: branching
+ times and topology.
+ Branching times give information about the position of nodes (or speciation
+ events) along the tree; topology give us information about how nodes are
+ connected together, regardless of branches lenghts.
+\end_layout
+
+\begin_layout Standard
+So in this kind of approach is crucial to find a proper way to assign a
+ probability to the model, given the data.
+\end_layout
+
+\begin_layout Subsection
+Nee et al.
+ 1994 - A likelihood paradygm for constant rates
+\end_layout
+
+\begin_layout Subsubsection
+Understanding the process
+\end_layout
+
+\begin_layout Standard
+Nee, May and Harvey in their 1994's article propose a way to unambiguously
+ assign a likelihood to any diversification process having constant extinction
+ and speciation rates.
+ They define everything in terms of two functions:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+u_{t}:=\frac{\lambda(1-exp(-(\lambda-\mu)t)}{\lambda-\mu exp(-(\lambda-\mu)t)}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+P(t,T):=\frac{\lambda-\mu}{\lambda-\mu exp\{-(\lambda-\mu)(T-t)\}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $P(t,T)$
+\end_inset
+
+ is the probability that a single lineage alive at time 
+\begin_inset Formula $t$
+\end_inset
+
+ has some descendants, i.e.
+ has not gone extinct, at the later time 
+\begin_inset Formula $T$
+\end_inset
+
+ (Nee et al.
+ 1994 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Nee1994"
+
+\end_inset
+
+); 
+\begin_inset Formula $u_{t}$
+\end_inset
+
+ instead is the probability that another lineage appears up to time 
+\begin_inset Formula $t$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+These two functions derive directly from Kendall's solutions (Kendall 1948
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kendall1948"
+
+\end_inset
+
+).
+ In fact to get the same function you just have to redefine boundaries (
+ 
+\begin_inset Formula $[-T,t]\rightarrow[0,t]$
+\end_inset
+
+ for 
+\begin_inset Formula $u_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $[-T,t]\rightarrow[t,T]$
+\end_inset
+
+ for 
+\begin_inset Formula $P(t,T)$
+\end_inset
+
+, derived from Kendall's 
+\begin_inset Formula $1-P_{0}(t)$
+\end_inset
+
+ ).
+\end_layout
+
+\begin_layout Standard
+Is possible to link these two functions to the solutions of master equations
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:birth-death master equation"
+
+\end_inset
+
+.
+ For example, for a simple birth-death process which goes extinct before
+ time 
+\begin_inset Formula $t$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{0}(t)=1-P(0,t)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{1}(t)=P(0,t)(1-u_{t})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Even though this process is usually not so interesting (you can define finer
+ processes like 
+\begin_inset Quotes eld
+\end_inset
+
+a birth-death process that survives to T such that at least one of the 
+\begin_inset Formula $i$
+\end_inset
+
+ lineages existing at time 
+\begin_inset Formula $t$
+\end_inset
+
+ has some descendants at time 
+\begin_inset Formula $T$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+, but its form is way more complicated and it is not useful to clearly explain
+ the procedure to follow), it allows to highlight how the reasoning works.
+ In fact, given a solution 
+\begin_inset Formula $P_{n}(t)$
+\end_inset
+
+ to the set of ODEs, here there are two (indipendent) equations from which
+ is possible to derive explicitly 
+\begin_inset Formula $P(t,T)$
+\end_inset
+
+ and 
+\begin_inset Formula $u_{t}$
+\end_inset
+
+, even for non-standard birth-death models.
+ It is not possible, though, to create this link (e.g.
+ when diversity-dependence rates are present).
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Building the Likelihood
+\end_layout
+
+\begin_layout Standard
+From these two functions Nee et al.
+ suggest a very neat way to assign a likelihood to a given tree.
+ The drawback is that this can only work with 
+\begin_inset Quotes eld
+\end_inset
+
+breakable
+\begin_inset Quotes erd
+\end_inset
+
+ trees, i.e.
+ a tree in which what happens in every branch does not depend on what happens
+ along other branches (e.g.
+ constant rates processes can be broken, diversity-dependent processes can
+ not because a single speciation event with rate 
+\begin_inset Formula $\lambda_{n}$
+\end_inset
+
+ depends on all existent species in that time).
+ If the tree is breakable for each branch and node a probability is assigned
+ and the likelihood is computed as a general product of all these terms.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename figures/Nee et al 1.jpg
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+A broken phylogenetic tree.
+ Bold lines are daughter branches while 
+\begin_inset Formula $x_{i}$
+\end_inset
+
+ are the lenght of time elapsed between the nodes and the present day (from
+ Nee et al.
+ 1994 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Nee1994"
+
+\end_inset
+
+).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Thus Nee's likelihood is given as:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+lik=(N-1)!\lambda^{N-2}(1-u_{x_{2}})^{2}\left[\prod_{i=3}^{N}(1-u_{x_{i}})\right]\left[\prod_{i=3}^{N}P(t_{i},T)\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $x_{i}=T-t_{i}$
+\end_inset
+
+.
+ In this formula every birth event contributes with a 
+\begin_inset Formula $(i-1)\lambda P(t_{i},T)$
+\end_inset
+
+ factor and each branch (i.e.
+ the amount of time in which a lineage do not give birth) contributes with
+ a factor 
+\begin_inset Formula $(1-u_{x_{i}})$
+\end_inset
+
+.
+ Note that crown species are already there, so there is no birth term for
+ them, and they start to appear together in the phylogeny from 
+\begin_inset Formula $x_{2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Even though this approach could present several limitations has the notable
+ properties to provide an analytical (and precise) expression for the likelihood
+ and thus it is suitable for checks on more general models.
+ 
+\end_layout
+
+\begin_layout Subsection
+Etienne et al.
+ 2012 - How to deal with diversity-dependence
+\end_layout
+
+\begin_layout Standard
+So Nee et al's method provides an elegant and efficient way to deal with
+ 
+\begin_inset Quotes eld
+\end_inset
+
+breakable tree
+\begin_inset Quotes erd
+\end_inset
+
+ but what about more complex models, such as diversity-dependence ones?
+ In this case building a likelihood might become a truly challenging problem.
+ 
+\end_layout
+
+\begin_layout Standard
+As usual what happens along a branch depends on rates but, in this case,
+ this actually depends on total number of species (actual and missing ones).
+ For this reason 
+\begin_inset Quotes eld
+\end_inset
+
+breaking
+\begin_inset Quotes erd
+\end_inset
+
+ the tree is not a valid option and it was instead splitted considering
+ all the possible infinitesimal time slices to be eventually integrated.
+ To do that, though, it becomes mandatory to define a new function to be
+ integrated that could be directly linked to the tree likelihood.
+\end_layout
+
+\begin_layout Standard
+Etienne et al.
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Etienne2012a"
+
+\end_inset
+
+ managed to find a way to deal with this problem defining a new set of dynamic
+ equations, close to the usual birth-death master equations
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:birth-death master equation"
+
+\end_inset
+
+, whose solution is the probability 
+\begin_inset Formula $Q_{n}^{k}(t)$
+\end_inset
+
+ that 
+\begin_inset Quotes eld
+\end_inset
+
+a realization of the diversification process is consistent with the phylogeny
+ up to time t and has n species at time t
+\begin_inset Quotes erd
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{dQ_{n}^{k}(t)}{dt}=\mu_{k+n+1}(n+1)Q_{n+1}^{k}(t)+\lambda_{k+n-1}(n-1+2k)Q_{n-1}^{k}(t)-(\lambda_{k+n}+\mu_{k+n})(n+k)Q_{n}^{k}(t)\label{eq:Q equation}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $k$
+\end_inset
+
+ is the (fixed) number of species in phylogeny and 
+\begin_inset Formula $n$
+\end_inset
+
+ is the number of missing species to eventually be set to zero at the end.
+ Importantly, it is also possible to take into account species extant at
+ the present time 
+\begin_inset Formula $t_{p}$
+\end_inset
+
+ but missing in the phylogeny.
+ It is also worth to point out that, even though the equation is formally
+ very similar to the standard one, the biggest difference lies in the presence
+ of the 
+\begin_inset Formula $2k$
+\end_inset
+
+ in the 
+\begin_inset Formula $\lambda$
+\end_inset
+
+-based gain term.
+ This is due to the fact that the two sets of species 
+\begin_inset Formula $k$
+\end_inset
+
+ and 
+\begin_inset Formula $n$
+\end_inset
+
+ are distinct and thus a speciation event can occur in two different ways.
+\end_layout
+
+\begin_layout Standard
+A set of equations is defined for each interval 
+\begin_inset Formula $[t_{k},t_{k+1}]\;\forall k\:in\:\underline{t}$
+\end_inset
+
+, being 
+\begin_inset Formula $\underline{t}$
+\end_inset
+
+ the whole collection of branching times.
+ To link solutions from one time interval to the next one it is necessary
+ to include proper operations on nodes up to the present time 
+\begin_inset Formula $t_{p}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+This method follows the same phylosophy of Nee et al.
+ as their likelihood is obtained by multiplying together components coming
+ both from nodes and branches to eventually include all 
+\begin_inset Quotes eld
+\end_inset
+
+fragments
+\begin_inset Quotes erd
+\end_inset
+
+ of the tree.
+ Besides the model itself was checked using constant rates and it has been
+ proved that it gives back Nee et al.
+ model's results, and it may therefore be considered a direct generalization
+ of that.
+\end_layout
+
+\begin_layout Standard
+In the following I will refer to this kind of model as the diversity-dependent
+ Q model.
+\end_layout
+
+\begin_layout Section
+On influence of traits on diversification processes
+\end_layout
+
+\begin_layout Standard
+In the last years a series of models of increasing complexity has been developed
+ to include influence of traits on diversification process.
+\end_layout
+
+\begin_layout Subsection
+BiSSE - A binary state model 
+\end_layout
+
+\begin_layout Subsubsection
+Dynamics along branches
+\end_layout
+
+\begin_layout Standard
+The first article of series involving this topic is Maddison et al.
+ 2007 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Maddison2007"
+
+\end_inset
+
+ in which they introduced BiSSE model to study how and whether speciation
+ and extinction rates may depend on the state of a particular binary-state
+ character.
+ Also in this case model is ruled by core differential equations (in this
+ case non linear and coupled):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{dD_{N0}}{dt}=-(\lambda_{0}+\mu_{0}+q_{01})D_{N0}(t)+q_{01}D_{N1}(t)+2\lambda_{0}E_{0}(t)D_{N0}(t)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{dE_{0}}{dt}=\mu_{0}-(\lambda_{0}+\mu_{0}+q_{01})E_{0}(t)+q_{01}E_{1}(t)+\lambda_{0}E_{0}(t)^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+fThere are also same equations for the presence of those traits flipping
+ every 0 to 1 and viceversa.
+ Probabilities
+\begin_inset Formula $D_{0}(t)$
+\end_inset
+
+ and 
+\begin_inset Formula $D_{1}(t)$
+\end_inset
+
+ describe the chance that a lineage beginning at time t with state 0 or
+ 1 would evolve into the clade like that observed to have descended from
+ node N, close to the present.
+ 
+\begin_inset Formula $E_{0}(t)$
+\end_inset
+
+ is the probability that a lineage starting at time t in state 0 leaves
+ no descendants at the present day (
+\begin_inset Formula $E_{1}(t)$
+\end_inset
+
+ does the same for state 1).
+ These two equations are derived taking in consideration every possible
+ outcome of these two functions along branches.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename figures/Maddison et al 1.jpg
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Alternative scenarios by which a lineage with state 0 at time 
+\begin_inset Formula $t+\Delta t$
+\end_inset
+
+ on the branch might yield clade descended from node N but no other living
+ descendants (figure from Maddison et al.
+ 2007 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Maddison2007"
+
+\end_inset
+
+).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Here it is possible to consider both speciation and extinction to be different
+ in absence or presence of the trait while 
+\begin_inset Formula $q_{01}$
+\end_inset
+
+ and 
+\begin_inset Formula $q_{10}$
+\end_inset
+
+ are transition rates between states.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+On nodes and root
+\end_layout
+
+\begin_layout Standard
+As in Etienne et al.
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Etienne2012a"
+
+\end_inset
+
+ to build a likelihood the solution of differential equations describe branch
+ components of the tree while additional relations are required to express
+ nodes' contributions.
+ In these case, since integration is made backwards in time, they simply
+ use for every speciation event in the phylogeny the relation:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+D_{A0}(t_{A})=D_{N0}(t_{A})D_{M0}(t_{A})\lambda_{0}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+D_{A1}(t_{A})=D_{N1}(t_{A})D_{M1}(t_{A})\lambda_{1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where M is the sister node to N.
+ 
+\end_layout
+
+\begin_layout Standard
+After the whole integration process, at the root, they end with 
+\begin_inset Formula $D_{R0}$
+\end_inset
+
+ and 
+\begin_inset Formula $D_{R1}$
+\end_inset
+
+ and it is necessary to combine them to get a likelihood.
+ The way authors choose to do that is to sum them weightening each term
+ with relative frequencies (at equilibrium) of species being in state 0
+ (or 1) defined as 
+\begin_inset Formula $x_{0}=\frac{n_{0}}{n_{0}+n_{1}}$
+\end_inset
+
+ (or 
+\begin_inset Formula $x_{1}=\frac{n_{1}}{n_{0}+n_{1}}$
+\end_inset
+
+), where these 
+\begin_inset Formula $n_{i}$
+\end_inset
+
+ dynamics are regulated by:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{dn_{0}}{dt}=\lambda_{0}n_{0}-\mu_{0}n_{0}-q_{01}n_{0}+q_{10}n_{1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{dn_{1}}{dt}=\lambda_{1}n_{1}-\mu_{1}n_{1}-q_{10}n_{1}+q_{01}n_{0}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Leading to:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{dx_{0}}{dt}=(\lambda_{0}-\mu_{0}-\lambda_{1}+\mu_{1})x_{0}(1-x_{0})-xq_{01}+(1-x)q_{10}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+which has to be put equal to zero to get the equilibrium frequency solution.
+ So in the end they get:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+L=\hat{x}_{0}D_{R0}+\hat{x}_{1}D_{R1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To check consistency of the model it has been applied to several simulated
+ trees.
+\end_layout
+
+\begin_layout Subsection
+Further models
+\end_layout
+
+\begin_layout Standard
+In later years several models has been proposed to expand BiSSE, including
+ continous values traits (QuaSSE - Fitzjohn 2010 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Fitzjohn2010"
+
+\end_inset
+
+), multiple traits (MuSSE - Fitzjohn 2012 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Fitzjohn2012"
+
+\end_inset
+
+), cladogenetic shifts on traits (ClaSSE - Goldberg & Igic 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Goldberg2012"
+
+\end_inset
+
+) or dealing with geographic states (GeoSSE - Goldberg et al.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Goldberg2011"
+
+\end_inset
+
+).
+ All these models are included in the Diversitree package 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Fitzjohn2012"
+
+\end_inset
+
+ and share the same structure as BiSSE model: numerical integration along
+ branches to get 
+\begin_inset Formula $E(t)$
+\end_inset
+
+ and 
+\begin_inset Formula $D(t)$
+\end_inset
+
+ functions and operations on nodes dealing with traits to eventually get
+ a likelihood function to maximize and test on simulated trees.
+\end_layout
+
+\begin_layout Subsection
+MuSSE - A multiple states model
+\end_layout
+
+\begin_layout Standard
+In 2012 Fitzjohn expanded BiSSE to build a multi-trait model (MuSSE
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Fitzjohn2012"
+
+\end_inset
+
+).
+ The process of integration is developed backwards in time as in BiSSE.
+ The way to deal with the nodes at the branching times is basicly the same
+ as in BiSSE but now each lineages contributes with a vector (indicated
+ with index 
+\begin_inset Formula $i$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Subsubsection
+Dynamics along branches 
+\end_layout
+
+\begin_layout Standard
+Equations are quite similar to BiSSE, but now there is one equation for
+ each possible value of the considered trait:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{dE_{i}(t)}{dt}=\mu_{i}-(\lambda_{i}+\mu_{i}+\sum_{j\neq i}q_{ij})E_{i}(t)+\lambda_{i}E_{i}(t)^{2}+\sum_{j\neq i}q_{ij}E_{j}(t)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{dD_{N,i}}{dt}=-(\lambda_{i}+\mu_{i}+\sum_{j\neq i}q_{ij})D_{N,i}(t)+2\lambda_{i}E_{i}(t)D_{N,i}(t)+\sum_{j\neq i}q_{ij}D_{N,j}(t)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+On nodes and root
+\end_layout
+
+\begin_layout Standard
+On nodes the method is still the same:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+D_{N',i}(t)=D_{N,i}(t)D_{M,i}(t)\lambda_{i}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+At the root likelihood is calculated in the same way as BiSSE summing up
+ all 
+\begin_inset Formula $D_{Ri}$
+\end_inset
+
+ with their weights.
+\end_layout
+
+\begin_layout Subsubsection
+Multiple traits simultaneously
+\end_layout
+
+\begin_layout Standard
+With MuSSE it is also possible to analyse multiple traits at the same time.
+ To do that it is necessary to define parameters in an appropriate way.
+ For two traits for example it is possible to use a linear approach:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\lambda_{i,j}=\lambda_{0}+\lambda_{A}X_{A}+\lambda_{B}X_{B}+\lambda_{AB}X_{A}X_{B}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mu_{i,j}=\mu_{0}+\mu_{A}X_{A}+\mu_{B}X_{B}+\mu_{AB}X_{A}X_{B}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+in these expression 
+\begin_inset Formula $X_{A}$
+\end_inset
+
+ and 
+\begin_inset Formula $X_{B}$
+\end_inset
+
+ are indicator variables that are 1 when trait A and B (respectively) are
+ in the 
+\begin_inset Quotes eld
+\end_inset
+
+1
+\begin_inset Quotes erd
+\end_inset
+
+ state , 
+\begin_inset Formula $\lambda_{0}$
+\end_inset
+
+ (
+\begin_inset Formula $\mu_{0}$
+\end_inset
+
+) is the 
+\begin_inset Quotes eld
+\end_inset
+
+intercept
+\begin_inset Quotes erd
+\end_inset
+
+ speciation (extinction) rate (if all traits are in state 0), 
+\begin_inset Formula $\lambda_{A}$
+\end_inset
+
+ and 
+\begin_inset Formula $\lambda_{B}$
+\end_inset
+
+ (
+\begin_inset Formula $\mu_{A}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mu_{B}$
+\end_inset
+
+) are the 
+\begin_inset Quotes eld
+\end_inset
+
+main effects
+\begin_inset Quotes erd
+\end_inset
+
+ of traits A and B while 
+\begin_inset Formula $\lambda_{AB}$
+\end_inset
+
+ (
+\begin_inset Formula $\mu_{AB})$
+\end_inset
+
+ is the interaction between those.
+ For rates of transition instead:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+q_{A01,j}=q_{A01,0}+q_{A01,B}X_{B}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $q_{A01,0}$
+\end_inset
+
+ is the intercept term and 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $q_{A01,B}$
+\end_inset
+
+ is the main effect of trait B.
+\end_layout
+
+\begin_layout Subsection
+QuaSSE - A quantitative traits model
+\end_layout
+
+\begin_layout Standard
+QuaSSE
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Fitzjohn2010"
+
+\end_inset
+
+ is another BiSSE-like model in which the trait can span across a range
+ of continous values.
+ So the trait 
+\begin_inset Formula $x$
+\end_inset
+
+ can affect speciation 
+\begin_inset Formula $\lambda(x,t)$
+\end_inset
+
+ and extinction 
+\begin_inset Formula $\mu(x,t)$
+\end_inset
+
+ rates, that might be also function of time.
+ The process is integrated backwards, like in the BiSSE model.
+\end_layout
+
+\begin_layout Standard
+Here character evolution along lineages is modeled using a diffusion process,
+ referring to this set of equations:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\Phi(x,t)=lim_{\Delta t\rightarrow0}\frac{1}{\Delta t}\int_{-\infty}^{\infty}(z-x)g(z,t|x,t+\Delta t)dz
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\sigma^{2}(x,t)=lim_{\Delta t\rightarrow0}\frac{1}{\Delta t}\int_{-\infty}^{\infty}(z-x)^{2}g(z,t|x,t+\Delta t)dz
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula 
+\[
+0=lim_{\Delta t\rightarrow0}\frac{1}{\Delta t}\int_{-\infty}^{\infty}(z-x)^{k}g(z,t|x,t+\Delta t)dz\;k\geq3
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $g(z,t|x,t+\Delta t)$
+\end_inset
+
+ is the transition probability density function for the diffusion process.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Phi$
+\end_inset
+
+is the directional (drift) term while 
+\begin_inset Formula $\sigma^{2}$
+\end_inset
+
+ is the diffusion term which is able to capture the stochastic elements
+ of character evolution.
+\end_layout
+
+\begin_layout Subsubsection
+Core equations
+\end_layout
+
+\begin_layout Standard
+In the same fashion of 
+\begin_inset Quotes eld
+\end_inset
+
+Maddison et al.
+ 2007
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Maddison2007"
+
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ all possible ways a lineage could either go extinct or following the observed
+ clades are considered.
+ This leads to a couple of core (partial) differential equations (for 
+\begin_inset Formula $D$
+\end_inset
+
+ and 
+\begin_inset Formula $E$
+\end_inset
+
+) for the QuaSSE model, quite similar to the old ones:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial D_{N}(x,t)}{\partial t}=
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+ & 2\lambda(x)D_{N}(x,t)E(x,t)-(\lambda(t)+\mu(t))D_{N}(x,t)+\Phi(x,t)\frac{\partial D_{N}(x,t)}{\partial x}+\frac{\sigma(x,t)^{2}}{2}\frac{\partial^{2}D_{N}(x,t)}{\partial x^{2}}\\
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial E(x,t)}{\partial t}=
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+ & -\mu(x)+\lambda(x)E(x,t)^{2}-(\lambda(t)+\mu(t))E(x,t)+\Phi(x,t)\frac{\partial E(x,t)}{\partial x}+\frac{\sigma(x,t)^{2}}{2}\frac{\partial^{2}E(x,t)}{\partial x^{2}}\\
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To solve these PDEs it is necessary to define properly the boundary conditions.
+ Let's suppose that 
+\begin_inset Formula $x$
+\end_inset
+
+ spans a domain 
+\begin_inset Formula $[x_{l},x_{r}]$
+\end_inset
+
+.
+ It is known that 
+\begin_inset Formula $E(x,0)=0$
+\end_inset
+
+ for every x and also that integration of 
+\begin_inset Formula $\int_{x_{l}}^{x_{r}}D_{N}(x,0)=1$
+\end_inset
+
+ so let's suppose a normal distribution for that 
+\begin_inset Formula $D_{N}=N(x_{obs},\sigma_{obs})$
+\end_inset
+
+.
+ Besides all functions' derivatives (
+\begin_inset Formula $\partial_{x}\mu(x),\partial_{x}\lambda(x),\partial_{x}E(x),\partial_{x}D_{N}(x)$
+\end_inset
+
+) on domain borders 
+\begin_inset Formula $x_{l}$
+\end_inset
+
+ and 
+\begin_inset Formula $x_{r}$
+\end_inset
+
+ will be zero.
+\end_layout
+
+\begin_layout Subsubsection
+Calculations on nodes and root
+\end_layout
+
+\begin_layout Standard
+At nodes between 
+\begin_inset Formula $N$
+\end_inset
+
+ and 
+\begin_inset Formula $M$
+\end_inset
+
+ clades everything is like BiSSE model:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+D_{N'}(x,t)=D_{N}(x,t)D_{M}(x,t)\lambda(x)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+At the root time 
+\begin_inset Formula $t_{R}$
+\end_inset
+
+ instead sums over 
+\begin_inset Formula $D$
+\end_inset
+
+ functions are replaced by an integration over all possible continous trait's
+ values:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+D_{R}=\int_{x_{l}}^{x_{r}}D_{R}(x,t_{R})dx
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+this is equivalent to assign a flat prior to the character state at the
+ root.
+ Is it also possible (and this is what Fitzgerald actually does) to use
+ the same distribution as weight:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+D_{R}=\int_{x_{l}}^{x_{r}}D_{R}(x,t_{R})\frac{D_{R}(x,t_{R})}{\int_{x_{l}}^{x_{r}}D_{R}(y,t_{R})dy}dx
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Research Questions
+\end_layout
+
+\begin_layout Standard
+This chapter is NOT completed.
+ It is composed, especially for RQ2-3-4, instead of a series of notes about
+ how to formulate questions.
+\end_layout
+
+\begin_layout Section
+Can environment's cyclical changes drive allopatric speciation to huge local
+ diversity?
+\end_layout
+
+\begin_layout Standard
+IMPORTANT: ADD SOMETHING ABOUT THE FACT THAT ONE OF THE OPEN QUESTION IS
+ TO UNDERSTAND IF SPECIATION PROCESS IS MORE FREQUENTLY ALLOPATRIC OR SIMPATRIC.
+ IN FACT IF IT IS SYMPATRIC MORE SELECTION FORCES ARE INVOLVED.
+\end_layout
+
+\begin_layout Standard
+Lake Tanganyika is estimated to be the second largest freshwater lake in
+ the world by volume, and the second deepest as well as being the longest
+ in the world.
+ It spans 4 countries, Tanzania, the Democratic Republic of the Congo, Burundi,
+ and Zambia.
+ It is characterized by a extremely high abundance of cichlid fish species
+ even though this lake is relatively young.
+ This suggests that a huge and fast radiation process must have taken place
+ on a relatively small time scale.
+ This might be due to cyclic water level fluctuations changing connectiveness
+ among different sub-areas of Lake Tanganyika (Janzen T.
+ 2015
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Janzen2015"
+
+\end_inset
+
+).
+ In fact this process can create several separated pools allowing different
+ allopatric speciation events to trigger at the same time, leading to an
+ explosive radiation process.
+\end_layout
+
+\begin_layout Standard
+In this context I propose a generalization to the standard birth-death model
+ to include the possibility of multiple births occurring at the same time
+ based on Etienne et al.
+ Q-model 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Etienne2012a"
+
+\end_inset
+
+ as a very general and effective framework to analyze diversity-dependance
+ radiation processes.
+\end_layout
+
+\begin_layout Standard
+However, after developing a multiple birth model it becomes mandatory to
+ find a proper dataset to apply it.
+ Even though I know that the first and natural candidate would be cichlid
+ fish clade from lake Tanganyika, it is also true that current phylogenetic
+ trees are including only one speciation event at each branching time.
+ For this reason my next task will be to reconstruct a different kind of
+ tree out of phylogenetic data.
+\end_layout
+
+\begin_layout Standard
+One of the standard techniques to reconstruct trees out of molecular sequences
+ is by using BEAST (Bayesian Evolutionary Analysis by Sampling Trees, Drummond
+ & Rambaut 2007 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Drummond2007"
+
+\end_inset
+
+).
+ BEAST is a tool that, given molecular alignments, can provide, via a bayesian
+ statistical approach, the maximum clade credibility tree along with uncertainty
+ on marginal likelihoods.
+\end_layout
+
+\begin_layout Standard
+BEAST2 (Bouckaert et al.
+ 2014 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Bouckaert2014"
+
+\end_inset
+
+) is a re-design of the above-mentioned BEAST that allows third party developers
+ (like me) to write additional functionality that can be directly installed
+ to the main program analysis platform.
+ This will allow me to develop a method to get proper trees with occurrances
+ of multiple births out of molecular data in order to apply my model.
+\end_layout
+
+\begin_layout Section
+Does Q equation from Etienne 2012 reduces to Nee et al.
+ 1994 in standard birth-death context?
+\end_layout
+
+\begin_layout Standard
+Here it is possible to look for an analytical solution both for Etienne
+ et al.
+ 2012 and for standard b-d for traits.
+\end_layout
+
+\begin_layout Section
+Effects of interaction between diversity dependance and traits on speciation
+ and extinction rates
+\end_layout
+
+\begin_layout Standard
+The main point is to consider both traits and missing species at the same
+ time.
+ This can bring to the table some difficulties because everything should
+ be defined (this is one possible way, not the only one) in terms of some
+ function 
+\begin_inset Formula $Q_{n_{0},n_{1}}^{k_{0},k_{1}}$
+\end_inset
+
+ , referring to Q model's notation, in which 0 and 1 stands for absence
+ or presence of some trait (BiSSE-like).
+ Seems to be quite challenging but it is definitely material to publish
+ some paper.
+\end_layout
+
+\begin_layout Section
+Is there a link between standard b-d approach and BiSSE core functions?
+ Can we get more information from this link? (more than provisional, for
+ now only an idea)
+\end_layout
+
+\begin_layout Standard
+It is a very bad defined idea for now.
+ Seems that Lambert & Stadler 2013
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Lambert2013"
+
+\end_inset
+
+ have already faced this problem finding important results.
+ Something more on this topic is included in Lambert et al.
+ 2015
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Lambert2015"
+
+\end_inset
+
+ and Etienne et al.
+ 2014
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Etienne2014"
+
+\end_inset
+
+.
+ There is a lot of hard stuff to read and it is very mathematical but it
+ seems to include great insights for a research question that I may like.
+\end_layout
+
+\begin_layout Chapter
+Approach
+\end_layout
+
+\begin_layout Section
+Q model
+\end_layout
+
+\begin_layout Standard
+In chapter 1 I talked about Q model, or the way Etienne et al.
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Etienne2012a"
+
+\end_inset
+
+ found to provide a likelihood function for a diversity-dependant process.
+ To do that, as I mentioned before, becomes crucial to take into account
+ both branches and nodes contributions.
+\end_layout
+
+\begin_layout Standard
+Given the node at the time 
+\begin_inset Formula $t_{k}$
+\end_inset
+
+ in which number of species grows from 
+\begin_inset Formula $k-1$
+\end_inset
+
+ to 
+\begin_inset Formula $k$
+\end_inset
+
+, its contribute can be expressed by the action of a 
+\begin_inset Formula $B_{k}$
+\end_inset
+
+ operator:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Q_{n}^{k+1}(t_{k})=B_{k}Q_{n}^{k}(t_{k})=k\lambda_{n+k}Q_{n}^{k}(t_{k})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To evaluate instead branch contribution let's denote with 
+\begin_inset Formula $A_{k}(t_{k}-t_{k-1})$
+\end_inset
+
+ the solver of the dynamical equation
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Q equation"
+
+\end_inset
+
+ between 
+\begin_inset Formula $t_{k-1}$
+\end_inset
+
+ and 
+\begin_inset Formula $t_{k}$
+\end_inset
+
+ having 
+\begin_inset Formula $k$
+\end_inset
+
+ fixed species from phylogeny, such that:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Q_{n}^{k}(t_{k})=A_{k}(t_{k}-t_{k-1})Q_{n}^{k}(t_{k-1})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+With this formalism it is possible to evolve 
+\begin_inset Formula $Q_{n}(t)$
+\end_inset
+
+ to the present time 
+\begin_inset Formula $t_{p}$
+\end_inset
+
+, from 
+\begin_inset Formula $k=2$
+\end_inset
+
+ crown species to 
+\begin_inset Formula $q$
+\end_inset
+
+ extant ones:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Q_{n}^{k=q}(t_{p})=A_{q}(t_{p}-t_{q-1})B_{q-1}A_{q-1}(t_{q-1}-t_{q-2})\ldots B_{2}A_{2}(t_{2}-t_{1})Q_{n}^{k=2}(t_{1})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Eventually it is possible to include any number of missing species, even
+ none at all, taking a scalar product of the resulting 
+\begin_inset Formula $Q_{n}^{k=q}(t_{p})$
+\end_inset
+
+ with a proper vector of missing species 
+\begin_inset Formula $v_{m}$
+\end_inset
+
+, to obtain the probability 
+\begin_inset Formula $P(\overrightarrow{t})$
+\end_inset
+
+ of the phylogeny with branching times 
+\begin_inset Formula $\overrightarrow{t}=(t_{1},t_{2},\ldots,t_{q-1})$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{q,m}(\overrightarrow{t})=v_{m}\cdot Q_{n}^{k=q}(t_{p})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The final likelihood expression is obtained conditioning this probability
+ to the survival of the crown species (as in Nee et al.
+ 1994 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Nee1994"
+
+\end_inset
+
+) dividing it by the probability 
+\begin_inset Formula $P_{c}(t_{1},t_{p})$
+\end_inset
+
+ (obtained with similar mathematical arguments) that the 
+\begin_inset Formula $c=2$
+\end_inset
+
+ crown species at time 
+\begin_inset Formula $t_{1}$
+\end_inset
+
+ have descendants at the present time 
+\begin_inset Formula $t_{p}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+L_{q,m}=\frac{P_{q,m}(\overrightarrow{t})}{P_{c}(t_{1},t_{p})}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Mathematical framework for multiple births
+\end_layout
+
+\begin_layout Standard
+The equation to study the dynamics of the process is:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{dP_{n}(t)}{dt}=\left(\sum_{i=0}^{[n/2]}D_{n-i}(i)\lambda P_{n-i}(t)\right)+(n+1)\mu P_{n+1}(t)-\left(\sum_{i=0}^{n}D_{n}(i)\lambda P_{n}(t)\right)-n\mu P_{n}(t)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Using normalization property of distribution 
+\begin_inset Formula $D_{n}(i)$
+\end_inset
+
+ is possible to simplify the third term on the right-hand side leading to:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{dP_{n}(t)}{dt}=\left(\sum_{i=0}^{[n/2]}D_{n-i}(i)\lambda P_{n-i}(t)\right)+(n+1)\mu P_{n+1}(t)-\lambda P_{n}(t)-n\mu P_{n}(t)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+- Here 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ gets a different interpretation.
+ In fact it acts as a trigger rate for water level changes and thus for
+ speciation;
+\end_layout
+
+\begin_layout Standard
+- For every infinitesimal time interval 
+\begin_inset Formula $dt$
+\end_inset
+
+ if a speciation event occurs, it can trigger a number of simultaneous births
+ from 
+\begin_inset Formula $1$
+\end_inset
+
+ to the current number of species.
+ For that reason on the right-hand side of the equation all this speciation
+ modes must be considered and summed up;
+\end_layout
+
+\begin_layout Standard
+- If a speciation event occurs, the number of species generated is described
+ by a binomial probability distribution 
+\begin_inset Formula $D_{n}(i)$
+\end_inset
+
+ of having 
+\begin_inset Formula $i$
+\end_inset
+
+ new species from a starting pool of 
+\begin_inset Formula $n$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+D_{n}(i)=\binom{n}{i}q^{i}(1-q)^{n-i}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+- 
+\begin_inset Formula $q$
+\end_inset
+
+ is the probability for a single speciation event to occur while the binomial
+ factor 
+\begin_inset Formula $\binom{n}{i}$
+\end_inset
+
+ takes into account all the possible ways to realize this;
+\end_layout
+
+\begin_layout Standard
+- 
+\begin_inset Formula $D_{n}(i)$
+\end_inset
+
+ naturally takes into account the influence of other species on the speciation.
+ It is possible though to further include a carrying capacity 
+\begin_inset Formula $K$
+\end_inset
+
+ defining 
+\begin_inset Formula $q=q(K)$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Standard
+- The total number of species at each time seems to be very important for
+ the whole process, so the tree could be 
+\begin_inset Quotes eld
+\end_inset
+
+not breakable
+\begin_inset Quotes erd
+\end_inset
+
+ suggesting that Q approach could be the best way to go.
+\end_layout
+
+\begin_layout Section
+Likelihood estimations
+\end_layout
+
+\begin_layout Standard
+To fulfill these tasks I am going to use Likelihood models similar to techniques
+ I introduced in chapter 1.
+ So the first step will be to define a set of good functions to describe
+ phenomena (e.g.
+ 
+\begin_inset Formula $E(t)$
+\end_inset
+
+ and 
+\begin_inset Formula $D(t)$
+\end_inset
+
+ in Maddison et.
+ al 2007 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Maddison2007"
+
+\end_inset
+
+), to whose give an interpretation useful to link them directly with the
+ likelihood function.
+ Then a set of equations is needed to describe the dynamics of these functions
+ along the whole diversification process.
+ In this way, integrating them over all the branch lines and properly taking
+ into account nodes contribution (e.g.
+ Maddison et al.
+ 2007
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Maddison2007"
+
+\end_inset
+
+, Etienne et al.
+ 2012
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Etienne2012a"
+
+\end_inset
+
+) the entire diversification process can be, hopefully, reconstructed despite
+ the complexity of the process.
+\end_layout
+
+\begin_layout Subsection
+Likelihood maximization
+\end_layout
+
+\begin_layout Standard
+Several packages are available in R to maximize likelihood function (e.g.
+ subplex 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "subplex"
+
+\end_inset
+
+, nlm 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "nlm"
+
+\end_inset
+
+, mle) in order to estimate best parameter choice for a given model.
+ These will provide me the necessary tools to assess the goodness of the
+ new model, compared to a null model.
+\end_layout
+
+\begin_layout Section
+Tests
+\end_layout
+
+\begin_layout Standard
+So far I explained that all needed informations about model and parameters
+ are carried out via the likelihood function.
+ Remarkably, likelihoods can be also used to compare different models to
+ determine which is better and to which extent.
+\end_layout
+
+\begin_layout Standard
+For example is possible to define likelihood ratio test.
+ Let's suppose to have a null model named 
+\begin_inset Formula $M_{0}$
+\end_inset
+
+ (for example a standard birth-death model) and an alternative hypotesis
+ that we want to validate or reject (for example an alternative multiple
+ birth model).
+ Then let's suppose it is possible to carry out two likelihood function
+ 
+\begin_inset Formula $L_{0}$
+\end_inset
+
+ and 
+\begin_inset Formula $L_{1}$
+\end_inset
+
+ for the two models.
+ A likelihood ratio is defined as:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\lambda(x)=\frac{sup(L(\underline{\theta}|x)\,:\,\underline{\theta}\in\Theta_{0})}{sup(L(\underline{\theta}|x)\,:\,\underline{\theta}\in\Theta_{1})}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $x$
+\end_inset
+
+ are data, 
+\begin_inset Formula $\underline{\theta}$
+\end_inset
+
+ are parameters and 
+\begin_inset Formula $\Theta_{0}$
+\end_inset
+
+ and 
+\begin_inset Formula $\Theta_{1}$
+\end_inset
+
+ are parameters' sets respectively for 
+\begin_inset Formula $M_{0}$
+\end_inset
+
+ and 
+\begin_inset Formula $M_{1}$
+\end_inset
+
+.
+ Only superior values are considered as likelihoods are considered already
+ maximized.
+ 
+\begin_inset Formula $\lambda(x)$
+\end_inset
+
+ is always in the interval 
+\begin_inset Formula $[0,1]$
+\end_inset
+
+.
+ Small values of 
+\begin_inset Formula $\lambda(x)$
+\end_inset
+
+ are evidence in favor of the alternative model 
+\begin_inset Formula $M_{1}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+In general it is possible to define a likelihood test distribution 
+\begin_inset Formula $\lambda(X)$
+\end_inset
+
+, with 
+\begin_inset Formula $X$
+\end_inset
+
+ being the entire set of possible data.
+ Notably it is known from Wilk's theorem that, if 
+\begin_inset Formula $X$
+\end_inset
+
+ sample size is enough large, 
+\begin_inset Formula $\Lambda(X)=-2log(\lambda(X))$
+\end_inset
+
+ tends to distribute as a 
+\begin_inset Formula $\chi^{2}$
+\end_inset
+
+ distribution with a number of degrees of freedom equal to 
+\begin_inset Formula $m=dim(\Theta_{0})-dim(\Theta_{1})$
+\end_inset
+
+ .
+\end_layout
+
+\begin_layout Standard
+Given the distribution 
+\begin_inset Formula $\lambda(X)$
+\end_inset
+
+, a significance test can be performed arbitrary choosing a value 
+\begin_inset Formula $k\in[0,1]$
+\end_inset
+
+ to get a significance level 
+\begin_inset Formula $\alpha$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P(\lambda(X)\leq k)=\alpha
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Comparing models with AIC
+\end_layout
+
+\begin_layout Standard
+In general, comparing models, one could be also interested in considering
+ the complexity of candidate models as, usually, models involving a minor
+ complexity are preferred.
+ One of the standard techniques to assess quality of models considering
+ the tradeoff between accuracy and complexity is using Akaike's Information
+ Criteria (AIC):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+AIC=2k-2log(L)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $k$
+\end_inset
+
+ is the number of parameters introduced by the model.
+ What it is demanded to a model is to provide the highest possible likelihood
+ with the minimum number of parameters involved, so the model is as good
+ as AIC is low.
+ So, given a null model 
+\begin_inset Formula $M_{0}$
+\end_inset
+
+ and a set of candidate models 
+\begin_inset Formula $\{M_{i}\}_{i=1}^{R}$
+\end_inset
+
+ is it possible to evaluate the goodness of each one defining first AIC
+ differences with respect to the null model:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\Delta_{i}=AIC_{i}-AIC_{0}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and then defining Akaike's weights in the following way:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\omega_{i}=\frac{exp(-\frac{1}{2}\Delta_{i})}{\sum_{r=1}^{R}exp(-\frac{1}{2}\Delta_{r})}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Differently from the simple AIC here best models in the set are denoted
+ by a bigger weight.
+\end_layout
+
+\begin_layout Subsection
+Check with population dynamics simulations
+\end_layout
+
+\begin_layout Standard
+Given a process (e.g.
+ standard b-d process or its derivatives) it is usually quite simple to
+ run simulations.
+ It is infact only necessary to take into account all possible outcomes
+ (e.g.
+ speciation, extinction events for b-d, but also rate shift for BiSSE-like
+ models and so on) for every infinitesimal time interval to reconstruct
+ one of the possible dynamics for the total number of species in time.
+\end_layout
+
+\begin_layout Standard
+Thus considering a sufficiently great number of different runs it is possible
+ to reconstruct, to some extent, the average behaviour to test versus the
+ result obtained via direct integration of the model.
+\end_layout
+
+\begin_layout Standard
+Given its simplicity, this is actually a pretty standard strategy and it
+ is always worth to use as a preliminary test.
+\end_layout
+
+\begin_layout Subsection
+Check with tree simulations
+\end_layout
+
+\begin_layout Standard
+Another standard strategy to assess the validity of a theoretical diversificatio
+n model is by generating simulated trees.
+ This is widely used in literature (e.g.
+ Etienne et al.
+ 2012
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Etienne2012a"
+
+\end_inset
+
+, Maddison et al.
+ 2007
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Maddison2007"
+
+\end_inset
+
+, Fitzjohn 2010 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Fitzjohn2010"
+
+\end_inset
+
+ and many others) and it is considered the most important test to check
+ consistency of a given model.
+ The idea is very simple: in every case authors can decide beforehand which
+ staple features these trees must respect, such as number of tips, speciation
+ and extinction rates (in case diversity or time dependant), carrying capacity,
+ crown age and so on.
+ Then a family of tree is produced to act as simulated data to test the
+ model, producing a likelihood and estimating back parameters.
+ Varying parameters other family of trees can be produced to perform again
+ the tests.
+ This provides a very robust way to assess the power of the model on estimating
+ parameters when data are completely given.
+\end_layout
+
+\begin_layout Chapter
+Time Planning
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="4">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $1^{st}year$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $2^{nd}year$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $3^{rd}year$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $4^{th}year$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RQ1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RQ2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RQ4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RQ4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RQ3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RQ3
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Thesis writing
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Estimated time planning.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+addcontentsline{toc}{chapter}{Conclusions}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+markboth{Introduzione}{Conclusions} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintAll"
+bibfiles "Bibliography"
+options "bibtotoc,plain"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

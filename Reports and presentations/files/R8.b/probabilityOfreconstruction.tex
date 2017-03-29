@@ -1,0 +1,34 @@
+\documentclass[10pt,a4paper]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\begin{document}
+\section*{A general distribution for the number of missin species in an interal of observed time}
+
+%$$ \lambda_0\cdot \lambda_1\cdots\lambda_n\cdot \lambda_{n+1}\cdot e^{-\lambda_{n+1}t_0}$$ $$ \displaystyle\int_{0}^{t_0}...\displaystyle\int_{x_{n-1}}^{t_0}\displaystyle\int_{x_n}^{t_0} e^{x_0(\lambda_{n+1}-\lambda_0)}\cdots e^{x_n(\lambda_{n+1}-\lambda_n)}$$ $$\cdot[1-e^{-0(t_{pi}-\sum^0_i x_i)}]\cdots [1-e^{-\mu_n(t_{pi}-\sum^n_i x_i)}] dx_n dx_{n-1}...dx_0$$
+
+%--------------------------------------------------------------------------------------\\
+\begin{frame}
+
+
+\vspace{2cm}
+Given $\{\lambda_0,\lambda_1,\lambda_2,...\}, \{\mu_0,\mu_1,...\}$, $\{t_0,t_1\}$, we define the function $P: \mathbb{N} \longrightarrow \mathbb{R}$ as
+\begin{equation}
+\begin{split}
+P(n)=  \displaystyle\int_{0}^{t_0}\displaystyle\int_{x_0}^{t_0}...\displaystyle\int_{x_{n-1}}^{t_0}\displaystyle\int_{x_n}^{t_0} e^{x_{\color{blue}{0}}(\lambda_{n+1}-\lambda_{\color{blue}{0}})}{\color{blue} \cdots} e^{x_{\color{blue}{n}}(\lambda_{n+1}-\lambda_{\color{blue}{n}})}\cdot\\
+\qquad \cdot[1-e^{-\mu_{\color{blue}{0}}(t_1-\sum_i^{{\color{blue}{0}}} x_i)}]{\color{blue} \cdots} [1-e^{-\mu_{\color{blue}{n}}(t_1-\sum_{i}^{{\color{blue}{n}}} x_i)}] dx_n dx_{n-1}...dx_1dx_0
+\end{split}
+\end{equation}
+\end{frame}
+
+%-----------\\
+
+%\begin{equation}
+ % \textcolor{blue}{A}\color{green}=\textcolor{red}{B}\color{purple}+\textcolor{yellow}{C}\normalcolor. 
+%\end{equation}
+
+
+\end{document}

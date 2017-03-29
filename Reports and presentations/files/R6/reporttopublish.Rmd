@@ -1,0 +1,67 @@
+---
+title: Complete phylogenetic trees
+...
+
+
+
+The likelihood function {#overview .unnumbered}
+========
+
+We consider a phylogenetic tree, mathematicaly expressed as a set
+$Y = (\mathcal{T},\Upsilon)$, where $\mathcal{T}$ represent the set of
+waiting times [^1], and $\Upsilon$ has the information of the topology
+of the tree. The markov nature of the process means that the likelihood
+is exaclty the product of the conditional densities [^2], in other
+words, the likelihood of the tree is then described as a multiplication
+of an exponenial distribution and a multinomial distribution
+
+$$L(\theta | Y) = \displaystyle\prod_{i}^N -\sigma_i(\theta) e^{-\sigma_i(\theta) t_i} \frac{\rho_i(\theta)}{\sigma_i (\theta)}$$
+thus, the log-likelihood is
+$$l(\theta | Y) = \displaystyle\sum_{i}^N -\sigma_i(\theta) t_i + log (\rho_i(\theta))$$
+
+Diversity-dependence model {#diversity-dependence-model .unnumbered}
+--------------------------
+
+For a diversity-dependence model
+
+$$\lambda_{i,j} = \lambda_0 - (\lambda_0 - \mu_0)\frac{n_i}{K}, \qquad \mu_n = \mu_0$$
+
+The MLE can be finded partialy analiticaly and partialy numerically.
+First we consider $\sigma_i$ and $\rho_i$
+
+$$\sigma_i  = \sum_{j=1}^{N}  \lambda_0 - (\lambda_0 - \mu_0)\frac{n_i}{K} + \mu_0 
+         = n_i(\lambda_0 + \mu_0) - n_i^2\beta_0$$
+
+where $\beta_0=\left(\frac{\lambda_0-\mu_0}{K}\right)$, and
+
+$$\rho_i = E_i(\lambda_0 - n_i\beta_0)+(1-E_i)\mu_0$$
+
+Here, $n_i$ is defined as the number of species at time $t_i$
+
+$$ E_i = \begin{cases} 1 \quad \textit{if a speciation happened at time $t_i$}  \\
+                     0 \quad \textit{if an extinction happened at time $t_i$}
+                     \end{cases}$$
+
+### Some comments about MLE
+
+Seking for the MLE values, we analyze following system 
+$$\begin{cases} \frac{\partial l(\lambda,\beta,\mu | Y)}{\partial \lambda} = 0 \\
+                \frac{\partial l(\lambda,\beta,\mu  | Y)}{\partial \beta} = 0 \\
+                \frac{\partial l(\lambda,\beta,\mu  | Y)}{\partial \mu} = 0 
+\end{cases}$$
+
+Firstly, after some algebra, we find a very nice analytical solution for
+the extinction rate parameter $$\label{mu}
+ \frac{\partial l(\lambda,\beta,\mu | Y)}{\partial \mu} = 0  \Leftrightarrow \hat{u}_0 = \frac{\displaystyle\sum_{i=1}^N (1-E)}{\displaystyle\sum_{i=1}^N(n_it_i)}$$
+Moreover, with the other two equations, we have the following system
+$$\begin{cases} \displaystyle\sum_{i=1}^N \frac{E_i}{\lambda-n_i\beta} = \displaystyle\sum_{i=1}^N n_i t_i \\ \displaystyle\sum_{i=1}^N \frac{E_in_i}{\lambda-n_i\beta} = \displaystyle\sum_{i=1}^N n^2_i t_i \end{cases}$$
+
+
+
+
+
+[^1]: That is, $t_i$ is described as the minumun time over all possible
+    times any species could take to speciate/extinct after $t_{i-1}$
+
+[^2]: Please see the introductory essay for details
+

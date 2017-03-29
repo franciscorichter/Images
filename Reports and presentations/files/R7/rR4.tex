@@ -1,0 +1,133 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+    \usepackage{xltxtra,xunicode}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{longtable,booktabs}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\ifxetex
+  \usepackage[setpagesize=false, % page size defined by xetex
+              unicode=false, % unicode breaks when used with xetex
+              xetex]{hyperref}
+\else
+  \usepackage[unicode=true]{hyperref}
+\fi
+\hypersetup{breaklinks=true,
+            bookmarks=true,
+            pdfauthor={},
+            pdftitle={4\^{}\{th\} Report},
+            colorlinks=true,
+            citecolor=blue,
+            urlcolor=blue,
+            linkcolor=magenta,
+            pdfborder={0 0 0}}
+\urlstyle{same}  % don't use monospace font for urls
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\setcounter{secnumdepth}{5}
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+  \title{Report}
+  \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+  \author{}
+  \preauthor{}\postauthor{}
+  \predate{\centering\large\emph}
+  \postdate{\par}
+  %\date{7th of July}
+
+
+
+\begin{document}
+
+%\maketitle
+
+\vspace*{-2cm}
+\section*{General way for a set of trees}
+
+Let $S=(s_1,...,s_m)$ be a set of trees and $ \mathcal{L} = (l_1(\theta),...,l_m(\theta))$ the set of log-likelihood functions of $S$. \\
+
+Then 
+
+$$ l_j(\theta) = \displaystyle\sum_{i=1}^{N_j} - \sigma_{i,j} t_{i,j}+log(\rho_{i,j}) $$
+where $N_j$ is the number of branching times of the $j-$tree, $t_{i,j}$ is the $i^{th}$ branching time of the $j$-tree and $\sigma_{i,j}$ and $\rho_{i,j}$ are functions of $\lambda_{i,j}(\theta)$ and $\mu_{i,j}(\theta)$, which are the speciation and extinction rates of the species of the tree $j$ at time $t_{i,j}$ as described in previous reports.\\
+
+In order to solve the E-step on the EM rutine, under the monte-carlo approach, we need to calculate 
+
+$$ l(\theta) = \displaystyle\sum_{j = 1}^m l_j(\theta) $$
+
+the M-step corresponds to find $\max_{\theta} l(\theta) $.
+
+\subsection*{Diversity dependence model}
+
+ 
+As described previously, we define 
+
+$$ l_j(\theta) = \text{log-likelihood}(\theta | s_j) $$
+
+in the case of diversity-dependence, where we have \\
+
+$\sigma_{i,j} = n_{i,j}\lambda -\beta n_{i,j}^2+n_{i,j}\mu$ \\
+$\rho_{i,j} = E_{i,j}(\lambda-\beta n_{i,j})+(1-E_{i,j})\mu$ \\
+
+Thus,
+
+$$ l_j((\lambda,\beta,\mu)) = \displaystyle\sum_{i=1}^{N_j} -t_{i,j}[n_{i,j}\lambda-n_{i,j}^2 \beta - n_{i,j}\mu]+log(E_{i,j}(\lambda-\beta n_{i,j})+(1-E_{i,j})\mu)$$
+
+Moreover, 
+
+$$ l(\theta) = \displaystyle\sum_{j=1}^m \displaystyle\sum_{i=1}^{N_j} -t_{i,j}[n_{i,j}\lambda -n_{i,j}^2 \beta + n_{i,j} \mu] + log(E_{i,j}(\lambda-\beta n_{i,j})+(1-E_{i,j})\mu) $$ 
+
+where, as in the case of 1 single tree, we can find an analytical solution for the parameter $\mu$
+
+$$ \mu = \frac{\displaystyle\sum_{j=1}^m \displaystyle\sum_{i=1}^{N_j}(1-E_{i,j})}{\displaystyle\sum_{j=1}^m \displaystyle\sum_{i=1}^{N_j} t_{i,j}n_{i,j}} $$
+
+and the other two parameters might be calculated under the same framework of the single tree case. 
+
+
+\end{document}

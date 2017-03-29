@@ -1,0 +1,247 @@
+---
+title: "Report"
+author: "F. Richter"
+date: "December 7th, 2015"
+output: rmarkdown::tufte_handout
+---
+
+# Introduction 
+
+In this report an MLE estimation of the constant rates model is calculated. The general model, with non constant birth-death rates, is also discussed (I could not find an analytical MLE solution for that case). 
+
+In addition, simulated data and an intent of finding a numerical solution were performed. 
+
+
+# Analitycal analysis
+
+  We define, 
+    
+
+\begin{itemize}
+
+\item  $\beta$: Speciation rate.
+  
+\item  $\delta$ : Extinction rate.
+  
+\item  $t_i$: Time when the event $i$ (speciation or extinction) occurs.
+
+\item  $x_i$: Number of species on time $t_i$. 
+  
+\end{itemize}
+
+
+The probability of a speciation ocurrs on time $t$ is given by the exponential probability distribution 
+\begin{figure}
+    $$ P_\beta(T=t;\beta) = -\beta e^{-\beta t} $$
+   % \caption{Probability of a speciation occurs on time $t$}
+\end{figure}     
+whereas the probabilty of an extinction occurs on time $t$ is
+\begin{figure}
+    $$ P_\delta(T=t;\delta) = -\delta e^{-\delta t} $$
+      %  \caption{Probability of a speciation ocurrs on time $t$}
+\end{figure}   
+Moreover, given the waiting time $t_1$ the probability of an speciation event occurs is $\beta / (\beta + \delta)$ and the probability an expeciation happens on $t_i$ is $\delta / (\beta + \delta)$ 
+
+\begin{marginfigure}
+    $$ P(Birth;\emph{waiting time}) = \frac{\beta}{\beta + \delta} $$
+    $$ P(Death;\emph{waiting time}) = \frac{\delta}{\beta + \delta} $$
+    \caption{Probability of speciation and extintions event.}
+\end{marginfigure}  
+
+Thus, a possible likelihood function corrisponding to the phylogenic tree would be 
+
+\begin{figure}
+
+$$L = \displaystyle\prod_{i=1}^n (\beta + \delta) x_i e^{-(\beta + \delta) x_i t_i}  \left( \frac{\beta}{\beta+\delta} \right)^{b_i} \left( \frac{\delta}{\beta+\delta} \right)^{d_i}$$
+
+\end{figure}
+
+
+where $b_i$ is the number of speciations on time $t_i$ and $d_i$ is the number of extinctions on time $t_i$. 
+
+Thus, the loglikelihood function is 
+
+\begin{figure}
+
+$$lL = \displaystyle\sum_{i=1}^n ln(\beta + \delta) + ln(x_i)  -(\beta + \delta) x_i t_i + b_i(ln(\beta)-ln(\beta+\delta)) + d_i(ln(\delta)-ln(\beta+\delta)) $$
+
+\end{figure}
+
+
+Finally, to maximize the likelihood we solve the equations 
+
+\begin{equation}
+\frac{\partial lL}{\partial \beta} = 0 ; \qquad
+\frac{\partial lL}{\partial \delta} = 0
+\label{mle}
+\end{equation}
+
+
+The analytical solution corresponding to equations (\ref{mle}) are 
+
+\begin{figure}
+
+$$\beta = \frac{N\sum b_i}{\sum x_it_i (\sum b_i + \sum d_i)} $$
+$$\delta = \frac{N\sum d_i}{\sum x_it_i (\sum b_i + \sum d_i)}  $$
+
+\end{figure}
+
+
+
+This is an useful result as a first step, however, since we assume $\beta$ and $\delta$ are constant numbers, this is not yet a realistic case. We would be interested in the case when the speciation and extinction parameters depends on covariates, for instance 
+
+
+
+
+$$log(\beta) = \theta_0 + \theta_1 \emph{body size} + \theta_2 \emph{ave. temp.} $$
+
+
+
+
+
+
+\begin{marginfigure}
+
+$$log(\beta) = A\theta $$
+$$log(\delta) = A\phi  $$
+
+\caption{An option is to model the parameters as a GLM}
+\end{marginfigure}
+
+
+We consider the simple case 
+
+$$\beta = e^{\theta_0 + \theta_1 a}$$
+$$\delta = e^{\phi_0 + \phi_1 a}  $$
+
+and we call it the model M2.
+
+\begin{marginfigure}
+
+$$\frac{\partial\beta}{\partial \theta_0} = e^{\theta_0 + \theta_1 a}  $$
+$$\frac{\partial\beta}{\partial \theta_1} = ae^{\theta_0 + \theta_1 a}  $$
+
+\end{marginfigure}
+
+\begin{marginfigure}
+
+$$\frac{\partial\delta}{\partial \theta_0} = e^{\phi_0 + \phi_1 a}  $$
+$$\frac{\partial\delta}{\partial \theta_1} = ae^{\phi_0 + \phi_1 a}  $$
+
+\end{marginfigure}
+
+For MLE calculation, by the chain rule we have 
+
+
+$$ \frac{\partial lL}{\partial \theta_0} = \frac{\partial lL}{\partial \beta} \frac{\partial \beta}{\partial \theta_0} = e^{\theta_0 + \theta_1 a} \frac{\partial lL}{\partial \beta} ; $$
+$$ \frac{\partial lL}{\partial \theta_1} = \frac{\partial lL}{\partial \beta} \frac{\partial \beta}{\partial \theta_0} = ae^{\theta_0 + \theta_1 a} \frac{\partial lL}{\partial \beta}, $$
+
+and similarly 
+
+$$ \frac{\partial lL}{\partial \phi_0}  = e^{\phi_0 + \phi_1 a} \frac{\partial lL}{\partial \delta} ; $$
+$$ \frac{\partial lL}{\partial \phi_1}  = ae^{\phi_0 + \phi_1 a} \frac{\partial lL}{\partial \delta}.$$
+
+Thus, if $a\neq 0$, the system 
+
+\begin{equation}
+\frac{\partial lL}{\partial \theta_0} = 0 ; \quad
+\frac{\partial lL}{\partial \theta_1} = 0 ; \quad
+\frac{\partial lL}{\partial \phi_0} = 0 ; \quad
+\frac{\partial lL}{\partial \phi_1} = 0 
+\label{mle2}
+\end{equation}
+
+is equivalent to (\ref{mle}) and we have two equations but four parameters. 
+
+# Simulations
+
+We simulate data from the M2 model:
+
+```{r, warning=FALSE}
+nT=15
+theta=c(1,2)
+phi=c(0,1)
+set.seed(123)
+dat<-NULL
+AA <- NULL
+AA <- list()
+A=rexp(1,4)
+dat[[1]]<-list(tm=0,x=1,A=A)
+X=0
+X[1]=1
+tm=0
+D=0
+B=0
+Tm=tm
+AA[[1]]=A
+i<-2
+stm <- 0
+while (i<=nT & dat[[i-1]]$x>0){
+  beta<-theta[1]+theta[2]*dat[[i-1]]$A
+  delta<-phi[1]+phi[2]*dat[[i-1]]$A
+  prev.x=dat[[i-1]]$x  
+  tm<-rexp(1,(sum(beta)+sum(delta)))
+  stm <- stm+tm
+  prob<-c(delta,beta)/(sum(beta)+sum(delta))
+  BD<-sample(2*prev.x,1,prob=prob)
+  if(BD<=prev.x){
+    x = prev.x-1
+    A = dat[[i-1]]$A[-BD]
+    D[i]=1
+    B[i]=0
+  } else {
+    x = prev.x + 1
+    A = c(dat[[i-1]]$A,dat[[i-1]]$A[BD-prev.x]*rgamma(1,100,100))
+    D[i]=0
+    B[i]=1
+  }
+  dat[[i]]<-list(tm=stm,x=x,A=A)
+  X[i]=x
+  Tm[i]=tm
+  AA[[i]]=A
+  
+  i<-i+1
+}
+
+```
+
+To see the iterations we type
+```{r}
+dat
+```
+\newpage
+That is
+
+```{r, results='asis', xtable.margin = TRUE}
+it=length(dat)
+tree <- data.frame(time=it,x=2)
+for (i in 1:it){
+  tree[i,] = c(t=dat[[i]]$tm,x=dat[[i]]$x)
+}
+library(xtable)
+options(xtable.comment = FALSE)
+options(xtable.booktabs = TRUE)
+xtable(tree, caption = "Table with simulated waiting times and number of species")
+```
+
+
+We try an MLE calculation maximizing the Likelihood function, but for different initial values the estimated parameters are very different and most of them does not make any sense. 
+
+
+```{r, warning=FALSE}
+fn <- function(theta) {
+  beta=0
+  delta=0
+  for(i in 1:nT){
+    beta[i]=theta[1]+sum(theta[2]*AA[[i]])
+    delta[i]=theta[3]+sum(theta[4]*AA[[i]])
+  }
+  sum(log(beta+delta)+log(x)-(beta+delta)*x*Tm+D*(log(beta)-log(beta+delta))+B*(log(delta)-log(beta+delta)))
+}
+
+nlm(fn, theta <- c(0.5,0.1,0.7,0.8), hessian=TRUE)
+```
+
+
+
+

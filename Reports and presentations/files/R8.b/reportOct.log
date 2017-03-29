@@ -1,0 +1,397 @@
+This is LuaTeX, Version beta-0.80.0 (TeX Live 2015/Debian) (rev 5238)  (format=lualatex 2016.5.11)  2 NOV 2016 21:38
+ restricted \write18 enabled.
+**reportOct.tex --enable-write18
+(./reportOct.tex
+LaTeX2e <2016/02/01>
+Babel <3.9q> and hyphenation patterns for 1 language(s) loaded.
+(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2015/03/17 v1.2c Input encoding file
+\inpenc@prehook=\toks14
+\inpenc@posthook=\toks15
+
+
+Package inputenc Warning: inputenc package ignored with utf8 based engines.
+
+) (/usr/share/texlive/texmf-dist/tex/generic/babel/babel.sty
+Package: babel 2016/02/24 3.9q The Babel package
+
+(/usr/share/texlive/texmf-dist/tex/generic/babel/luababel.def
+\l@dumylang=\language1
+\l@nohyphenation=\language2
+\l@serbianc=\language3
+\l@georgian=\language4
+\l@czech=\language5
+\l@coptic=\language6
+\l@friulan=\language7
+\l@icelandic=\language8
+\l@slovenian=\language9
+\l@lithuanian=\language10
+\l@danish=\language11
+\l@catalan=\language12
+\l@turkish=\language13
+\l@assamese=\language14
+\l@kannada=\language15
+\l@occitan=\language16
+\l@slovak=\language17
+\l@german=\language18
+\l@estonian=\language19
+\l@armenian=\language20
+\l@german-x-2014-05-21=\language21
+\l@esperanto=\language22
+\l@tamil=\language23
+\l@kurmanji=\language24
+\l@finnish=\language25
+\l@ancientgreek=\language26
+\l@polish=\language27
+\l@gujarati=\language28
+\l@irish=\language29
+\l@piedmontese=\language30
+\l@croatian=\language31
+\l@ngerman=\language32
+\l@afrikaans=\language33
+\l@ukrainian=\language34
+\l@usenglishmax=\language35
+\l@monogreek=\language36
+\l@russian=\language37
+\l@mongolianlmc=\language38
+\l@romansh=\language39
+\l@serbian=\language40
+\l@uppersorbian=\language41
+\l@french=\language42
+\l@malayalam=\language43
+\l@greek=\language44
+\l@swedish=\language45
+\l@bengali=\language46
+\l@spanish=\language47
+\l@hindi=\language48
+\l@galician=\language49
+\l@oriya=\language50
+\l@bokmal=\language51
+\l@ngerman-x-2014-05-21=\language52
+\l@arabic=\language53
+\l@romanian=\language54
+\l@telugu=\language55
+\l@hungarian=\language56
+\l@marathi=\language57
+\l@italian=\language58
+\l@ukenglish=\language59
+\l@latvian=\language60
+\l@classiclatin=\language61
+\l@pinyin=\language62
+\l@basque=\language63
+\l@nynorsk=\language64
+\l@dutch=\language65
+\l@sanskrit=\language66
+\l@ethiopic=\language67
+\l@latin=\language68
+\l@bulgarian=\language69
+\l@indonesian=\language70
+\l@turkmen=\language71
+\l@farsi=\language72
+\l@mongolian=\language73
+\l@ibycus=\language74
+\l@swissgerman=\language75
+\l@welsh=\language76
+\l@panjabi=\language77
+\l@interlingua=\language78
+\l@portuguese=\language79
+\l@thai=\language80
+)
+(/usr/share/texlive/texmf-dist/tex/generic/babel-english/english.ldf
+Language: english 2012/08/20 v3.3p English support from the babel system
+
+(/usr/share/texlive/texmf-dist/tex/generic/babel/babel.def
+File: babel.def 2016/02/24 3.9q Babel common definitions
+\babel@savecnt=\count87
+\U@D=\dimen103
+
+(/usr/share/texlive/texmf-dist/tex/generic/babel/luababel.def))
+\l@canadian = a dialect from \language\l@american 
+\l@australian = a dialect from \language\l@british 
+\l@newzealand = a dialect from \language\l@british 
+))
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2016/03/03 v2.15a AMS math features
+\@mathmargin=\skip43
+
+For additional information on amsmath, use the `?' option.
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01 AMS text
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks16
+\ex@=\dimen104
+))
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen105
+)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 1999/12/14 v2.01 operator names
+)
+\inf@bad=\count88
+LaTeX Info: Redefining \frac on input line 199.
+\uproot@=\count89
+\leftroot@=\count90
+LaTeX Info: Redefining \overline on input line 297.
+\classnum@=\count91
+\DOTSCASE@=\count92
+LaTeX Info: Redefining \ldots on input line 394.
+LaTeX Info: Redefining \dots on input line 397.
+LaTeX Info: Redefining \cdots on input line 518.
+\Mathstrutbox@=\box26
+\strutbox@=\box27
+\big@size=\dimen106
+LaTeX Font Info:    Redeclaring font encoding OML on input line 630.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 631.
+\macc@depth=\count93
+\c@MaxMatrixCols=\count94
+\dotsspace@=\muskip10
+\c@parentequation=\count95
+\dspbrk@lvl=\count96
+\tag@help=\toks17
+\row@=\count97
+\column@=\count98
+\maxfields@=\count99
+\andhelp@=\toks18
+\eqnshift@=\dimen107
+\alignsep@=\dimen108
+\tagshift@=\dimen109
+\tagwidth@=\dimen110
+\totwidth@=\dimen111
+\lineht@=\dimen112
+\@envbody=\toks19
+\multlinegap=\skip44
+\multlinetaggap=\skip45
+\mathdisplay@stack=\toks20
+LaTeX Info: Redefining \[ on input line 2735.
+LaTeX Info: Redefining \] on input line 2736.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+)
+(/usr/share/texlive/texmf-dist/tex/latex/algorithms/algorithmic.sty
+Package: algorithmic 2009/08/24 v0.1 Document Style `algorithmic'
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks21
+)
+\c@ALC@unique=\count100
+\c@ALC@line=\count101
+\c@ALC@rem=\count102
+\c@ALC@depth=\count103
+\ALC@tlm=\skip46
+\algorithmicindent=\skip47
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2016/01/03 v1.0q Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/graphics.cfg
+File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
+)
+Package graphics Info: Driver file: pdftex.def on input line 95.
+
+(/usr/share/texlive/texmf-dist/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count104
+))
+\Gin@req@height=\dimen113
+\Gin@req@width=\dimen114
+)
+(/usr/share/texlive/texmf-dist/tex/latex/blindtext/blindtext.sty
+Package: blindtext 2012/01/06 V2.0 blindtext-Package
+
+(/usr/share/texlive/texmf-dist/tex/latex/tools/xspace.sty
+Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
+)
+\c@blindtext=\count105
+\c@Blindtext=\count106
+\c@blind@countparstart=\count107
+\blind@countxx=\count108
+\blindtext@numBlindtext=\count109
+\blind@countyy=\count110
+\c@blindlist=\count111
+\c@blindlistlevel=\count112
+\c@blindlist@level=\count113
+\blind@listitem=\count114
+\c@blind@listcount=\count115
+\c@blind@levelcount=\count116
+\blind@mathformula=\count117
+\blind@Mathformula=\count118
+\c@blind@randomcount=\count119
+\c@blind@randommax=\count120
+\c@blind@pangramcount=\count121
+\c@blind@pangrammax=\count122
+) (./reportOct.aux)
+\openout1 = reportOct.aux
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+
+(/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count123
+\scratchdimen=\dimen115
+\scratchbox=\box28
+\nofMPsegments=\count124
+\nofMParguments=\count125
+\everyMPshowfont=\toks22
+\MPscratchCnt=\count126
+\MPscratchDim=\dimen116
+\MPnumerator=\count127
+\makeMPintoPDFobject=\count128
+\everyMPtoPDFconversion=\toks23
+) (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
+Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO)
+
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifluatex.sty
+Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX detected.
+)
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in PDF mode is detected.
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/luatex-loader.sty
+Package: luatex-loader 2010/03/09 v0.4 Lua module loader (HO)
+
+(/usr/share/texlive/texmf-dist/scripts/oberdiek/oberdiek.luatex.lua))
+\pdftexcmds@toks=\toks24
+)
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
+
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2010/08/19 v1.1 Manage graphics extensions (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
+Package: kvdefinekeys 2011/04/07 v1.3 Define keys (HO)
+))
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
+Package: kvsetkeys 2012/04/25 v1.16 Key value parser (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+Package: etexcmds 2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)
+)))
+Package grfext Info: Graphics extension search list:
+(grfext)             [.png,.pdf,.jpg,.mps,.tif,.jpeg,.PNG,.PDF,.JPG,.JPEG,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 452.
+
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
+
+))
+LaTeX Font Info:    Try loading font information for U+msa on input line 25.
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 25.
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+Underfull \hbox (badness 10000) in paragraph at lines 59--60
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 77--78
+
+ []
+
+[1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 89.
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 89.
+ [2] (./reportOct.aux))
+
+Here is how much of LuaTeX's memory you used:
+ 3513 strings out of 495004
+ 100000,128383 words of node,token memory allocated
+ 342 words of node memory still in use:
+   5 hlist, 2 vlist, 2 rule, 2 glue, 1 kern, 44 glue_spec, 1 write nodes
+   avail lists: 2:20,3:103,4:758,5:110,6:1703,7:9,9:132,10:175
+ 6858 multiletter control sequences out of 65536+600000
+ 39 fonts using 1544147 bytes
+ 37i,4n,24p,353b,412s stack positions out of 5000i,500n,10000p,200000b,100000s
+<</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><</usr
+/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><</usr/share
+/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><</usr/share/texli
+ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><</usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><</usr/share/texlive/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmr7.pfb><</usr/share/texlive/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmsy10.pfb>
+Output written on reportOct.pdf (2 pages, 78436 bytes).
+
+PDF statistics: 39 PDF objects out of 1000 (max. 8388607)
+ 27 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 131072)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+

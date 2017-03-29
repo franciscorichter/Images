@@ -1,0 +1,196 @@
+---
+title: ""
+author: ""
+date: "January 30, 2016"
+output: beamer_presentation
+---
+
+## R Markdown
+
+This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
+
+## Slide with Bullets
+
+- Bullet 1
+- Bullet 2
+- Bullet 3
+
+## Slide with R Code and Output
+
+```{r}
+summary(cars)
+```
+
+## Slide with Plot
+
+```{r, echo=FALSE}
+library(ape)
+sl = paste(letters[1],letters,":0",sep="")
+for (i in 2:26){
+  ll = paste(letters[i],letters,":0",sep="")  
+  sl = c(sl,ll)
+}
+
+
+phyl <- function(nT=100,theta=c(3,4),phi=c(1,2), draw=TRUE, model="loglinear"){
+ # set.seed(1)
+  traits = list()
+  x=1
+  tree = NULL
+  a = rexp(1,4) # covariate for first specie
+  A = a
+  i <- 1
+  Tm=0
+  newick = paste(sl[1],";",sep="")
+  newickm = list( substr(sl[1],1,2))
+  E=0
+    while (i<=nT){
+      if (model == "loglinear"){
+        lambda <- exp(theta[1]+theta[2]*A)     # Covariates model
+        mu <- exp(phi[1]+phi[2]*A)             # Covariates model
+      }
+      if (model == "linear"){
+        lambda <- theta[1]+theta[2]*A
+        mu <- phi[1]+phi[2]*A
+      }
+      if (model == "logistic"){
+        lambda <- theta[1]/(1+exp(-theta[2]*A))
+        mu <- phi[1]/(1+exp(-phi[2]*A))
+      }
+      s = sum(lambda)+sum(mu)
+      tm <- rexp(1,s)
+      Tm[i] = tm
+      prob <- c(lambda,mu)/s
+      BD <- sample(2*x,1,prob=prob)  #speciation/extinction--specie
+      BD
+      if(BD>x){   #extinction
+        a[i] = A[BD-x] 
+        A <- A[-(BD-x)] # remove the value for the extinct specie
+        specie = newickm[BD-x]
+        ind = regexpr(specie,newick)[1] + 2
+        newick = paste(substr(newick,1,ind),as.character(tm),substring(newick,ind+2),sep="")
+        newickm[[BD-x]] <- NULL
+        E[i] = 0
+        x = x - 1
+      } else {  # speciation
+        a[i] = A[BD] 
+        A <- c(A,A[BD]*rgamma(1,100,100))  #quizas seria mejor una normal... o algo simetrico que no pueda ser negativo
+        specie = newickm[BD]
+        ind = regexpr(specie,newick)[1] -1
+        newick <- paste(substr(newick,1,ind),"(",sl[i],",",sl[677-i],"):",as.character(tm),substring(newick,ind+5),sep="")
+        newickm[BD] <- substr(sl[i],1,2)
+        newickm <-append(newickm,list(sl[677-i]))
+        nspe = x + 1  #?
+        x = x + 1
+        E[i] = 1
+      }
+    if (x==0){ # In case we have all species extinct: restart
+      x=1
+      tree = NULL
+      a = rexp(1,4) # covariate for first specie
+      newick = paste(sl[1],";",sep="")
+      rm(newickm)
+      newickm = list( substr(sl[1],1,2))
+      A=a
+      i <- 1
+    } else { # Otherwise, update values and go to next iteration (... and maybe plot)
+      traits[[i]]<-A
+      i<-i+1
+    }
+  
+      }
+#  newick <- gsub(":0)",":0.004)",newick)
+#  newick <- gsub(":0,",":0.04,",newick)
+  if(draw){
+    ppp = read.tree(text=newick)
+    plot(ppp)
+  }
+  treeD = list(t=Tm, cov = a, traits=traits, E=E, newick=newick)
+}
+
+fn1 <- function(theta, nT = 100) {
+  parm = exp(theta[1] + theta[2]*a)*E+exp(theta[3] + theta[4]*a)*(1-E)
+  sig = 0
+  for (i in 1:nT){
+    sig[i] = sum(exp(theta[1] + theta[2]*A[[i]])) + sum(exp(theta[3] + theta[4]*A[[i]]))
+  }
+  fn=sum(-sig*Tm+log(parm))
+  -fn
+}
+
+fn2 <- function(theta, nT = 100) {
+  parm = (theta[1] + theta[2]*a)*E+(theta[3] + theta[4]*a)*(1-E)
+  sig = 0
+  for (i in 1:nT){
+    sig[i] = sum((theta[1] + theta[2]*A[[i]])) + sum((theta[3] + theta[4]*A[[i]]))
+  }
+  fn=sum(-sig*Tm+log(parm))
+  -fn
+}
+
+fn3 <- function(theta, nT = 100) {
+  parm = (theta[1]/(1+exp(-theta[2]*a)))*E+(theta[3]/(1+exp(-theta[4]*a)))*(1-E)
+  sig = 0
+  for (i in 1:nT){
+    sig[i] = sum((theta[1]/(1+exp(-theta[2]*A[[i]])))) + sum((theta[3]/(1+exp(-theta[4]*A[[i]]))))
+  }
+  fn=sum(-sig*Tm+log(parm))
+  -fn
+}
+
+
+```
+
+```{r}
+model = "loglinear"
+s1 = phyl(nT=10, model = model)
+```
+
+
+## Tables
+
+```{r, results='asis', xtable.margin = TRUE}
+rm(P)
+nP=100
+P <- matrix(nrow=nP,ncol=4)
+for (j in 1:nP){
+  model = "loglinear"
+  fn <- fn1
+  s1 = phyl(nT=100, model = model, draw = FALSE)
+  E = s1$E
+  A = s1$traits
+  a = s1$cov
+  Tm = s1$t
+  length(E[E==0])/length(E[E==1])
+  op <- nlm(fn, theta <- c(1,1,1,1), hessian=TRUE)   # Initial values!! ?, nlm
+  P[j,1]=op$estimate[1]
+  P[j,2]=op$estimate[2]
+  P[j,3]=op$estimate[3]
+  P[j,4]=op$estimate[4]
+}
+p1 <- na.omit(P[,1])
+p2 <- na.omit(P[,2])
+p2t <- p2[abs(p2)<30]
+p3 <- na.omit(P[,3])
+p4 <- na.omit(P[,4])
+p4t <- p4[abs(p4)<30]
+S <- matrix(nrow=4,ncol=6)
+colnames(S) <- c("n","real value","mean","median","min","max")
+L=list(p1,p2,p3,p4)
+l=c(3,4,1,2)
+for (j in 1:4){
+  p=L[[j]]
+  S[j,1] = length(p)
+  S[j,2] = l[j]
+  S[j,3] = mean(p)
+  S[j,4] = median(p)
+  S[j,5] = min(p)
+  S[j,6] = max(p)
+}
+library(xtable)
+options(xtable.comment = FALSE)
+options(xtable.booktabs = TRUE)
+xtable(S, caption = "Model 1")
+```
