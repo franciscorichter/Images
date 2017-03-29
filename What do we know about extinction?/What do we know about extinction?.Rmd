@@ -25,6 +25,15 @@ ltt = expectedLTT(pars,drop.extinct = TRUE)
 qplot(ltt$t,ltt$Ex)
 ```
 
+```{r, echo=FALSE, include=FALSE, c0}
+mu = 0.1
+pars = c(0.8,mu,40)
+ltt = expectedLTT2(pars)
+qplot(ltt$t,ltt$Ex)
+ltt = expectedLTT2(pars)
+qplot(ltt$t,ltt$Ex)
+```
+
 Because extinct species are rarelly included on phylogenetic trees, we are interested on invetigate the information that extant species contains about extinction rates. On the plot below we can see the expected Ltt plot, of extant-species only trees, for 3 different extinction rates
 
 
@@ -41,9 +50,73 @@ pars = c(0.8,mu,40)
 ltt = data.frame(expectedLTT(pars,drop.extinct = TRUE),mu=mu)
 Ltt = rbind(Ltt,ltt)
 Ltt$mu = as.factor(Ltt$mu)
+```
+
+```{r}
+ggplot(data=Ltt, aes(x=t, colour = mu)) + geom_step(aes(y=Ex))
+```
+
+
+```{r, c10}
+a=1
+mu = 0.1
+pars = c(0.8,mu,40)
+Ltt = data.frame(expectedLTT2(pars),mu=mu)
+mu = 0.2
+pars = c(0.8,mu,40)
+ltt = data.frame(expectedLTT2(pars),mu=mu)
+Ltt = rbind(Ltt,ltt)
+mu = 0.3
+pars = c(0.8,mu,40)
+ltt = data.frame(expectedLTT2(pars),mu=mu)
+Ltt = rbind(Ltt,ltt)
+Ltt$mu = as.factor(Ltt$mu)
+```
+
+```{r}
+a=1
+ggplot(data=Ltt, aes(x=t, colour = mu)) + geom_step(aes(y=Ex))
+```
+
+
+I would like to also observe curve when $\lambda-\mu$ is constant
+
+```{r, c11}
+mu = 0.1
+pars = c(0.8,mu,40)
+Ltt = data.frame(expectedLTT(pars,drop.extinct = TRUE),mu=mu)
+mu = 0.2
+pars = c(0.9,mu,40)
+ltt = data.frame(expectedLTT(pars,drop.extinct = TRUE),mu=mu)
+Ltt = rbind(Ltt,ltt)
+mu = 0.3
+pars = c(1,mu,40)
+ltt = data.frame(expectedLTT(pars,drop.extinct = TRUE),mu=mu)
+Ltt = rbind(Ltt,ltt)
+Ltt$mu = as.factor(Ltt$mu)
   
 ggplot(data=Ltt, aes(x=t, y=Ex, colour = mu)) + geom_line() +   geom_point(size=1)
 ```
+
+what about if the rate s constant
+
+```{r, c12}
+mu = 0.1
+pars = c(0.8,mu,40)
+Ltt = data.frame(expectedLTT(pars,drop.extinct = TRUE),mu=mu)
+mu = 0.2
+pars = c(1.6,mu,40)
+ltt = data.frame(expectedLTT(pars,drop.extinct = TRUE),mu=mu)
+Ltt = rbind(Ltt,ltt)
+mu = 0.3
+pars = c(2.4,mu,40)
+ltt = data.frame(expectedLTT(pars,drop.extinct = TRUE),mu=mu)
+Ltt = rbind(Ltt,ltt)
+Ltt$mu = as.factor(Ltt$mu)
+  
+ggplot(data=Ltt, aes(x=t, y=Ex, colour = mu)) + geom_line() +   geom_point(size=1)
+```
+
 
 we can see a clear difference on Ltt plots of extant species, smaller extinction rates tents to grow faster on the begining whereas higger extinction rate seems to have a slow grow on the begining. 
 

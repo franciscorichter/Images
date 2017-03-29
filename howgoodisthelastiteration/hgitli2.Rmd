@@ -10,6 +10,8 @@ knitr::opts_chunk$set(cache=TRUE)
 
 ```{r echo=FALSE, include=FALSE,cache=FALSE}
 library(dmea)
+library(deSolve)
+library(DDD)
 ```
 
 ## Method 1
@@ -34,6 +36,30 @@ par_est_vis(P=MP,par=3,PR=RP)
 ```
 
 ```{r sum1}
+summary(MP)
+```
+
+
+```{r sim1Co, message=FALSE}
+n_sim = 1000
+n_trees = 10
+MP = matrix(nrow=n_sim,ncol=3)
+RP = matrix(nrow=n_sim,ncol=3)
+p = proc.time()
+for(i in 1:n_sim){
+  est = sim_est(n_trees=n_trees,rec_method=1,seed=i,conditionToSurvival = TRUE)
+  RP[i,] = est$real
+  MP[i,] = est$est
+}
+print(proc.time()-p)
+
+par_est_vis(P=MP,par=1,PR=RP)
+par_est_vis(P=MP,par=2,PR=RP)
+par_est_vis(P=MP,par=3,PR=RP)
+
+```
+
+```{r sum1Co}
 summary(MP)
 ```
 
@@ -67,6 +93,35 @@ par_est_vis(P=MP,par=3,PR=RP)
 summary(MP)
 ```
 
+
+```{r sim1pSu, eval=FALSE}
+library(deSolve)
+no_cores <- detectCores()- 1 
+cl <- makeCluster(no_cores)
+registerDoParallel(cl)
+
+n_sim = 1000
+n_trees = 10
+MP = matrix(nrow=n_sim,ncol=3)
+RP = matrix(nrow=n_sim,ncol=3)
+p = proc.time()
+ests <- foreach(i = 1:n_sim, .combine=data.frame,.packages='dmea') %dopar% sim_est(n_trees=n_trees,rec_method=1,seed=i,conditionToSurvival=TRUE)
+print(proc.time()-p)
+
+for (i in 1:n_sim){
+  RP[i,] = ests[,(2*i-1)]
+  MP[i,] = ests[,2*i]
+}
+stopCluster(cl)
+par_est_vis(P=MP,par=1,PR=RP)
+par_est_vis(P=MP,par=2,PR=RP)
+par_est_vis(P=MP,par=3,PR=RP)
+
+```
+
+```{r sum1pSu, eval=FALSE}
+summary(MP)
+```
 
 now for sets of 100 trees 
 

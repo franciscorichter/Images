@@ -132,3 +132,52 @@ p = proc.time()
 pars = subplex(par = pars, fn = llik_st , setoftrees = S)
 print(proc.time()-p)
 ```
+
+
+**********************
+
+# Computational times of normal simulation functions
+
+```{r}
+n_it = 1
+a = vector("list", n_it)
+# diversity dependence model. parameters are par=c(lambda,mu,K)
+time=proc.time()
+for (i in 1:(n_it)){
+  s = sim_phyl()
+  a[[i]] = s$wt
+}
+t2 = proc.time()-time
+paste(t2[3]/60,'min')
+```
+
+```{r}
+n_it = 10
+a = vector("list", n_it)
+# diversity dependence model. parameters are par=c(lambda,mu,K)
+time=proc.time()
+for (i in 1:(n_it)){
+  s = sim_phyl()
+  a[[i]] = s$wt
+}
+t2 = proc.time()-time
+paste(t2[3]/60,'min')
+```
+
+```{r}
+n_it = 100
+a = vector("list", n_it)
+# diversity dependence model. parameters are par=c(lambda,mu,K)
+time=proc.time()
+for (i in 1:(n_it)){
+  s = sim_phyl()
+  a[[i]] = s$wt
+}
+t2 = proc.time()-time
+paste(t2[3]/60,'min')
+```
+
+
+
+
+

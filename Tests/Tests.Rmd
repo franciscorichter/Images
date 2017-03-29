@@ -87,7 +87,7 @@ update_tree(in_dmea,t_spe=0.5,t_ext = 1.5)
 
 ```{r}
 st <- sim_phyl()
-L <- create_L(t=st$t, E=st$E)
+L <- create_L(t=st$wt, E=st$E)
 miss <- L[L[,3] != (-1),]
 miss_spe <- miss$spec
 time <- rbind(data.frame(brtimes = L[,2], E=1, spec = L[,1]),data.frame(brtimes = miss[,3], E=0, spec = miss[,1]))

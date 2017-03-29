@@ -8,3 +8,7 @@ foreach
 iterators
 doParallel
 dmea
+gtable
+nLTT
+matrixStats
+dplyr

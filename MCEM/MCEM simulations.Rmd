@@ -1,8 +1,10 @@
 ---
 title: "MCEM simulations"
-author: ""
-date: "January 27, 2017"
-output: html_document
+author: ''
+date: ''
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 ````{r setup, include=FALSE}
@@ -16,230 +18,538 @@ library(dmea)
 ### Simulations
 
 
+```{r, sim1}
+time = proc.time()
+seed = 3
+s = sim_phyl(seed=3)
+s2 = s$newick.extant.p
+EM = EM_phylo(wt=s2$wt, init_par = c(1.8,0.6,80),n_trees = 10, parallel = F, impsam = T,tol=0.01)
+print(proc.time()-time)
+```
 ```{r}
+qplot(1:30,EM$pars[,2])
+EM$pars
+```
+
+```{r, sim111}
+time = proc.time()
+stat=NULL
+phylo1 = s$newick.extant
+for(i in 1:30){
+  expe = expectedLTT2(pars=EM$pars[i,])
+  wt = c(expe$bt[1],diff(expe$bt))
+  p = list(wt=wt,E=rep(1,length(expe$bt)),n=expe$Ex)
+  phylo2 = p2phylo(p)
+  ltt = ltt_stat(phylo1,phylo2)
+  stat[i] = ltt
+}
+print(proc.time()-time)
+```
+
+```{r, cache=FALSE}
+ qplot(1:30,stat)
+```
+what if fo the expected thing with 100 trees?
+```{r, ltt12}
+time = proc.time()
+stat=NULL
+for(i in 1:30){
+  expe = expectedLTT2(pars=EM$pars[i,],n_it=100)
+  wt = c(expe$bt[1],diff(expe$bt))
+  p = list(wt=wt,E=rep(1,(length(expe$bt)-1)),n=expe$Ex)
+  phylo2 = p2phylo(p)
+  ltt = ltt_stat(phylo1,phylo2)
+  stat[i] = ltt
+}
+print(proc.time()-time)
+```
+
+```{r, cache=FALSE}
+ qplot(1:30,stat)
+```
+
+
+wait, that was with importance sampling, now without that
+
+```{r, sim12}
+n_it=70
+time = proc.time()
+EM = EM_phylo(wt=s2$wt, init_par = c(1.8,0.6,80),n_trees = 10, parallel = F, impsam = F,tol=0.01, n_it=n_it)
+print(proc.time()-time)
+```
+
+
+```{r, cache=FALSE}
+qplot(1:n_it,EM$pars[,2])
+```
+
+
+```{r, ltt2}
+stat=NULL
+time=proc.time()
+for(i in 1:n_it){
+  expe = expectedLTT2(pars=EM$pars[i,])
+  wt = c(expe$bt[1],diff(expe$bt))
+  p = list(wt=wt,E=rep(1,length(expe$bt)),n=expe$Ex)
+  phylo2 = p2phylo(p)
+  ltt = ltt_stat(phylo1,phylo2)
+  stat[i] = ltt
+}
+print(proc.time()-time)
+```
+
+```{r, cache=FALSE}
+ qplot(1:n_it,stat)
+```
+
+
+
+I am going to do the same but with 100 trees:
+
+nice, I want to check for another tree
+
+
+```{r, sim11}
 seed = 2
 s = sim_phyl(seed = seed)
-s2 = phylo2p(drop.fossil(s$newick)) 
-EM_phylo(wt=s2$t, init_par = c(0.8,0.0175,0.1),n_trees = 10, parallel = T, impsam = T,tol=0.01)
+s2 = s$newick.extant.p
+time=proc.time()
+EM = EM_phylo(wt=s2$wt, init_par = c(1.8,0.6,80),n_trees = 10, parallel = T, impsam = T,tol=0.01)
+print(proc.time()-time)
+```
+
+```{r, cache=FALSE}
+qplot(1:30,EM$pars[,2])
+EM$pars
 ```
 
 
-now with two parameters only
+```{r, subex11}
+stat=NULL
+time=proc.time()
+phylo1 = s$newick.extant
+for(i in 1:30){
+  expe = expectedLTT2(pars=EM$pars[i,])
+  wt = c(expe$bt[1],diff(expe$bt))
+  p = list(wt=wt,E=rep(1,length(expe$bt)),n=expe$Ex)
+  phylo2 = p2phylo(p)
+  ltt = ltt_stat(phylo1,phylo2)
+  stat[i] = ltt
+}
+print(proc.time()-time)
+```
+
+```{r, cache=FALSE}
+ qplot(1:30,stat)
+```
+
+
+*** 
+
+Complete simulations with method 1 (with the fasted way (less accuracy))
+
+The algorithm corresponds to 
+
+1. 
+
+
+
+
+```{r, MCEM + llt}
+time = proc.time()
+n_sim = 100 #number of simulated trees
+n_it = 30 # number of EM iterations
+Pars = matrix(nrow=n_sim,ncol=3)
+times = vector(mode='numeric',length = n_sim) 
+for(j in 1:n_sim){
+  s <- sim_phyl(seed=j)
+  s2 = s$newick.extant.p
+  EM = EM_phylo(wt=s2$wt, init_par = c(1.8,0.6,80), n_trees = 10, parallel = F, impsam = T, printpar = F, n_it=n_it)
+  stat = vector(mode='numeric',length = n_it) 
+  phylo1 = s$newick.extant
+  for(i in 1:30){
+    expe = expectedLTT2(pars=EM$pars[i,])
+    wt = c(expe$bt[1],diff(expe$bt))
+    p = list(wt=wt,E=rep(1,length(expe$bt)),n=expe$Ex)
+    phylo2 = p2phylo(p)
+    ltt = ltt_stat(phylo1,phylo2)
+    stat[i] = ltt
+  }
+  Pars[j,] = EM$pars[stat==min(stat),]
+  times[j] = sum(EM$times)
+  qplot(1:30,stat)
+}
+print(proc.time()-time)
+```
 
 ```{r}
-seed = 2
-s = sim_phyl(seed = seed)
-s2 = phylo2p(drop.fossil(s$newick)) 
-EM_phylo(wt=s2$t, init_par = c(0.8,0.0175),n_trees = 10, parallel = T, impsam = T,tol=0.01)
+summary(Pars)
+qplot(Pars[,1], geom="histogram")
+qplot(Pars[,2], geom="histogram")
+qplot(Pars[,3], geom="histogram")
+summary(time)
+qplot(times, geom="histogram")
 ```
 
 
-```{}
-Restarting R session...
-
-> EM_phylo(wt=s2$t, init_par = c(0.8,0.0175),n_trees = 10, parallel = T, impsam = T,tol=0.01)
-[1] 0.8000 0.0175
-[1] 7.875 0.175 0.100
-[1] 1.06585642 0.02373088 0.10000000
-[1] 0.94589737 0.02149767 0.10000000
-[1] 7.757509 0.176307 0.100000
-[1] 1.75498215 0.03915262 0.10000000
-[1] 7.757509 0.176307 0.100000
-[1] 2.9709528 0.0671015 0.1000000
-[1] 1.90196677 0.04247544 0.10000000
-
-Warning message:
-In rbind(x1, x2) :
-  number of columns of result is not a multiple of vector length (arg 1)
-> EM_phylo(wt=s2$t, init_par = c(0.8,0.0175),n_trees = 1000, parallel = T, impsam = T,tol=0.01)
-[1] 0.8000 0.0175
-[1] 0.6243704 0.0138749 0.1000000
-[1] 0.51356486 0.01141255 0.10000000
-[1] 0.48940717 0.01086109 0.10000000
-[1] 0.46781079 0.01016997 0.10000000
-$pars
-[1] 0.47070789 0.01046018 0.10000000
-
-Warning messages:
-1: closing unused connection 4 (<-localhost:11301) 
-2: closing unused connection 3 (<-localhost:11301) 
-3: In rbind(x1, x2) :
-  number of columns of result is not a multiple of vector length (arg 1)
-> EM_phylo(wt=s2$t, init_par = c(0.8,0.0175),n_trees = 10000, parallel = T, impsam = F,tol=0.01)
-[1] 0.8000 0.0175
-
-
-> EM_phylo(wt=s2$t, init_par = c(0.8,0.0175),n_trees = 10000, parallel = T, impsam = F,tol=0.01)
-[1] 0.8000 0.0175
-
-> EM_phylo(wt=s2$t, init_par = c(0.8,0.0175),n_trees = 1000, parallel = T, impsam = F,tol=0.01)
-[1] 0.8000 0.0175
-[1] 0.71259970 0.01483561 0.10000000
-[1] 0.67458234 0.01376017 0.10000000
-$pars
-[1] 0.66650268 0.01357127 0.10000000
-
-Warning messages:
-1: In rbind(x1, x2) :
-  number of columns of result is not a multiple of vector length (arg 1)
-2: closing unused connection 6 (<-localhost:11301) 
-3: closing unused connection 4 (<-localhost:11301) 
-4: closing unused connection 3 (<-localhost:11301) 
-> EM_phylo(wt=s2$t, init_par = c(0.8,0.0175),n_trees = 1000, parallel = T, impsam = F,tol=0.001)
-[1] 0.8000 0.0175
-[1] 0.71114912 0.01480062 0.10000000
-[1] 0.64602079 0.01291686 0.10000000
-[1] 0.63438780 0.01268378 0.10000000
-[1] 0.65304990 0.01329287 0.10000000
-[1] 0.65200018 0.01328257 0.10000000
-[1] 0.65370038 0.01331716 0.10000000
-$pars
-[1] 0.65446141 0.01333247 0.10000000
-
-Warning message:
-In rbind(x1, x2) :
-  number of columns of result is not a multiple of vector length (arg 1)
-> EM_phylo(wt=s2$t, init_par = c(0.8,0.0175),n_trees = 1000, parallel = T, impsam = F,tol=0.001)
-[1] 0.8000 0.0175
-[1] 0.7137132 0.0148630 0.1000000
-[1] 0.62030719 0.01216199 0.10000000
-[1] 0.60810288 0.01192217 0.10000000
-[1] 0.60208060 0.01180404 0.10000000
-[1] 0.63723631 0.01291113 0.10000000
-[1] 0.62410234 0.01248041 0.10000000
-[1] 0.65092527 0.01326237 0.10000000
-[1] 0.63156997 0.01262861 0.10000000
-[1] 0.62827321 0.01255551 0.10000000
-[1] 0.5993049 0.0117499 0.1000000
-[1] 0.61926204 0.01237743 0.10000000
-$pars
-[1] 0.61955968 0.01238935 0.10000000
-
-Warning message:
-In rbind(x1, x2) :
-  number of columns of result is not a multiple of vector length (arg 1)
-> 0.51955/0.01238935
-[1] 41.93521
-> p <- subplex(par = c(8,0.175,0.9),fn = llik,n = st$n, E = st$E, t = st$t)
-> p
-$par
-[1] 0.85108099 0.01820569 0.11912743
-
-$value
-[1] 276.8854
-
-$counts
-[1] 857
-
-$convergence
-[1] 0
-
-$message
-NULL
-
-$hessian
-NULL
-
-> EM_phylo(wt=s2$t, init_par = c(0.8,0.0175),n_trees = 1000, parallel = T, impsam = F,tol=0.0001)
-[1] 0.8000 0.0175
-[1] 0.59531700 0.01144736 0.10000000
-[1] 0.62512590 0.01248364 0.10000000
-[1] 0.64846343 0.01320561 0.10000000
-[1] 0.6251694 0.0125019 0.1000000
-[1] 0.64031255 0.01297381 0.10000000
-[1] 0.62261895 0.01244892 0.10000000
-[1] 0.62039061 0.01240606 0.10000000
-[1] 0.59246677 0.01161589 0.10000000
-[1] 0.61189638 0.01223537 0.10000000
-[1] 0.58977227 0.01156303 0.10000000
-[1] 0.61530427 0.01229844 0.10000000
-[1] 0.62006217 0.01239952 0.10000000
-[1] 0.6239509 0.0124768 0.1000000
-[1] 0.64180297 0.01302685 0.10000000
-[1] 0.65120873 0.01328027 0.10000000
-[1] 0.65250144 0.01328634 0.10000000
-[1] 0.60170362 0.01179711 0.10000000
-[1] 0.62031087 0.01238893 0.10000000
-[1] 0.6454276 0.0131367 0.1000000
-[1] 0.59915115 0.01174708 0.10000000
-[1] 0.59182385 0.01160311 0.10000000
-[1] 0.56687257 0.01090041 0.10000000
-
-Warning message:
-In rbind(x1, x2) :
-  number of columns of result is not a multiple of vector length (arg 1)
-> EM_phylo(wt=s2$t, init_par = c(0.8,0.0175),n_trees = 10000, parallel = T, impsam = F,tol=0.0001)
-[1] 0.8000 0.0175
-[1] 0.64766454 0.01295322 0.10000000
-[1] 0.61155369 0.01199056 0.10000000
-[1] 0.58021711 0.01115773 0.10000000
-[1] 0.5721043 0.0110019 0.1000000
-[1] 0.56668986 0.01089778 0.10000000
-[1] 0.58558108 0.01148127 0.10000000
-[1] 0.56601515 0.01088444 0.10000000
-[1] 0.58590416 0.01148684 0.10000000
-[1] 0.58686189 0.01150671 0.10000000
-[1] 0.58824909 0.01153404 0.10000000
-[1] 0.58782739 0.01152564 0.10000000
-[1] 0.58810213 0.01153079 0.10000000
-[1] 0.58907909 0.01154993 0.10000000
-[1] 0.59021918 0.01157253 0.10000000
-[1] 0.58925509 0.01155389 0.10000000
-[1] 0.59081984 0.01158444 0.10000000
-[1] 0.58950361 0.01155837 0.10000000
-[1] 0.59002299 0.01156856 0.10000000
-[1] 0.56766065 0.01091646 0.10000000
-[1] 0.5859057 0.0114879 0.1000000
-[1] 0.58693685 0.01150731 0.10000000
-[1] 0.56609330 0.01088622 0.10000000
-[1] 0.56445802 0.01085486 0.10000000
-[1] 0.56348503 0.01083615 0.10000000
-[1] 0.56375124 0.01084116 0.10000000
-[1] 0.58213767 0.01141377 0.10000000
-[1] 0.56429208 0.01085149 0.10000000
-[1] 0.58357848 0.01144196 0.10000000
-[1] 0.54600044 0.01030182 0.10000000
-[1] 0.56156644 0.01079924 0.10000000
-[1] 0.58201406 0.01141101 0.10000000
-[1] 0.58428722 0.01145611 0.10000000
-[1] 0.5659727 0.0108839 0.1000000
-[1] 0.58540539 0.01147809 0.10000000
-[1] 0.56567283 0.01087823 0.10000000
-[1] 0.528120823 0.009779942 0.100000000
-[1] 0.5383683 0.0101577 0.1000000
-[1] 0.55790960 0.01072834 0.10000000
-[1] 0.5800983 0.0113739 0.1000000
-[1] 0.5629466 0.0108258 0.1000000
-[1] 0.56173765 0.01080254 0.10000000
-[1] 0.56149430 0.01079786 0.10000000
-[1] 0.56188878 0.01080545 0.10000000
-[1] 0.58174279 0.01140556 0.10000000
-[1] 0.58426990 0.01145615 0.10000000
-[1] 0.61061130 0.01220912 0.10000000
-[1] 0.59133386 0.01159434 0.10000000
-[1] 0.59010383 0.01157015 0.10000000
-[1] 0.58944949 0.01155744 0.10000000
-[1] 0.58981440 0.01156421 0.10000000
-[1] 0.58968059 0.01156223 0.10000000
-[1] 0.58926884 0.01155366 0.10000000
-[1] 0.54977770 0.01037309 0.10000000
-[1] 0.56249715 0.01081703 0.10000000
-[1] 0.527769929 0.009773444 0.100000000
-[1] 0.54004977 0.01018952 0.10000000
-[1] 0.522774330 0.009680773 0.100000000
-[1] 0.53642965 0.01012103 0.10000000
-[1] 0.55592057 0.01069067 0.10000000
-[1] 0.57847298 0.01134173 0.10000000
-[1] 0.52705236 0.00976009 0.10000000
-[1] 0.508064887 0.009237471 0.100000000
-[1] 0.55326168 0.01063911 0.10000000
-[1] 0.55662424 0.01070381 0.10000000
-[1] 0.57985012 0.01136847 0.10000000
-[1] 0.58491461 0.01146866 0.10000000
-[1] 0.58699972 0.01150967 0.10000000
-[1] 0.58893419 0.01154734 0.10000000
-$pars
-[1] 0.58890740 0.01154694 0.10000000
+```{r, MCEMllt2}
+time = proc.time()
+n_sim = 100 #number of simulated trees
+n_it = 100 # number of EM iterations
+Pars = matrix(nrow=n_sim,ncol=3)
+times = vector(mode='numeric',length = n_sim) 
+EMs = vector(mode='list',length = n_sim) 
+LTTs = vector(mode='list',length = n_sim)
+for(j in 1:n_sim){
+  s <- sim_phyl(seed=j)
+  s2 = s$newick.extant.p
+  EM = EM_phylo(wt=s2$wt, init_par = c(1.8,0.6,80), n_trees = 10, parallel = F, impsam = F, printpar = F, n_it=n_it)
+  stat = vector(mode='numeric',length = n_it) 
+  phylo1 = s$newick.extant
+  for(i in 1:n_it){
+    expe = expectedLTT2(pars=EM$pars[i,])
+    wt = c(expe$bt[1],diff(expe$bt))
+    p = list(wt=wt,E=rep(1,length(expe$bt)),n=expe$Ex)
+    phylo2 = p2phylo(p)
+    ltt = ltt_stat(phylo1,phylo2)
+    stat[i] = ltt
+  }
+  EMs[[j]] = EM$pars
+  LTTs[[j]] = stat
+  Pars[j,] = EM$pars[stat==min(stat),]
+  times[j] = sum(EM$times)
+  print(qplot(1:n_it,stat))
+}
+print(proc.time()-time)
 ```
+
+```{r}
+summary(Pars)
+qplot(Pars[,1], geom="histogram")
+qplot(Pars[,2], geom="histogram")
+qplot(Pars[,3], geom="histogram")
+summary(time)
+qplot(times, geom="histogram")
+```
+
+```{r}
+for(j in 1:n_sim){
+  EM=EMs[[j]]
+  print(paste('´mu=0.1','seed',j))
+  df = data.frame(it=1:n_it, EM=EM[,2],ltt=LTTs[[j]])
+  print(EM.plot(df))
+  #p = ggplot(data=df,aes(x=it,y=EM,color=ltt))+geom_point()
+  #print(p)
+}
+```
+
+
+```{r, MCEMllt3}
+time = proc.time()
+n_sim = 100 #number of simulated trees
+n_it = 120 # number of EM iterations
+Pars = matrix(nrow=n_sim,ncol=3)
+times = vector(mode='numeric',length = n_sim) 
+EMs = vector(mode='list',length = n_sim) 
+LTTs = vector(mode='list',length = n_sim) 
+for(j in 1:n_sim){
+  s <- sim_phyl(seed=j,mu0 = 0.2)
+  s2 = s$newick.extant.p
+  EM = EM_phylo(wt=s2$wt, init_par = c(1.8,0.6,80), n_trees = 10, parallel = F, impsam = F, printpar = F, n_it=n_it)
+  stat = vector(mode='numeric',length = n_it) 
+  phylo1 = s$newick.extant
+  for(i in 1:n_it){
+    expe = expectedLTT2(pars=EM$pars[i,])
+    wt = c(expe$bt[1],diff(expe$bt))
+    p = list(wt=wt,E=rep(1,length(expe$bt)),n=expe$Ex)
+    phylo2 = p2phylo(p)
+    ltt = ltt_stat(phylo1,phylo2)
+    stat[i] = ltt
+  }
+  EMs[[j]] = EM$pars
+  LTTs[[j]] = stat
+  Pars[j,] = EM$pars[stat==min(stat),]
+  times[j] = sum(EM$times)
+#  print(qplot(1:n_it,stat))
+}
+print(proc.time()-time)
+```
+
+```{r}
+summary(Pars)
+qplot(Pars[,1], geom="histogram")
+qplot(Pars[,2], geom="histogram")
+qplot(Pars[,3], geom="histogram")
+summary(time)
+qplot(times, geom="histogram")
+```
+
+```{r}
+for(j in 1:n_sim){
+  EM=EMs[[j]]
+  print(paste('´mu=0.2','seed',j))
+  df = data.frame(it=1:n_it, EM=EM[,2],ltt=LTTs[[j]])
+  print(EM.plot(df))
+}
+```
+
+```{r, MCEMllt34}
+time = proc.time()
+n_sim = 10 #number of simulated trees
+n_it = 120 # number of EM iterations
+Pars = matrix(nrow=n_sim,ncol=3)
+times = vector(mode='numeric',length = n_sim) 
+EMs = vector(mode='list',length = n_sim) 
+LTTs = vector(mode='list',length = n_sim)
+Same_dim = vector(mode='list',length=n_sim)
+for(j in 1:n_sim){
+  s <- sim_phyl(seed=j,mu0 = 0.2)
+  s2 = s$newick.extant.p
+  EM = EM_phylo(wt=s2$wt, init_par = c(1.8,0.6,80), n_trees = 10, parallel = F, impsam = F, printpar = F, n_it=n_it)
+  stat = vector(mode='numeric',length = n_it) 
+  same_dim = vector(mode='numeric',length = n_it) 
+  phylo1 = s$newick.extant
+  for(i in 1:n_it){
+    expe = expectedLTT2(pars=EM$pars[i,],dim = length(s2$wt))
+    same_dim[i] = expe$same_dim
+    wt = c(expe$bt[1],diff(expe$bt))
+    p = list(wt=wt,E=rep(1,length(expe$bt)),n=expe$Ex)
+    phylo2 = p2phylo(p)
+    ltt = ltt_stat(phylo1,phylo2)
+    stat[i] = ltt
+  }
+  print(proc.time()-time)
+  EMs[[j]] = EM$pars
+  LTTs[[j]] = stat
+  Same_dim[[j]] = same_dim
+  EM_sub = EM$pars[same_dim==max(same_dim),]
+  stat_sub = stat[same_dim==max(same_dim)]
+  choosed_stat = min(stat_sub)
+  Pars[j,] = EM$pars[stat==choosed_stat,]
+  times[j] = sum(EM$times)
+#  print(qplot(1:n_it,stat))
+}
+print(proc.time()-time)
+```
+
+
+```{r, cache=FALSE}
+Pars
+summary(Pars)
+```
+
+```{r, cache=FALSE}
+for(j in 1:n_sim){
+  EM=EMs[[j]]
+  print(paste('´mu=0.2','seed',j))
+  df = data.frame(it=1:n_it, EM=EM[,2],ltt=LTTs[[j]],sd=Same_dim[[j]])
+  print(EM.plot(df,dim = TRUE))
+}
+```
+
+
+```{r, MCEMllt4}
+time = proc.time()
+n_sim = 100 #number of simulated trees
+n_it = 80 # number of EM iterations
+Pars = matrix(nrow=n_sim,ncol=3)
+times = vector(mode='numeric',length = n_sim) 
+EMs = vector(mode='list',length = n_sim) 
+LTTs = vector(mode='list',length = n_sim) 
+for(j in 1:n_sim){
+  s <- sim_phyl(seed=j,mu0 = 0.4)
+  s2 = s$newick.extant.p
+  EM = EM_phylo(wt=s2$wt, init_par = c(1.8,0.6,80), n_trees = 10, parallel = F, impsam = F, printpar = F, n_it=n_it)
+  stat = vector(mode='numeric',length = n_it) 
+  phylo1 = s$newick.extant
+  for(i in 1:n_it){
+    expe = expectedLTT2(pars=EM$pars[i,])
+    wt = c(expe$bt[1],diff(expe$bt))
+    p = list(wt=wt,E=rep(1,length(expe$bt)),n=expe$Ex)
+    phylo2 = p2phylo(p)
+    ltt = ltt_stat(phylo1,phylo2)
+    stat[i] = ltt
+  }
+  EMs[[j]] = EM$pars
+  LTTs[[j]] = stat
+  Pars[j,] = EM$pars[stat==min(stat),]
+  times[j] = sum(EM$times)
+#  print(qplot(1:n_it,stat))
+}
+print(proc.time()-time)
+```
+
+```{r}
+summary(Pars)
+summary(times)
+```
+
+```{r}
+for(j in 1:n_sim){
+  EM=EMs[[j]]
+  print(paste('´mu=0.4','seed',j))
+  df = data.frame(it=1:n_it, EM=EM[,2],ltt=LTTs[[j]])
+  print(EM.plot(df))
+  #p = ggplot(data=df,aes(x=it,y=EM,color=ltt))+geom_point()
+  #print(p)
+}
+```
+
+
+```{r, MCEMllt5}
+time = proc.time()
+n_sim = 10 #number of simulated trees
+n_it = 150 # number of EM iterations
+Pars = matrix(nrow=n_sim,ncol=3)
+times = vector(mode='numeric',length = n_sim) 
+EMs = vector(mode='list',length = n_sim) 
+LTTs = vector(mode='list',length = n_sim) 
+for(j in 1:n_sim){
+  s <- sim_phyl(seed=j,mu0 = 0.4)
+  s2 = s$newick.extant.p
+  EM = EM_phylo(wt=s2$wt, init_par = c(1.8,0.6,80), n_trees = 10, parallel = F, impsam = F, printpar = F, n_it=n_it)
+  stat = vector(mode='numeric',length = n_it) 
+  phylo1 = s$newick.extant
+  for(i in 1:n_it){
+    expe = expectedLTT2(pars=EM$pars[i,])
+    wt = c(expe$bt[1],diff(expe$bt))
+    p = list(wt=wt,E=rep(1,length(expe$bt)),n=expe$Ex)
+    phylo2 = p2phylo(p)
+    ltt = ltt_stat(phylo1,phylo2)
+    stat[i] = ltt
+  }
+  EMs[[j]] = EM$pars
+  LTTs[[j]] = stat
+  Pars[j,] = EM$pars[stat==min(stat),]
+  times[j] = sum(EM$times)
+#  print(qplot(1:n_it,stat))
+}
+print(proc.time()-time)
+```
+
+```{r}
+summary(Pars)
+summary(times)
+```
+
+```{r}
+for(j in 1:n_sim){
+  EM=EMs[[j]]
+  print(paste('mu=0.4','seed',j))
+  df = data.frame(it=1:n_it, EM=EM[,2],ltt=LTTs[[j]])
+  print(EM.plot(df))
+  #p = ggplot(data=df,aes(x=it,y=EM,color=ltt))+geom_point()
+  #print(p)
+}
+```
+
+
+```{r, MCEMllt6}
+time = proc.time()
+n_sim = 10 #number of simulated trees
+n_it = 150 # number of EM iterations
+Pars = matrix(nrow=n_sim,ncol=3)
+times = vector(mode='numeric',length = n_sim) 
+EMs = vector(mode='list',length = n_sim) 
+LTTs = vector(mode='list',length = n_sim) 
+for(j in 1:n_sim){
+  s <- sim_phyl(seed=j,mu0 = 0.4)
+  s2 = s$newick.extant.p
+  EM = EM_phylo(wt=s2$wt, init_par = c(1.8,0.6,80), n_trees = 10, parallel = F, impsam = F, printpar = F, n_it=n_it)
+  stat = vector(mode='numeric',length = n_it) 
+  phylo1 = s$newick.extant
+  print(paste('iteration',j))
+  for(i in 1:n_it){
+    expe = expectedLTT2(pars=EM$pars[i,],median=TRUE)
+    wt = c(expe$bt[1],diff(expe$bt))
+    p = list(wt=wt,E=rep(1,length(expe$bt)),n=expe$Ex)
+    phylo2 = p2phylo(p)
+    ltt = ltt_stat(phylo1,phylo2)
+    stat[i] = ltt
+  }
+  EMs[[j]] = EM$pars
+  LTTs[[j]] = stat
+  Pars[j,] = EM$pars[stat==min(stat),]
+  times[j] = sum(EM$times)
+#  print(qplot(1:n_it,stat))
+}
+print(proc.time()-time)
+```
+
+```{r}
+summary(Pars)
+summary(times)
+```
+
+```{r}
+for(j in 1:n_sim){
+  EM=EMs[[j]]
+  df = data.frame(n=1:n_it, EM=EM[,2],ltt=LTTs[[j]])
+  p = ggplot(data=df,aes(x=n,y=EM,color=ltt))+geom_point()
+  q = ggplot(data=df,aes(x=n,y=ltt,color=EM))+geom_point()
+  print(paste('seed',j))
+  print(p)
+  print(q)
+}
+
+```
+
+***
+
+Simulations March 2017
+
+Given a reconstructed phylogenetic tree
+
+```{r}
+phylo <- sim_phyl(seed=3)$newick.extant
+```
+
+
+The new proposed method corresponds to the following steps
+
+1. Set initial parameters for $\lambda_0$ and $K$
+
+```{r}
+pars = c(2,80)
+```
+
+
+2. Given the parameters, find $\mu^*$ such that minimizes ltt_stat
+
+
+```{r, sims2}
+mu=0.2
+# this does not work at all:
+#pars = subplex(par = mu, fn = ltt_mu, phylo=phylo, prior_pars = pars)$par
+#let´s visualize the ltt_mu curve
+pp = proc.time()
+mu = seq(0.01, 0.8, by=0.03)
+stat=NULL
+for(i in 1:length(mu)){
+  stat[i] = ltt_mu(mu = mu[i], phylo = phylo, prior_pars = pars)
+}
+print(pp - proc.time())
+```
+
+and
+
+```{r}
+qplot(mu,stat)
+```
+```{r}
+nmu = mean(mu[stat < quantile(stat,0.05)])
+nmu
+```
+
+3. Once we have the new $\mu$ we can update $\lambda$ and $K$ fixing $\mu$.
+
+HERE SHOULD BE a 2-parameter version of the EM
+
+4. Once we have the new $\lambda$ and $K$ we go to step 2 to re-calculate $\mu$
+
+5. We repeat this algorithm until convergence. 
+
+
+***
 
 

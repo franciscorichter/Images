@@ -1,0 +1,78 @@
+---
+title: "Should we condition to survival?"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache = TRUE)
+library(dmea)
+library(deSolve)
+library(DDD)
+```
+
+```{r}
+R=NULL
+R=NULL
+time=proc.time()
+for(i in 1:10000){
+  s=sim_phyl()
+  R[i]=s$r
+}
+t2 = proc.time()-time
+paste(t2[3]/60,'min')
+```
+
+```{r}
+sum(R)
+```
+
+
+```{r}
+R=NULL
+time=proc.time()
+for(i in 1:10000){
+  s=sim_phyl(mu0=0.2)
+  R[i]=s$r
+}
+t2 = proc.time()-time
+paste(t2[3]/60,'min')
+```
+
+```{r}
+sum(R)
+```
+
+
+```{r}
+R=NULL
+time=proc.time()
+for(i in 1:10000){
+  s=sim_phyl(mu0=0.4)
+  R[i]=s$r
+}
+t2 = proc.time()-time
+paste(t2[3]/60,'min')
+```
+
+```{r}
+sum(R)
+```
+
+
+# Comparison. Conditioning to survival
+
+```{r}
+time = proc.time()
+s=sim_phyl()
+t2 = proc.time()-time
+paste(t2[3],'sec')
+time = proc.time()
+llik(pars=c(0.8,0.1,40),n=s$n,E=s$E,t=s$wt)
+t2 = proc.time()-time
+paste(t2[3],'sec')
+time = proc.time()
+llik(pars=c(0.8,0.1,40),n=s$n,E=s$E,t=s$wt,conditionToSurvival = TRUE)
+t2 = proc.time()-time
+paste(t2[3],'sec')
+
+```
